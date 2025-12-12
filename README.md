@@ -1,4 +1,4 @@
-# Enterprise Banking Platform
+# Enterprise Platform
 
 > Plataforma bancária distribuída projetada com arquitetura cloud-native baseada em microservices, focada em escalabilidade, resiliência, segurança, observabilidade e entrega contínua.
 
@@ -22,7 +22,7 @@ O projeto está sendo desenvolvido como um ecossistema bancário modular, onde c
 
 ### Casos de Uso
 
-- **Open Banking**: Integração com ecossistema financeiro aberto e APIs padronizadas.
+- **Open Banking**: Integração com ecossistema financeiros e criaçao de APIS proprias da plataforma sem utilizaçao de terceiros.
 - **Pagamentos Digitais**: Processamento de transações PIX, TED, boletos e cartões.
 - **Gestão de Contas**: Abertura, manutenção e encerramento de contas digitais.
 - **Conciliação Financeira**: Reconciliação automática de eventos e movimentações financeiras.
@@ -33,29 +33,29 @@ O projeto está sendo desenvolvido como um ecossistema bancário modular, onde c
 
 ## 🏗️ Princípios Arquiteturais
 
-| Princípio | Descrição |
-|-----------|-----------|
-| **Domain-Driven Design** | Decomposição de serviços orientada a domínios de negócio. |
-| **Independent Deployment** | Cada serviço pode ser implantado independentemente. |
-| **Event-Driven Communication** | Comunicação assíncrona baseada em eventos. |
-| **Distributed Transaction Coordination** | Coordenação de transações distribuídas com padrões como Saga e Outbox. |
-| **Resilience & Fault Isolation** | Isolamento de falhas e padrões de resiliência (Circuit Breaker, Retry, Bulkhead). |
-| **Secure Service-to-Service** | Comunicação segura entre serviços com mTLS e autenticação mútua. |
-| **Centralized Observability** | Observabilidade centralizada com logs, métricas e traces distribuídos. |
-| **Infrastructure as Code** | Infraestrutura versionada e automatizada com Terraform. |
-| **Automated CI/CD** | Pipelines de integração e entrega contínua automatizadas. |
-| **Cloud-Native Deployment** | Implantação em Kubernetes com escalabilidade automática. |
-| **Continuous Evolution** | Evolução contínua de capacidades de negócio. |
+| Princípio | Descrição                                                                                                   |
+|-----------|-------------------------------------------------------------------------------------------------------------|
+| **Domain-Driven Design** | Decomposição de serviços orientada a domínios de negócio.                                                   |
+| **Independent Deployment** | Cada serviço pode ser implantado independentemente.                                                         |
+| **Event-Driven Communication** | Comunicação assíncrona baseada em eventos.                                                                  |
+| **Distributed Transaction Coordination** | Coordenação de transações distribuídas com padrões como Saga Coreografada e Orquestrada com Outbox.         |
+| **Resilience & Fault Isolation** | Isolamento de falhas e padrões de resiliência (Circuit Breaker, Retry, Bulkhead).                           |
+| **Secure Service-to-Service** | Comunicação segura entre serviços com mTLS e autenticação mútua.                                            |
+| **Centralized Observability** | Observabilidade centralizada com logs, métricas e traces distribuídos.                                      |
+| **Infrastructure as Code** | Infraestrutura versionada e automatizada com Terraform.                                                     |
+| **Automated CI/CD** | Pipelines de integração e entrega contínua automatizadas com verificação de imagens dos containers.         |
+| **Cloud-Native Deployment** | Implantação em Kubernetes com escalabilidade automática juntamente com terraform em ambientes AWS e Google. |
+| **Continuous Evolution** | Evolução contínua de capacidades de negócio.                                                                |
 
 ---
 
 ## 🏛️ Arquitetura da Plataforma
 
-A plataforma Bank segue uma arquitetura distribuída baseada em serviços independentes e capacidades de infraestrutura compartilhadas.
+A plataforma segue uma arquitetura distribuída baseada em serviços independentes e capacidades de infraestrutura compartilhadas.
 
 Na camada de aplicação, os serviços são organizados de acordo com suas responsabilidades de negócio.
 
-Na camada de infraestrutura, a plataforma depende de Kubernetes, AWS, Terraform, rede de serviços, infraestrutura de mensageria, persistência e componentes de observabilidade.
+Na camada de infraestrutura, a plataforma depende de Kubernetes, AWS, Terraform, rede e malhas de serviços, infraestrutura de mensageria, persistência e componentes de observabilidade.
 
 A arquitetura foi projetada para permitir que serviços individuais escalem, evoluam e sejam implantados independentemente enquanto mantêm comunicação controlada entre domínios.
 
@@ -70,9 +70,9 @@ Os diagramas de arquitetura utilizados pelo projeto são mantidos como arquivos 
 ### Camadas da Arquitetura
 
 | Camada | Componentes | Responsabilidade |
-|--------|-------------|------------------|
-| **API Gateway** | Kong / AWS API Gateway | Roteamento, rate limiting, autenticação e composição de APIs. |
-| **Service Mesh** | Istio / Linkerd | Gerenciamento de tráfego, mTLS, observabilidade de serviço. |
+|--------|-------|------------------|
+| **API Gateway** | AWS API Gateway | Roteamento, rate limiting, autenticação e composição de APIs. |
+| **Service Mesh** | Istio | Gerenciamento de tráfego, mTLS, observabilidade de serviço. |
 | **Application Services** | Microservices Quarkus | Lógica de negócio e processamento de transações. |
 | **Event Streaming** | Apache Kafka | Comunicação assíncrona e event sourcing. |
 | **Data Persistence** | PostgreSQL, Redis | Persistência relacional e cache distribuído. |
@@ -81,7 +81,7 @@ Os diagramas de arquitetura utilizados pelo projeto são mantidos como arquivos 
 
 ---
 
-## 📦 Catálogo de Serviços
+## 📦 Blocos de Serviços
 
 A plataforma é organizada em grupos representando diferentes capacidades de negócio e técnicas.
 
@@ -195,7 +195,6 @@ Serviços de plataforma fornecem capacidades compartilhadas necessárias para op
 | Tecnologia | Propósito | Versão |
 |------------|-----------|--------|
 | **Istio** | Service mesh, gerenciamento de tráfego e governança service-to-service. | 1.18+ |
-| **Linkerd** | Service mesh alternativo para cenários específicos. | 2.14+ |
 
 ### Security
 
@@ -341,6 +340,15 @@ Stages:
   9. Deploy to Production
 ```
 
+Que a cada a cada git push nos repositórios:
+
+GitHub Actions faz Build do projeto Java/Quarkus: mvn clean package -DskipTests mas validação das configurações críticas.
+Empacotamento em Docker e push para GitHub Container Registry (GHCR), com tags baseadas no commit SHA.
+
+Ja no Kubernetes os Manifests versionados (Deployment, Service, ConfigMap e Secrets) são atualizados automaticamente pelo pipeline.
+Imagens são injetadas com tags imutáveis, garantindo que cada deploy seja reproduzível.
+Estratégia de rollout configurada para zero downtime, com readinessProbe e livenessProbe para detectar falhas antes de substituir pods.
+
 ### Deploy com ArgoCD
 
 ```bash
@@ -480,26 +488,8 @@ A seção a seguir apresenta resultados selecionados de execução, implementaç
 As imagens abaixo representam diferentes estágios de desenvolvimento e teste e destinam-se a fornecer evidência visual da plataforma operando com sucesso.
 
 > Os screenshots são intencionalmente apresentados como evidência de implementação em vez de estarem atrelados a uma categoria específica de documentação.
-
----
-## 📞 Contato
-
-- **Tech Lead**: [Nome do Lead](mailto:techlead@your-org.com)
-- **Architecture Team**: [Email do Time](mailto:architecture@your-org.com)
-- **Slack Channel**: `#bank-platform`
-- **Confluence**: [Documentação Completa](https://confluence.your-org.com/bank-platform)
-
 ---
 
-## 🙏 Acknowledgements
-
-- **Equipe de Engenharia**: Desenvolvimento e manutenção da plataforma.
-- **Arquitetura**: Definição e governança da arquitetura.
-- **DevOps**: Infraestrutura, CI/CD e automação.
-- **Security**: Segurança, compliance e proteção de dados.
-- **Product**: Definição de roadmap e prioridades de negócio.
-
----
 ### Implementation Evidence
 
 #### Platform Execution
@@ -544,7 +534,7 @@ As imagens abaixo representam diferentes estágios de desenvolvimento e teste e 
 
 ---
 
-#### CI/CD Pipeline
+#### Principal CI/CD Pipeline
 
 ![CI/CD Pipeline](docs/images/showcase-08.png)
 
@@ -553,16 +543,6 @@ As imagens abaixo representam diferentes estágios de desenvolvimento e teste e 
 > Evidências adicionais de implementação e resultados de validação específicos de serviços serão progressivamente adicionados conforme a plataforma evolui.
 
 ---
-
-## 🤝 Contribuição
-
-### Como Contribuir
-
-1. **Fork** o repositório.
-2. Crie uma **branch** para sua feature (`git checkout -b feature/nova-feature`).
-3. **Commit** suas mudanças (`git commit -m 'Adiciona nova feature'`).
-4. **Push** para a branch (`git push origin feature/nova-feature`).
-5. Abra um **Pull Request**.
 
 ### Padrões de Código
 
@@ -586,8 +566,6 @@ Cada serviço deve manter sua própria documentação no repositório individual
 ## 📄 Licença
 
 Copyright © 2026 **Your Organization**. Todos os direitos reservados.
-
-Este projeto é software proprietário e confidencial. Não autorizado para uso, cópia, modificação ou distribuição sem permissão explícita.
 
 ---
 
