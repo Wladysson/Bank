@@ -206,37 +206,6 @@ Serviços de plataforma fornecem capacidades compartilhadas necessárias para op
 
 ---
 
-## 🔄 Arquitetura Event-Driven
-
-Kafka é utilizado como backbone de mensageria para comunicação assíncrona entre serviços.
-
-A comunicação orientada a eventos ajuda a reduzir o acoplamento direto entre domínios e permite que serviços reajam a eventos de negócio independentemente.
-
-A arquitetura suporta padrões como:
-
-```text
-┌─────────────┐
-│  Service A  │
-└──────┬──────┘
-       │ Event
-       ▼
-┌─────────────┐
-│ Apache Kafka│
-└──────┬──────┘
-       │
-       ├──────────────► ┌─────────────┐
-       │                │  Service B  │
-       │                └─────────────┘
-       │
-       ├──────────────► ┌─────────────┐
-       │                │  Service C  │
-       │                └─────────────┘
-       │
-       └──────────────► ┌─────────────┐
-                        │  Service D  │
-                        └─────────────┘
-```
-
 ### Padrões de Event-Driven
 
 | Padrão | Descrição | Uso |
@@ -258,10 +227,7 @@ A arquitetura suporta padrões como:
 | `audit.events` | Eventos de auditoria e compliance. | 12 | 30 dias |
 
 ---
-
-## 🚀 Getting Started
-
-### Pré-requisitos
+### Pré-requisitos das Configurações Principais
 
 - **Java 17+** ([OpenJDK](https://openjdk.org/))
 - **Maven 3.9+** ([Download](https://maven.apache.org/))
@@ -271,57 +237,11 @@ A arquitetura suporta padrões como:
 - **Apache Kafka 3.5+** ([Download](https://kafka.apache.org/))
 - **Git** ([Install](https://git-scm.com/))
 
-### Configuração Local
-
-```bash
-# Clone o repositório
-git clone https://github.com/your-org/bank-platform.git
-cd bank-platform
-
-# Inicie a infraestrutura local (PostgreSQL + Kafka)
-docker-compose up -d postgres kafka
-
-# Configure o banco de dados
-make db-setup
-
-# Build do projeto
-mvn clean install
-
-# Execute um serviço específico (ex: contas)
-cd services/contas
-mvn quarkus:dev
-```
-
-### Variáveis de Ambiente
-
-Crie um arquivo `.env` na raiz do projeto:
-
-```bash
-# Database
-DATABASE_URL=jdbc:postgresql://localhost:5432/bank
-DATABASE_USER=bank_user
-DATABASE_PASSWORD=secure_password
-
-# Kafka
-KAFKA_BOOTSTRAP_SERVERS=localhost:9092
-KAFKA_CONSUMER_GROUP_ID=bank-services
-
-# Quarkus
-QUARKUS_PROFILE=dev
-QUARKUS_HTTP_PORT=8080
-
-# Security
-JWT_SECRET=your-secret-key
-KEYCLOAK_URL=http://localhost:8180
-
-# Observability
-PROMETHEUS_URL=http://localhost:9090
-GRAFANA_URL=http://localhost:3000
-```
-
----
-
 ## 📦 Deploy e CI/CD
+
+#### Principal Logica CI/CD Pipeline para proteção da imagens atualizadas
+
+![CI/CD Pipeline](docs//architecture/images/pipeline.png)
 
 ### Pipeline de CI/CD
 
@@ -349,23 +269,18 @@ Ja no Kubernetes os Manifests versionados (Deployment, Service, ConfigMap e Secr
 Imagens são injetadas com tags imutáveis, garantindo que cada deploy seja reproduzível.
 Estratégia de rollout configurada para zero downtime, com readinessProbe e livenessProbe para detectar falhas antes de substituir pods.
 
-### Deploy com ArgoCD
+---
+### Deploy com Monitoramento do Cluster Kubernetes ArgoCD
+![CI/CD Pipeline](docs/architecture/images/principaldeploy.png)
 
-```bash
-# Instale o ArgoCD CLI
-argocd login argocd.your-org.com
+Ja no ArgoCD ele vai detecta mudanças nos manifests e aplica sincronização automaticamente.
+Gerencia drift do cluster onde qualquer pod fora do estado desejado é corrigido automaticamente. Assim, possibilitando rollback seguro para qualquer versão anterior, baseado no Git history.
 
-# Adicione o repositório
-argocd repo add https://github.com/your-org/bank-platform --name bank-platform
+Benefícios imediatos:
 
-# Crie a aplicação
-argocd app create bank-platform \
-  --repo https://github.com/your-org/bank-platform \
-  --path helm/bank-platform \
-  --dest-server https://kubernetes.default.svc \
-  --dest-namespace bank \
-  --sync-policy automated
-```
+✅ Zero erro humano: Sem comandos de terminal manuais que podem falhar.
+
+✅ Resiliência: Se o cluster cair, o ArgoCD garante que ele volte exatamente como estava no Git.
 
 ### Helm Charts
 
@@ -378,8 +293,18 @@ helm install bank-platform ./helm/bank-platform \
   --create-namespace \
   --values ./helm/bank-platform/values-prod.yaml
 ```
-
 ---
+
+## Arquitetura de Comunicação
+#### Mensageria com Apache Kafka dos primeiros serviços
+![mensagem](docs/architecture/images/kafka.png)
+
+### Consumo da Comunicação das Informações
+![consumo](docs/architecture/images/mensagem.png)
+
+### Service Mesh com Istio na Malha dos Serviços
+
+## Relacionamento e Modelagem do Banco de Dados
 
 ## 📊 Observabilidade
 
@@ -534,11 +459,6 @@ As imagens abaixo representam diferentes estágios de desenvolvimento e teste e 
 
 ---
 
-#### Principal CI/CD Pipeline
-
-![CI/CD Pipeline](docs/images/showcase-08.png)
-
----
 
 > Evidências adicionais de implementação e resultados de validação específicos de serviços serão progressivamente adicionados conforme a plataforma evolui.
 
