@@ -12,24 +12,16 @@
 
 ## 📖 Visão Geral
 
-Este projeto se destaca como uma plataforma bancária, composta por serviços independentemente implantáveis organizados em torno de domínios de negócio e capacidades da plataforma.
+O projeto consiste na construção de uma Plataforma baseada em arquitetura de microservicos responsável por todo um ecossistema financeiro onde teremos gestão de contas, transações financeiras, pix, pagamentos, tesouraria, ledger contábil, auditoria, reconciliação, risco, scoring, canais digitais, notificações, identidade e segurança, integração com sistemas externos, processamento em lote, backoffice operacional, comunicação com app mobile, entre outros.
 
-A plataforma foi projetada para suportar operações financeiras distribuídas mantendo limites de domínio claros, autonomia de serviços e resiliência operacional.
+Ao todo serão desenvolvidos 25 serviços, onde estou trabalhando fortemente esta plataforma em ambientes cloud native, outra observação importante é que nao estao sendo utilizadas nenhuma API externa, afim de ter controle total da aplicação e suas transações.
 
-Sua arquitetura combina práticas de desenvolvimento de aplicações com infraestrutura cloud-native desenvolvimento Java, comunicação orientada a eventos, observabilidade e pipelines de entrega automatizados.
+Uma boa parte da solução funciona em arquitetura Java com processamento assíncrono e comunicação de mensageria com Apache Kafka, seguindo padronização SAGA e registro de eventos para fins regulatórios.
 
-O projeto está sendo desenvolvido como um ecossistema bancário modular, onde cada serviço é responsável por uma capacidade de negócio específica e pode evoluir independentemente enquanto se comunica com o restante da plataforma através de interfaces e eventos bem definidos.
+A infraestrutura é criada com Terraform, usando EKS, RDS, VPC, Vault entre outros serviços, suas pipelines automatizadas com GitHub Actions fazendo seu deploy automatico e monitoramento da saúde do cluster kubernetes com ArgoCD, além de coleta de metricas com Prometheus e sua visualização com Grafana. Ja na sua malha temos o istio (Service Mesh) para gerenciamento de tráfego L7 e controle de roteamento. Alem da utilização da infraestrutura AWS juntamente com uma infra GCP para backup por questão de segurança e de não depender de um único provedor.
 
-### Casos de Uso
+Toda essa cautela de configuração e implatação foi pensada para ter um ambiente seguro, bem desenvolvido e com custo razoavel na nuvem, sendo mais umas das aplicações que estou desenvolvendo com muita atençao, alem do seu tamanho por serviço e do risco principalmente nas zonas de pagamento e transação que podem correr, pois cada configuração gera impacto financeiro.
 
-- **Open Banking**: Integração com ecossistema financeiros e criaçao de APIS proprias da plataforma sem utilizaçao de terceiros.
-- **Pagamentos Digitais**: Processamento de transações PIX, TED, boletos e cartões.
-- **Gestão de Contas**: Abertura, manutenção e encerramento de contas digitais.
-- **Conciliação Financeira**: Reconciliação automática de eventos e movimentações financeiras.
-- **Risk & Compliance**: Análise de risco, scoring e conformidade regulatória.
-- **Treasury Operations**: Gestão de liquidez, posição financeira e operações de tesouraria.
-
----
 
 ## 🏗️ Princípios Arquiteturais
 
@@ -237,6 +229,14 @@ Serviços de plataforma fornecem capacidades compartilhadas necessárias para op
 - **Apache Kafka 3.5+** ([Download](https://kafka.apache.org/))
 - **Git** ([Install](https://git-scm.com/))
 
+# 🧭 Arquitetura, Fluxos e Diagramas da Plataforma
+
+Esta seção apresenta os principais fluxos, componentes e decisões arquiteturais implementados na plataforma até o momento.
+
+Os diagramas têm como objetivo facilitar a compreensão das interações entre serviços, infraestrutura e componentes da plataforma, servindo também como referência durante o desenvolvimento e evolução da arquitetura.
+
+> A documentação é viva e pode ser atualizada continuamente a qualquer momento conforme novos serviços, integrações e componentes são implementados.
+
 ## 📦 Deploy e CI/CD
 
 #### Principal Logica CI/CD Pipeline para proteção da imagens atualizadas
@@ -259,7 +259,6 @@ Stages:
   8. Manual Approval
   9. Deploy to Production
 ```
-
 Que a cada a cada git push nos repositórios:
 
 GitHub Actions faz Build do projeto Java/Quarkus: mvn clean package -DskipTests mas validação das configurações críticas.
@@ -282,29 +281,31 @@ Benefícios imediatos:
 
 ✅ Resiliência: Se o cluster cair, o ArgoCD garante que ele volte exatamente como estava no Git.
 
-### Helm Charts
-
-A plataforma é implantada usando Helm charts localizados em `helm/`:
-
-```bash
-# Instale a plataforma
-helm install bank-platform ./helm/bank-platform \
-  --namespace bank \
-  --create-namespace \
-  --values ./helm/bank-platform/values-prod.yaml
-```
 ---
 
 ## Arquitetura de Comunicação
-#### Mensageria com Apache Kafka dos primeiros serviços
+#### Diagrama de Mensageria com Apache Kafka dos primeiros serviços
 ![mensagem](docs/architecture/images/kafka.png)
 
 ### Consumo da Comunicação das Informações
 ![consumo](docs/architecture/images/mensagem.png)
 
-### Service Mesh com Istio na Malha dos Serviços
+Aqui podemos analisar o Receptor Kafka do microsserviço 
+de contas está consumindo e processando com sucesso depois
+de alguns testes, eventos altamente tipificados do tópico 
+account-events-0 de diferentes aberturas de contas com validaçao
+no banco de dados, englobando na sua lógica alguns scripts para
+o ciclo de vida, busca de outros registros do beneficiario, início
+da implementação hierárquica para os credenciados como o empresarial
+, investimentos e poupança.
+
+---
+## Malha de Serviço
+### Service Mesh com Istio
+![consumo](docs/architecture/images/mesh.png)
 
 ## Relacionamento e Modelagem do Banco de Dados
+![consumo](docs/architecture/images/banco.png)
 
 ## 📊 Observabilidade
 
