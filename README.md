@@ -137,88 +137,6 @@ Serviços de plataforma fornecem capacidades compartilhadas necessárias para op
 
 ---
 
-## 🛠️ Stack Tecnológico
-
-### Application
-
-| Tecnologia | Propósito | Versão |
-|------------|-----------|--------|
-| **Java** | Linguagem primária de aplicação. | 17+ |
-| **Quarkus** | Framework Java cloud-native para serviços backend. | 3.x |
-| **Maven** | Gerenciamento de dependências e build. | 3.9+ |
-
-### Data & Messaging
-
-| Tecnologia | Propósito | Versão |
-|------------|-----------|--------|
-| **PostgreSQL** | Persistência relacional. | 15+ |
-| **Apache Kafka** | Event streaming e comunicação assíncrona. | 3.5+ |
-| **Redis** | Cache distribuído e sessões. | 7+ |
-
-### Cloud & Infrastructure
-
-| Tecnologia | Propósito | Versão |
-|------------|-----------|--------|
-| **AWS** | Infraestrutura cloud e serviços gerenciados. | - |
-| **Kubernetes** | Orquestração de containers e implantação de serviços. | 1.27+ |
-| **Terraform** | Infrastructure as Code. | 1.5+ |
-| **Helm** | Gerenciamento de pacotes Kubernetes. | 3.12+ |
-
-### Observability
-
-| Tecnologia | Propósito | Versão |
-|------------|-----------|--------|
-| **Prometheus** | Coleta de métricas e monitoramento. | 2.45+ |
-| **Grafana** | Visualização de métricas e dashboards operacionais. | 10.x |
-| **Jaeger** | Distributed tracing. | 1.48+ |
-| **ELK Stack** | Centralização e análise de logs. | 8.x |
-
-### DevOps & Delivery
-
-| Tecnologia | Propósito | Versão |
-|------------|-----------|--------|
-| **GitHub Actions** | Integração contínua e pipelines de automação. | - |
-| **ArgoCD** | Continuous delivery baseado em GitOps. | 2.9+ |
-| **JFrog Artifactory** | Gerenciamento e distribuição de artefatos. | 7.x |
-| **SonarQube** | Análise estática de código e qualidade. | 10.x |
-
-### Service Networking
-
-| Tecnologia | Propósito | Versão |
-|------------|-----------|--------|
-| **Istio** | Service mesh, gerenciamento de tráfego e governança service-to-service. | 1.18+ |
-
-### Security
-
-| Tecnologia | Propósito | Versão |
-|------------|-----------|--------|
-| **Keycloak** | Identity and Access Management. | 22+ |
-| **Vault** | Gestão de secrets e criptografia. | 1.14+ |
-| **mTLS** | Autenticação mútua entre serviços. | - |
-
----
-
-### Padrões de Event-Driven
-
-| Padrão | Descrição | Uso |
-|--------|-----------|-----|
-| **Event Sourcing** | Estado derivado de sequência de eventos. | Ledger, auditoria. |
-| **CQRS** | Separação de leitura e escrita. | Reporting, consultas. |
-| **Saga Pattern** | Coordenação de transações distribuídas. | Pagamentos, transações. |
-| **Outbox Pattern** | Publicação confiável de eventos. | Integração com Kafka. |
-| **Event Carried State Transfer** | Propagação de estado via eventos. | Sincronização entre serviços. |
-
-### Tópicos Kafka Principais
-
-| Tópico | Descrição | Partições | Retenção |
-|--------|-----------|-----------|----------|
-| `transactions.events` | Eventos de transações financeiras. | 12 | 7 dias |
-| `payments.events` | Eventos de processamento de pagamentos. | 12 | 7 dias |
-| `accounts.events` | Eventos de lifecycle de contas. | 6 | 7 dias |
-| `customer.events` | Eventos de perfil e dados de cliente. | 6 | 7 dias |
-| `audit.events` | Eventos de auditoria e compliance. | 12 | 30 dias |
-
----
 ### Pré-requisitos das Configurações Principais
 
 - **Java 17+** ([OpenJDK](https://openjdk.org/))
@@ -232,11 +150,29 @@ Serviços de plataforma fornecem capacidades compartilhadas necessárias para op
 # 🧭 Arquitetura, Fluxos e Diagramas da Plataforma
 
 Esta seção apresenta os principais fluxos, componentes e decisões arquiteturais implementados na plataforma até o momento.
+As imagens abaixo representam diferentes estágios de desenvolvimento e teste e destinam-se a fornecer evidência visual da plataforma operando com sucesso.
 
 Os diagramas têm como objetivo facilitar a compreensão das interações entre serviços, infraestrutura e componentes da plataforma, servindo também como referência durante o desenvolvimento e evolução da arquitetura.
 
 > A documentação é viva e pode ser atualizada continuamente a qualquer momento conforme novos serviços, integrações e componentes são implementados.
 
+> Os screenshots são intencionalmente apresentados como evidência de implementação em vez de estarem atrelados a uma categoria específica de documentação. No entanto, 
+cada serviço tem suas imagens e explicaçao em suas devidas configurações.
+
+## Backend e Desenvolvimento
+### Principal Logica da Arquitetura SAGA COREOGRAFADA
+![Platform Execution](docs/architecture/images/saga.jpeg)
+
+![Platform Execution](docs/architecture/images/midlow.png)
+
+### Arquitetura orientada a eventos (EDA)
+![Platform Execution](docs/architecture/images/eventos.jpeg)
+
+A arquitetura esta sendo implementada na plataforma para eliminar o
+acoplamento temporal rígido entre a entrada da requisição
+e o processamento. O projeto é dividido em dois microsserviços
+core principais que operam de forma totalmente assíncrona.
+---
 ## 📦 Deploy e CI/CD
 
 #### Principal Logica CI/CD Pipeline para proteção da imagens atualizadas
@@ -269,7 +205,7 @@ Imagens são injetadas com tags imutáveis, garantindo que cada deploy seja repr
 Estratégia de rollout configurada para zero downtime, com readinessProbe e livenessProbe para detectar falhas antes de substituir pods.
 
 ---
-### Deploy com Monitoramento do Cluster Kubernetes ArgoCD
+### Deploy com Monitoramento do Cluster Kubernetes
 ![CI/CD Pipeline](docs/architecture/images/principaldeploy.png)
 
 Ja no ArgoCD ele vai detecta mudanças nos manifests e aplica sincronização automaticamente.
@@ -290,22 +226,33 @@ Benefícios imediatos:
 ### Consumo da Comunicação das Informações
 ![consumo](docs/architecture/images/mensagem.png)
 
-Aqui podemos analisar o Receptor Kafka do microsserviço 
-de contas está consumindo e processando com sucesso depois
-de alguns testes, eventos altamente tipificados do tópico 
-account-events-0 de diferentes aberturas de contas com validaçao
-no banco de dados, englobando na sua lógica alguns scripts para
-o ciclo de vida, busca de outros registros do beneficiario, início
-da implementação hierárquica para os credenciados como o empresarial
-, investimentos e poupança.
-
 ---
 ## Malha de Serviço
 ### Service Mesh com Istio
+No decorer do desenvolvimento ficou perceptivel que atingir a escalabilidade exige mais do que conteinerização; exige o desacoplamento total entre a Lógica de Negócio e a Inteligência de Rede.
+Com os primeiros domínios de Contas e Ledger operacionalizados e automatizados, o foco mudou para a resiliência da comunicação. Em um ambiente dinâmico com kubernetes, o acoplamento de rede via IPs ou lógicas de retry dentro do código Java gera débito técnico e risco de falhas em cascata.
+
 ![consumo](docs/architecture/images/mesh.png)
 
-## Relacionamento e Modelagem do Banco de Dados
+⛵ Pensando nisso, a plataforma conta com o **[Istio Service Mesh](https://istio.io/latest/)** para garantir a alta disponibilidade, onde foi movido a complexidade operacional para o Data Plane (Envoy Proxies), permitindo que o Quarkus foque exclusivamente no domínio financeiro, onde podemos garantir:
+
+🔹 Abstração de Service Discovery & DNS onde esta sendo implementando a resolução de nomes via CoreDNS nativo do K8s integrada ao Istio. O microserviço de Contas consome o Ledger através de um FQDN (Fully Qualified Domain Name), eliminando a volatilidade de IPs e garantindo o roteamento dinâmico.
+
+🔹 Gerenciamento de Tráfego L7, através de VirtualServices e DestinationRules, a infraestrutura assume o controle de Retries, Timeouts e Circuit Breaking. Isso evita que o serviço consumidor fique preso em threads de espera caso o provedor apresente latência, preservando a saúde do cluster.
+
+🔹 Load Balancing Inteligente, onde saímos do Round Robin simples para algoritmos de balanceamento que entendem a carga dos pods, garantindo a distribuição eficiente do tráfego e mitigando gargalos operacionais.
+
+🔹 Estratégia de Persistência & Isolamento seguindo o pattern de Database-per-Service, cada domínio mantém seu estado isolado em instâncias distintas, garantindo que não haja acoplamento na camada de dados. A conectividade também passa pela governança da malha, onde pretendo implementar Egress Gateways para monitorar a performance e segurança das conexões externas com os bancos de dados na nuvem AWS RDS.
+
+## Modelagem do Banco de Dados
+Transaçao
 ![consumo](docs/architecture/images/banco.png)
+
+Pagamento
+![consumo](docs/architecture/images/paymentbanco.png)
+
+## Infraestrutura Cloud
+![infra](docs/architecture/images/terra.jpeg)
 
 ## 📊 Observabilidade
 
@@ -376,6 +323,8 @@ Logs estruturados em JSON são enviados para Elasticsearch e visualizados no Kib
 
 ---
 
+> Evidências adicionais de implementação e resultados de validação específicos de serviços serão progressivamente adicionados conforme a plataforma evolui.
+
 ## 🧪 Testes
 
 ### Estratégia de Testes
@@ -404,64 +353,6 @@ mvn test -Pcontract-tests
 # Análise de cobertura
 mvn test jacoco:report
 ```
-
----
-
-## 🏆 Engineering Showcase
-
-A seção a seguir apresenta resultados selecionados de execução, implementação e validação da plataforma.
-
-As imagens abaixo representam diferentes estágios de desenvolvimento e teste e destinam-se a fornecer evidência visual da plataforma operando com sucesso.
-
-> Os screenshots são intencionalmente apresentados como evidência de implementação em vez de estarem atrelados a uma categoria específica de documentação.
----
-
-### Implementation Evidence
-
-#### Platform Execution
-
-![Platform Execution](docs/images/showcase-01.png)
-
----
-
-#### Service Execution
-
-![Service Execution](docs/images/showcase-02.png)
-
----
-
-#### API and Integration Validation
-
-![API Validation](docs/images/showcase-03.png)
-
----
-
-#### Automated Tests
-
-![Automated Tests](docs/images/showcase-04.png)
-
----
-
-#### Distributed Communication
-
-![Distributed Communication](docs/images/showcase-05.png)
-
----
-
-#### Infrastructure Execution
-
-![Infrastructure](docs/images/showcase-06.png)
-
----
-
-#### Observability
-
-![Observability](docs/images/showcase-07.png)
-
----
-
-
-> Evidências adicionais de implementação e resultados de validação específicos de serviços serão progressivamente adicionados conforme a plataforma evolui.
 
 ---
 
