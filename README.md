@@ -1,18 +1,53 @@
 # Enterprise Platform
 
-> Plataforma bancária distribuída projetada com arquitetura cloud-native baseada em microservices, focada em escalabilidade, resiliência, segurança, observabilidade e entrega contínua.
+<p align="center">
+  <strong>Plataforma Financeira Distribuída</strong>
+</p>
 
-> Observação: Essa documentaçao é viva e pode sofre modificaçoes constantemente.
+<p align="center">
+  Plataforma cloud-native baseada em microservices, projetada com foco em
+  escalabilidade, resiliência, segurança, observabilidade e entrega contínua.
+</p>
 
-[![License](https://img.shields.io/badge/license-proprietary-blue.svg)](LICENSE)
-[![Java](https://img.shields.io/badge/Java-17+-orange.svg)](https://openjdk.org/)
-[![Quarkus](https://img.shields.io/badge/Quarkus-3.x-blue.svg)](https://quarkus.io/)
-[![Kubernetes](https://img.shields.io/badge/Kubernetes-latest-blue.svg)](https://kubernetes.io/)
-[![CI/CD](https://github.com/your-org/bank-platform/actions/workflows/ci.yml/badge.svg)](https://github.com/your-org/bank-platform/actions)
+<p align="center">
+  <img src="docs/architecture/images/home/Ubuntu.png" width="55" alt="Ubuntu"/>
+  <img src="docs/architecture/images/home/NGINX.png" width="55" alt="NGINX"/>
+  <img src="docs/architecture/images/home/Java.png" width="55" alt="Java"/>
+  <img src="docs/architecture/images/home/Quarkus.png" width="55" alt="Quarkus"/>
+  <img src="docs/architecture/images/home/HashiCorp%20Terraform.png" width="55" alt="Terraform"/>
+  <img src="docs/architecture/images/home/icon-kafka-white-trans.png" width="55" alt="Apache Kafka"/>
+  <img src="docs/architecture/images/home/Kubernetes.png" width="55" alt="Kubernetes"/>
+  <img src="docs/architecture/images/home/Docker.png" width="55" alt="Docker"/>
+  <img src="docs/architecture/images/home/Argo%20CD.png" width="55" alt="Argo CD"/>
+  <img src="docs/architecture/images/home/istio.png" width="55" alt="Argo CD"/>
+  <img src="docs/architecture/images/home/large_blob.png" width="55" alt="Argo CD"/>
+  <img src="docs/architecture/images/home/GitHub%20Actions.png" width="55" alt="GitHub Actions"/>
+  <img src="docs/architecture/images/home/AWS.png" width="55" alt="AWS"/>
+  <img src="docs/architecture/images/home/Google%20Cloud.png" width="55" alt="Google Cloud"/>
+  <img src="docs/architecture/images/home/PostgresSQL.png" width="55" alt="PostgreSQL"/>
+  <img src="docs/architecture/images/home/Redis.png" width="55" alt="Redis"/>
+  <img src="docs/architecture/images/home/Prometheus.png" width="55" alt="Prometheus"/>
+  <img src="docs/architecture/images/home/Grafana.png" width="55" alt="Grafana"/>
+  <img src="docs/architecture/images/home/junit-logo.png" width="55" alt="Argo CD"/>
+  <img src="docs/architecture/images/home/mockito-logo.png" width="55" alt="Argo CD"/>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/license-proprietary-blue.svg" alt="License"/>
+  <img src="https://img.shields.io/badge/Java-17%2B-orange.svg" alt="Java 17+"/>
+  <img src="https://img.shields.io/badge/Quarkus-3.x-blue.svg" alt="Quarkus 3.x"/>
+  <img src="https://img.shields.io/badge/Kubernetes-Cloud%20Native-blue.svg" alt="Kubernetes"/>
+  <img src="https://img.shields.io/badge/Architecture-Microservices-purple.svg" alt="Microservices"/>
+  <img src="https://img.shields.io/badge/Architecture-Event--Driven-green.svg" alt="Event Driven Architecture"/>
+</p>
+
+> **Documentação viva:** esta documentação encontra-se em evolução contínua e pode sofrer alterações conforme novos serviços, componentes, arquiteturas e capacidades são implementados.
+
+---
 
 ## 📖 Visão Geral
 
-O projeto consiste na construção de uma Plataforma baseada em arquitetura de microservicos responsável por todo um ecossistema financeiro onde teremos gestão de contas, transações financeiras, pix, pagamentos, tesouraria, ledger contábil, auditoria, reconciliação, risco, scoring, canais digitais, notificações, identidade e segurança, integração com sistemas externos, processamento em lote, backoffice operacional, comunicação com app mobile, entre outros.
+O Laboratorio consiste na construção de uma Plataforma baseada em arquitetura de microservicos responsável por todo um ecossistema financeiro onde teremos gestão de contas, transações financeiras, pix, pagamentos, tesouraria, ledger contábil, auditoria, reconciliação, risco, scoring, canais digitais, notificações, identidade e segurança, integração com sistemas externos, processamento em lote, backoffice operacional, comunicação com app mobile, entre outros.
 
 Ao todo serão desenvolvidos 25 serviços, onde estou trabalhando fortemente esta plataforma em ambientes cloud native, outra observação importante é que nao estao sendo utilizadas nenhuma API externa, afim de ter controle total da aplicação e suas transações.
 
@@ -136,16 +171,6 @@ Serviços de plataforma fornecem capacidades compartilhadas necessárias para op
 | **[batch](https://github.com/your-org/bank-batch)** | Processamento agendado e operações em batch. | [🔗](https://github.com/your-org/bank-batch) |
 
 ---
-
-### Pré-requisitos das Configurações Principais
-
-- **Java 17+** ([OpenJDK](https://openjdk.org/))
-- **Maven 3.9+** ([Download](https://maven.apache.org/))
-- **Docker 24+** ([Install](https://docs.docker.com/))
-- **Kubernetes 1.27+** ([Minikube](https://minikube.sigs.k8s.io/) ou [kind](https://kind.sigs.k8s.io/))
-- **PostgreSQL 15+** ([Download](https://www.postgresql.org/))
-- **Apache Kafka 3.5+** ([Download](https://kafka.apache.org/))
-- **Git** ([Install](https://git-scm.com/))
 
 # 🧭 Arquitetura, Fluxos e Diagramas da Plataforma
 
