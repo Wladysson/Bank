@@ -184,14 +184,32 @@ Os diagramas têm como objetivo facilitar a compreensão das interações entre 
 > Os screenshots são intencionalmente apresentados como evidência de implementação em vez de estarem atrelados a uma categoria específica de documentação. No entanto, 
 cada serviço tem suas imagens e explicaçao em suas devidas configurações.
 
-## Backend e Desenvolvimento
+> Nota: Os padrões apresentados nesta seção representam apenas os principais conceitos arquiteturais utilizados na plataforma. A documentação completa de cada domínio pode conter outros padrões e estratégias específicas. Para conhecer as demais implementações, consulte os links disponíveis nas respectivas seções e documentações dos serviços.
+## Backend e Desenvolvimento das Configurações
+
+#### Padrões de Comunicação e Processamento Distribuído
+
+A plataforma utiliza diferentes padrões arquiteturais para estruturar a comunicação entre microserviços, o processamento de comandos e a disponibilização de informações distribuídas.
+
+Os padrões apresentados abaixo complementam a arquitetura orientada a eventos que vai permitir escolher diferentes estratégias de acordo com a natureza de cada fluxo de negócio.
+
+![Distributed Patterns](docs/architecture/images/partenns.png)
+
+----
+
 #### Principal Logica da Arquitetura SAGA COREOGRAFADA
 
+
+A plataforma utiliza o padrão **Saga Coreografada** para determinados fluxos distribuídos que envolvem múltiplos microserviços e operações de negócio que precisam manter **consistência eventual**.
+
+Nesse modelo, não existe um componente central responsável por controlar toda a execução da Saga. Cada serviço participante é responsável por executar sua própria operação, publicar um evento ao concluir sua etapa e reagir aos eventos produzidos pelos demais participantes.
+
+Essa abordagem mantém os serviços desacoplados e permite que cada domínio permaneça responsável pelas próprias regras de negócio.
 ![Platform Execution](docs/architecture/images/saga.jpeg)
 
 ---
 
-#### Comunicaçao e Passagem de Configuração
+#### Principal Logica da Arquitetura SAGA ORQUESTRADA
 
 Aqui na plataforma, tambem contaremos com SAGA Orchestrator, onde ele atua como coordenador central da Saga. Ele não executa diretamente as regras de negócio dos serviços participantes; sua responsabilidade é controlar a sequência de execução, acompanhar os resultados e determinar a próxima etapa do processo.
 
@@ -213,14 +231,39 @@ O fluxo é composto pelas seguintes etapas:
 
 ---
 
-#### Arquitetura orientada a eventos (EDA) para Notificações Fan-Out
+#### Arquitetura orientada a eventos (EDA)
+
+A plataforma utiliza **Event-Driven Architecture (EDA)** para promover comunicação assíncrona e desacoplada entre seus serviços.
+
+No modelo **Fan-Out**, eventos publicados por diferentes produtores são encaminhados por um broker de eventos e disponibilizados para múltiplos consumidores independentes, permitindo processamento paralelo, escalabilidade e evolução desacoplada dos domínios.
+
+> **Fan-Out:** um único evento pode desencadear múltiplos fluxos de processamento independentes dentro da plataforma.
 
 ![Platform Execution](docs/architecture/images/eventos.jpeg)
-A arquitetura esta sendo implementada na plataforma para eliminar o
-acoplamento temporal rígido entre a entrada da requisição
-e o processamento. O projeto é dividido em dois microsserviços
-core principais que operam de forma totalmente assíncrona.
+Essa arquitetura ja esta sendo reutilizada de outro projeto como forma de reestruturaçao e reaproveitamento
+da tecnologia ja implementada que se constitui como um Gateway de Pagamentos Assincronos, onde a solução tambem
+foi construída com arquitetura orientada a eventos (EDA) e separada em dois 
+microserviços principais: um serviço responsável por receber requisições de pagamento e
+outro encarregado do processamento financeiro assíncrono. Já aqui na plataforma, ela tambem sera usada mais para seus respectivos problemas.
 
+#### No Final de sua Comunicação Funcionará desta Forma
+
+                    ENTERPRISE PLATFORM
+                           │
+                           ▼
+                Event-Driven Architecture
+                           │
+                ┌──────────┴──────────┐
+                ▼                     ▼
+          Fan-Out Events        Distributed Transactions
+                                      │
+                             ┌────────┴────────┐
+                             ▼                 ▼
+                       Saga Coreografada   Saga Orquestrada
+                             │                 │
+                             ▼                 ▼
+                       Event-driven       Orchestrator
+                       coordination       coordination
 ---
 ## 📦 Deploy e Esteiras CI/CD
 
