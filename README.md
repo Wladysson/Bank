@@ -47,7 +47,7 @@
 
 ## 📖 Visão Geral
 
-O Laboratorio consiste na construção de uma Plataforma baseada em arquitetura de microservicos responsável por todo um ecossistema financeiro onde teremos gestão de contas, transações financeiras, pix, pagamentos, tesouraria, ledger contábil, auditoria, reconciliação, risco, scoring, canais digitais, notificações, identidade e segurança, integração com sistemas externos, processamento em lote, backoffice operacional, comunicação com app mobile, entre outros.
+O Laboratorio consiste na construção de uma Plataforma baseada em arquitetura de microservicos Java responsável por todo um ecossistema financeiro onde teremos gestão de contas, transações financeiras, pix, pagamentos, tesouraria, ledger contábil, auditoria, reconciliação, risco, scoring, canais digitais, notificações, identidade e segurança, integração com sistemas externos, processamento em lote, backoffice operacional, comunicação com app mobile, entre outros.
 
 Ao todo serão desenvolvidos 25 serviços, onde estou trabalhando fortemente esta plataforma em ambientes cloud native, outra observação importante é que nao estao sendo utilizadas nenhuma API externa, afim de ter controle total da aplicação e suas transações.
 
@@ -185,20 +185,44 @@ Os diagramas têm como objetivo facilitar a compreensão das interações entre 
 cada serviço tem suas imagens e explicaçao em suas devidas configurações.
 
 ## Backend e Desenvolvimento
-### Principal Logica da Arquitetura SAGA COREOGRAFADA
+#### Principal Logica da Arquitetura SAGA COREOGRAFADA
+
 ![Platform Execution](docs/architecture/images/saga.jpeg)
 
+---
+
+#### Comunicaçao e Passagem de Configuração
+
+Aqui na plataforma, tambem contaremos com SAGA Orchestrator, onde ele atua como coordenador central da Saga. Ele não executa diretamente as regras de negócio dos serviços participantes; sua responsabilidade é controlar a sequência de execução, acompanhar os resultados e determinar a próxima etapa do processo.
+
+Essa abordagem permite que cada serviço permaneça responsável pelo seu próprio domínio, enquanto o Orchestrator mantém o controle do fluxo distribuído.
 ![Platform Execution](docs/architecture/images/midlow.png)
+O fluxo apresentado representa uma implementação do padrão **Saga Orchestrator**, utilizada para coordenar uma operação distribuída entre diferentes serviços sem depender de uma transação única e global.
 
-### Arquitetura orientada a eventos (EDA)
+O processo é iniciado pelo **UserService**, que solicita ao **Orchestrator** o início da Saga. A partir desse momento, o Orchestrator assume a responsabilidade de coordenar as etapas do processo e controlar o estado da operação distribuída.
+
+O fluxo é composto pelas seguintes etapas:
+
+1. O **UserService** inicia a Saga e envia a solicitação ao **Orchestrator**.
+2. O **Orchestrator** coordena as etapas necessárias para execução do processo.
+3. O **AddressService** realiza o processamento relacionado ao endereço e pode interagir com o **DataService** para persistência ou consulta de dados.
+4. O **ValidatedService** executa as validações necessárias para continuidade do fluxo.
+5. O **UserRegistration** realiza a etapa de registro do usuário.
+6. Quando todas as etapas são concluídas com sucesso, os serviços retornam o resultado ao **Orchestrator**, que consolida o sucesso da Saga.
+7. Caso alguma etapa falhe, o **Orchestrator** identifica a falha e inicia o fluxo de tratamento correspondente, permitindo que o processo distribuído seja interrompido ou compensado conforme a estratégia definida.
+
+---
+
+#### Arquitetura orientada a eventos (EDA) para Notificações Fan-Out
+
 ![Platform Execution](docs/architecture/images/eventos.jpeg)
-
 A arquitetura esta sendo implementada na plataforma para eliminar o
 acoplamento temporal rígido entre a entrada da requisição
 e o processamento. O projeto é dividido em dois microsserviços
 core principais que operam de forma totalmente assíncrona.
+
 ---
-## 📦 Deploy e CI/CD
+## 📦 Deploy e Esteiras CI/CD
 
 #### Principal Logica CI/CD Pipeline para proteção da imagens atualizadas
 
@@ -230,7 +254,7 @@ Imagens são injetadas com tags imutáveis, garantindo que cada deploy seja repr
 Estratégia de rollout configurada para zero downtime, com readinessProbe e livenessProbe para detectar falhas antes de substituir pods.
 
 ---
-### Deploy com Monitoramento do Cluster Kubernetes
+#### Deploy com Monitoramento do Cluster Kubernetes
 ![CI/CD Pipeline](docs/architecture/images/principaldeploy.png)
 
 Ja no ArgoCD ele vai detecta mudanças nos manifests e aplica sincronização automaticamente.
@@ -248,12 +272,13 @@ Benefícios imediatos:
 #### Diagrama de Mensageria com Apache Kafka dos primeiros serviços
 ![mensagem](docs/architecture/images/kafka.png)
 
-### Consumo da Comunicação das Informações
+#### Consumo da Comunicação das Informações
 ![consumo](docs/architecture/images/mensagem.png)
 
 ---
 ## Malha de Serviço
-### Service Mesh com Istio
+
+#### Service Mesh com Istio
 No decorer do desenvolvimento ficou perceptivel que atingir a escalabilidade exige mais do que conteinerização; exige o desacoplamento total entre a Lógica de Negócio e a Inteligência de Rede.
 Com os primeiros domínios de Contas e Ledger operacionalizados e automatizados, o foco mudou para a resiliência da comunicação. Em um ambiente dinâmico com kubernetes, o acoplamento de rede via IPs ou lógicas de retry dentro do código Java gera débito técnico e risco de falhas em cascata.
 
