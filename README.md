@@ -314,6 +314,9 @@ Benefícios imediatos:
 ## Arquitetura de Comunicação
 #### Diagrama de Mensageria com Apache Kafka dos primeiros serviços
 ![mensagem](docs/architecture/images/kafka.png)
+Arquitetura de mensageria baseada em Apache Kafka, responsável pela comunicação assíncrona entre os domínios da plataforma, com suporte a eventos, retry, Dead Letter Queue (DLQ), Schema Registry e Outbox Pattern.
+
+---
 
 #### Consumo da Comunicação das Informações
 ![consumo](docs/architecture/images/mensagem.png)
@@ -338,12 +341,19 @@ Com os primeiros domínios de Contas e Ledger operacionalizados e automatizados,
 🔹 Estratégia de Persistência & Isolamento seguindo o pattern de Database-per-Service, cada domínio mantém seu estado isolado em instâncias distintas, garantindo que não haja acoplamento na camada de dados. A conectividade também passa pela governança da malha, onde pretendo implementar Egress Gateways para monitorar a performance e segurança das conexões externas com os bancos de dados na nuvem AWS RDS.
 
 ## Modelagem do Banco de Dados
-Transaçao
+
+#### Exemplo do Banco de dados do Serviço de Transaçoes
+Estruturado para suportar operações financeiras, idempotência, histórico transacional, transferências, eventos e rastreabilidade.
 ![consumo](docs/architecture/images/banco.png)
+Diagrama da modelagem de tabelas do PostgreSQL que suporta o microsserviço de transações. ele é responsavel por armazenar os dominios de transaçoes, registro de intenções de movimentação, rastreabilidade de orquestração, estado do ciclo de vida financeiro, canais e métodos de captura, agenda temporal de disparos, histórico de tentativas e resiliência, regras de periodicidade e ciclos, agenda de próximos faturamentos, metadados etc.
 
-Pagamento
+---
+#### Exemplo do Banco de dados do Serviço de Pagamento
+Estruturado para suportar o ciclo de vida dos pagamentos, tentativas, idempotência, reconciliação, ledger e processamento assíncrono.
 ![consumo](docs/architecture/images/paymentbanco.png)
+Diagrama da modelagem de tabelas do PostgreSQL que suporta o microsserviço de Pagamentos. Ele é responsável por armazenar as informaçoes dos boletos, pagamentos, gestao dos lotes, pagamentos recorrentes e assinaturas, NFC, fluxos das devoluçoes, identificação externa de atores, canais de liquidação, tarifas, taxas e custo de operação, registro de extorno e disputas etc.
 
+---
 ## Infraestrutura Cloud
 ![infra](docs/architecture/images/terra.jpeg)
 
