@@ -116,15 +116,15 @@ A plataforma é organizada em grupos representando diferentes capacidades de neg
 
 Serviços core banking fornecem capacidades fundamentais para gestão de contas, processamento de transações, operações de tesouraria, controle de acesso e governança operacional.
 
-| Serviço | Responsabilidade | Link |
-|---------|------------------|------|
-| **[contas](https://github.com/your-org/bank-contas)** | Gestão de contas e operações de lifecycle de contas. | [🔗](https://github.com/your-org/bank-contas) |
-| **[transacoes](https://github.com/your-org/bank-transacoes)** | Processamento de transações e controle transacional. | [🔗](https://github.com/your-org/bank-transacoes) |
-| **[tesouraria](https://github.com/your-org/bank-tesouraria)** | Gestão de liquidez, posição financeira e operações de tesouraria. | [🔗](https://github.com/your-org/bank-tesouraria) |
-| **[canais](https://github.com/your-org/bank-canais)** | Integração com canais de atendimento e clientes. | [🔗](https://github.com/your-org/bank-canais) |
-| **[auditoria](https://github.com/your-org/bank-auditoria)** | Trilha de auditoria, rastreabilidade operacional e accountability. | [🔗](https://github.com/your-org/bank-auditoria) |
-| **[admin](https://github.com/your-org/bank-admin)** | Administração da plataforma e gestão operacional. | [🔗](https://github.com/your-org/bank-admin) |
-| **[iam](https://github.com/your-org/bank-iam)** | Identidade, autenticação e autorização. | [🔗](https://github.com/your-org/bank-iam) |
+| Serviço | Responsabilidade |
+|---------|------------------|
+| **[contas](./core-banking-contas/README.md)** | Gestão de contas e operações de lifecycle de contas. |
+| **[transacoes](./core-banking-transacoes/README.md)** | Processamento de transações e controle transacional. |
+| **[tesouraria](./core-banking-tesouraria/README.md)** | Gestão de liquidez, posição financeira e operações de tesouraria. |
+| **[canais](./core-banking-canais/README.md)** | Integração com canais de atendimento e clientes. |
+| **[auditoria](./core-banking-auditoria/README.md)** | Trilha de auditoria, rastreabilidade operacional e accountability. |
+| **[admin](./core-banking-admin/README.md)** | Administração da plataforma e gestão operacional. |
+| **[iam](./core-banking-iam/README.md)** | Identidade, autenticação e autorização. |
 
 ---
 
@@ -215,6 +215,7 @@ Aqui na plataforma, tambem contaremos com SAGA Orchestrator, onde ele atua como 
 
 Essa abordagem permite que cada serviço permaneça responsável pelo seu próprio domínio, enquanto o Orchestrator mantém o controle do fluxo distribuído.
 ![Platform Execution](docs/architecture/images/midlow.png)
+
 O fluxo apresentado representa uma implementação do padrão **Saga Orchestrator**, utilizada para coordenar uma operação distribuída entre diferentes serviços sem depender de uma transação única e global.
 
 O processo é iniciado pelo **UserService**, que solicita ao **Orchestrator** o início da Saga. A partir desse momento, o Orchestrator assume a responsabilidade de coordenar as etapas do processo e controlar o estado da operação distribuída.
@@ -240,6 +241,7 @@ No modelo **Fan-Out**, eventos publicados por diferentes produtores são encamin
 > **Fan-Out:** um único evento pode desencadear múltiplos fluxos de processamento independentes dentro da plataforma.
 
 ![Platform Execution](docs/architecture/images/eventos.jpeg)
+
 Essa arquitetura ja esta sendo reutilizada de outro projeto como forma de reestruturaçao e reaproveitamento
 da tecnologia ja implementada que se constitui como um Gateway de Pagamentos Assincronos, onde a solução tambem
 foi construída com arquitetura orientada a eventos (EDA) e separada em dois 
