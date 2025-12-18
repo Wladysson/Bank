@@ -132,14 +132,14 @@ Serviços core banking fornecem capacidades fundamentais para gestão de contas,
 
 Serviços financeiros fornecem capacidades relacionadas a pagamentos, reconciliação, contabilidade, risco, scoring e limites operacionais.
 
-| Serviço | Responsabilidade | Link |
-|---------|------------------|------|
-| **[payments](https://github.com/your-org/bank-payments)** | Processamento de pagamentos e gestão do lifecycle de pagamentos. | [🔗](https://github.com/your-org/bank-payments) |
-| **[reconciliation](https://github.com/your-org/bank-reconciliation)** | Reconciliação de eventos e movimentações financeiras. | [🔗](https://github.com/your-org/bank-reconciliation) |
-| **[risk](https://github.com/your-org/bank-risk)** | Análise de risco e capacidades de gestão de risco. | [🔗](https://github.com/your-org/bank-risk) |
-| **[ledger](https://github.com/your-org/bank-ledger)** | Contabilidade transacional e gestão de ledger financeiro. | [🔗](https://github.com/your-org/bank-ledger) |
-| **[quota](https://github.com/your-org/bank-quota)** | Limites operacionais, quotas e thresholds de autorização. | [🔗](https://github.com/your-org/bank-quota) |
-| **[scoring](https://github.com/your-org/bank-scoring)** | Avaliação e classificação de perfil de cliente e risco. | [🔗](https://github.com/your-org/bank-scoring) |
+| Serviço | Responsabilidade |
+|---------|------------------|
+| **[payments](./core-banking-payments/README.md)** | Processamento de pagamentos e gestão do lifecycle de pagamentos. |
+| **[reconciliation](./core-banking-reconciliation/README.md)** | Reconciliação de eventos e movimentações financeiras. |
+| **[risk](./core-banking-risk/README.md)** | Análise de risco e capacidades de gestão de risco. |
+| **[ledger](./core-banking-ledger/README.md)** | Contabilidade transacional e gestão de ledger financeiro. |
+| **[quota](./core-banking-quota/README.md)** | Limites operacionais, quotas e thresholds de autorização. |
+| **[scoring](./core-banking-scoring/README.md)** | Avaliação e classificação de perfil de cliente e risco. |
 
 ---
 
