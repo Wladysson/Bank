@@ -147,16 +147,16 @@ Serviços financeiros fornecem capacidades relacionadas a pagamentos, reconcilia
 
 Estes serviços suportam experiência do cliente, operações internas, integrações externas e workflows de negócio distribuídos.
 
-| Serviço | Responsabilidade | Link |
-|---------|------------------|------|
-| **[notification](https://github.com/your-org/bank-notification)** | Notificações e comunicação com clientes e sistemas. | [🔗](https://github.com/your-org/bank-notification) |
-| **[reporting](https://github.com/your-org/bank-reporting)** | Relatórios, visões analíticas e informações operacionais. | [🔗](https://github.com/your-org/bank-reporting) |
-| **[integration](https://github.com/your-org/bank-integration)** | Integração com sistemas externos e parceiros. | [🔗](https://github.com/your-org/bank-integration) |
-| **[consent](https://github.com/your-org/bank-consent)** | Gestão de consentimento e controle de permissões. | [🔗](https://github.com/your-org/bank-consent) |
-| **[kic](https://github.com/your-org/bank-kic)** | Validação de informações de cliente e processos de conhecimento. | [🔗](https://github.com/your-org/bank-kic) |
-| **[orchestration](https://github.com/your-org/bank-orchestration)** | Coordenação de workflows distribuídos e processos multi-serviço. | [🔗](https://github.com/your-org/bank-orchestration) |
-| **[customer-profile](https://github.com/your-org/bank-customer-profile)** | Gestão de perfil de cliente e informações relacionadas. | [🔗](https://github.com/your-org/bank-customer-profile) |
-| **[backoffice](https://github.com/your-org/bank-backoffice)** | Operações internas e suporte administrativo. | [🔗](https://github.com/your-org/bank-backoffice) |
+| Serviço | Responsabilidade |
+|---------|------------------|
+| **[notification](./core-banking-notification/README.md)** | Notificações e comunicação com clientes e sistemas. |
+| **[reporting](./core-banking-reporting/README.md)** | Relatórios, visões analíticas e informações operacionais. |
+| **[integration](./core-banking-integration/README.md)** | Integração com sistemas externos e parceiros. |
+| **[consent](./core-banking-consent/README.md)** | Gestão de consentimento e controle de permissões. |
+| **[kic](./core-banking-kic/README.md)** | Validação de informações de cliente e processos de conhecimento. |
+| **[orchestration](./core-banking-orchestration/README.md)** | Coordenação de workflows distribuídos e processos multi-serviço. |
+| **[customer-profile](./core-banking-customer-profile/README.md)** | Gestão de perfil de cliente e informações relacionadas. |
+| **[backoffice](./core-banking-backoffice/README.md)** | Operações internas e suporte administrativo. |
 
 ---
 
