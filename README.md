@@ -164,11 +164,11 @@ Estes serviços suportam experiência do cliente, operações internas, integra�
 
 Serviços de plataforma fornecem capacidades compartilhadas necessárias para operar e evoluir o ecossistema bancário.
 
-| Serviço | Responsabilidade | Link |
-|---------|------------------|------|
-| **[data-platform](https://github.com/your-org/bank-data-platform)** | Processamento de dados, analytics e capacidades de integração de informações. | [🔗](https://github.com/your-org/bank-data-platform) |
-| **[config](https://github.com/your-org/bank-config)** | Gestão centralizada de configurações. | [🔗](https://github.com/your-org/bank-config) |
-| **[batch](https://github.com/your-org/bank-batch)** | Processamento agendado e operações em batch. | [🔗](https://github.com/your-org/bank-batch) |
+| Serviço | Responsabilidade |
+|---------|------------------|
+| **[data-platform](./core-banking-data-platform/README.md)** | Processamento de dados, analytics e capacidades de integração de informações. |
+| **[config](./core-banking-config/README.md)** | Gestão centralizada de configurações. |
+| **[batch](./core-banking-batch/README.md)** | Processamento agendado e operações em batch. |
 
 ---
 
