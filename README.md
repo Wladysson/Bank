@@ -211,9 +211,12 @@ Essa abordagem mantém os serviços desacoplados e permite que cada domínio per
 
 #### Principal Logica da Arquitetura SAGA ORQUESTRADA
 
-Aqui na plataforma, tambem contaremos com SAGA Orchestrator, onde ele atua como coordenador central da Saga. Ele não executa diretamente as regras de negócio dos serviços participantes; sua responsabilidade é controlar a sequência de execução, acompanhar os resultados e determinar a próxima etapa do processo.
+A plataforma tambem conta com SAGA Orchestrator, onde ele atua como coordenador central da Saga. Ele não executa diretamente as regras de negócio dos serviços participantes; sua responsabilidade é controlar a sequência de execução, acompanhar os resultados e determinar a próxima etapa do processo.
 
-Essa abordagem permite que cada serviço permaneça responsável pelo seu próprio domínio, enquanto o Orchestrator mantém o controle do fluxo distribuído.
+![Platform Execution](docs/architecture/images/macdow/orquestrator.png)
+
+#### Essa abordagem permite que cada serviço permaneça responsável pelo seu próprio domínio, enquanto o Orchestrator mantém o controle do fluxo distribuído.
+
 ![Platform Execution](docs/architecture/images/midlow.png)
 
 O fluxo apresentado representa uma implementação do padrão **Saga Orchestrator**, utilizada para coordenar uma operação distribuída entre diferentes serviços sem depender de uma transação única e global.
@@ -269,7 +272,7 @@ outro encarregado do processamento financeiro assíncrono. Já aqui na plataform
 ---
 ## 📦 Deploy e Esteiras CI/CD
 
-#### Principal Logica CI/CD Pipeline para proteção da imagens atualizadas
+#### Principal Logica CI/CD Pipeline para proteção da imagens atualizadas no Container
 
 ![CI/CD Pipeline](docs//architecture/images/pipeline.png)
 
@@ -343,6 +346,13 @@ Com os primeiros domínios de Contas e Ledger operacionalizados e automatizados,
 🔹 Estratégia de Persistência & Isolamento seguindo o pattern de Database-per-Service, cada domínio mantém seu estado isolado em instâncias distintas, garantindo que não haja acoplamento na camada de dados. A conectividade também passa pela governança da malha, onde pretendo implementar Egress Gateways para monitorar a performance e segurança das conexões externas com os bancos de dados na nuvem AWS RDS.
 
 ## Modelagem do Banco de Dados
+
+#### CQRS (Command Query Responsibility Segregation)
+
+A plataforma adota o padrão **CQRS** para separar as responsabilidades de leitura e escrita, permitindo otimização de consultas, escalabilidade e consistência eventual.
+
+![consumo](docs/architecture/images/macdow/bancocqrs-architecture-diagram.ddb9e663.png)
+
 
 #### Exemplo do Banco de dados do Serviço de Transaçoes
 Estruturado para suportar operações financeiras, idempotência, histórico transacional, transferências, eventos e rastreabilidade.

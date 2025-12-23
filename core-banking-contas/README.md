@@ -1,218 +1,103 @@
-# core-banking-contas
+# bank-account
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+> Serviço de Gestão de Contas Bancárias - Enterprise Banking Platform
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+[![License](https://img.shields.io/badge/license-proprietary-blue.svg)](LICENSE)
+[![Java](https://img.shields.io/badge/Java-17+-orange.svg)](https://openjdk.org/)
+[![Quarkus](https://img.shields.io/badge/Quarkus-3.x-blue.svg)](https://quarkus.io/)
+[![Port](https://img.shields.io/badge/Port-8080-green.svg)](http://localhost:8080)
+[![CI](https://github.com/your-org/bank-account/actions/workflows/ci.yml/badge.svg)](https://github.com/your-org/bank-account/actions)
 
-## Running the application in dev mode
+---
 
-You can run your application in dev mode that enables live coding using:
+## 📋 Índice
 
-```shell script
-./mvnw quarkus:dev
-```
+- [Visão Geral](#-visão-geral)
+- [Responsabilidades do Serviço](#-responsabilidades-do-serviço)
+- [Sub-domínios e Módulos](#-sub-domínios-e-módulos)
+- [Arquitetura](#-arquitetura)
+    - [Arquitetura Hexagonal](#arquitetura-hexagonal)
+    - [Padrões de Design](#padrões-de-design)
+    - [Diagrama de Arquitetura](#diagrama-de-arquitetura)
+- [Estrutura do Projeto](#-estrutura-do-projeto)
+- [API Endpoints](#-api-endpoints)
+- [Eventos de Domínio](#-eventos-de-domínio)
+- [Getting Started](#-getting-started)
+    - [Pré-requisitos](#pré-requisitos)
+    - [Configuração Local](#configuração-local)
+    - [Variáveis de Ambiente](#variáveis-de-ambiente)
+- [Documentação por Módulo](#-documentação-por-módulo)
+- [Testes](#-testes)
+- [Observabilidade](#-observabilidade)
+- [Segurança](#-segurança)
+- [Deploy](#-deploy)
+- [Contribuição](#-contribuição)
+- [Licença](#-licença)
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
+---
 
-## Packaging and running the application
+## 📖 Visão Geral
 
-The application can be packaged using:
+O serviço **bank-account** é responsável pela gestão completa do ciclo de vida de contas bancárias dentro da Enterprise Banking Platform.
 
-```shell script
-./mvnw package
-```
+Este serviço implementa os domínios de gestão de contas PF/PJ, contas poupança, contas investimento, contas multi-titulares (conjuntas), gestão de saldos e reservas (hold), configuração de limites operacionais, motor de extrato, hierarquia empresarial e emissão de documentos core.
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+A arquitetura segue princípios de Domain-Driven Design (DDD) com separação clara entre domain, application e infrastructure layers, garantindo alta coesão, baixo acoplamento e testabilidade.
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+### Informações Técnicas
 
-If you want to build an _über-jar_, execute the following command:
+| Atributo | Valor |
+|----------|-------|
+| **Porta** | `8080` |
+| **Framework** | Quarkus 3.x |
+| **Linguagem** | Java 17+ |
+| **Banco de Dados** | PostgreSQL 15+ |
+| **Mensageria** | Apache Kafka 3.5+ |
+| **Cache** | Redis 7+ |
 
-```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
-```
+---
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+## 🎯 Responsabilidades do Serviço
 
-## Creating a native executable
+### Core Responsibilities
 
-You can create a native executable using:
+| Responsabilidade | Descrição |
+|------------------|-----------|
+| **Gestão de Contas** | Abertura, manutenção, encerramento e controle de status de contas PF/PJ, poupança, investimento e conjuntas. |
+| **Gestão de Saldos** | Controle de saldo disponível em tempo real com precisão transacional. |
+| **Hold/Reservas** | Gestão de reservas de valor para evitar gasto duplo em transações pendentes. |
+| **Limites Operacionais** | Configuração de limites por canal (Pix, Saque, TED) ajustáveis por perfil de risco. |
+| **Motor de Extrato** | Agregação de histórico de lançamentos para consulta de extratos por período. |
+| **Hierarquia Empresarial** | Estrutura de conta-mestre e sub-contas para gestão de departamentos e filiais corporativas. |
+| **Cheque Especial** | Controle de limites extras concedidos, taxas de juros e monitoramento de uso. |
+| **Emissão de Documentos** | Geração automática de informes de rendimentos, declarações de titularidade e comprovantes. |
 
-```shell script
-./mvnw package -Dnative
-```
+---
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
+## 🏛️ Sub-domínios e Módulos
 
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
-```
+O serviço é organizado em sub-domínios coesos que representam capacidades de negócio específicas:
 
-You can then execute your native executable with: `./target/core-banking-contas-1.0.0-SNAPSHOT-runner`
+| Sub-domínio | Responsabilidade | Status |
+|-------------|------------------|--------|
+| **account** | Gestão de contas (PF/PJ, poupança, investimento, conjuntas) e ciclo de vida. | ✅ Implementado |
+| **balance** | Gestão de saldos e controle de disponibilidade em tempo real. | ✅ Implementado |
+| **hold** | Reservas de valor (hold) para transações pendentes e prevenção de gasto duplo. | ✅ Implementado |
+| **limit** | Configuração e validação de limites operacionais por canal e perfil de risco. | ✅ Implementado |
+| **overdraft** | Gestão de cheque especial, limites extras e aplicação de juros. | ✅ Implementado |
+| **statement** | Motor de extrato com agregação de lançamentos e geração de relatórios. | ✅ Implementado |
+| **corporate** | Hierarquia empresarial com conta-mestre e sub-contas corporativas. | ✅ Implementado |
+| **document** | Emissão de documentos core (informes, declarações, comprovantes). | ✅ Implementado |
 
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
+---
 
-## Related Guides
+## 🏗️ Arquitetura
 
-- REST ([guide](https://quarkus.io/guides/rest)): A Jakarta REST implementation utilizing build time processing and Vert.x. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it.
-- Hibernate ORM ([guide](https://quarkus.io/guides/hibernate-orm)): Define your persistent model with Hibernate ORM and Jakarta Persistence
-- Kafka Streams Processor ([guide](https://docs.quarkiverse.io/quarkus-kafka-streams-processor/dev/index.html)): Easily build resilient Kafka Streams topologies based on the Processor API
-- Messaging - Kafka Connector ([guide](https://quarkus.io/guides/kafka-getting-started)): Connect to Kafka with Reactive Messaging
-- JDBC Driver - PostgreSQL ([guide](https://quarkus.io/guides/datasource)): Connect to the PostgreSQL database via JDBC
-- Micrometer metrics ([guide](https://quarkus.io/guides/micrometer)): Instrument the runtime and your application with dimensional metrics using Micrometer.
+### Arquitetura Hexagonal
 
-## Provided Code
+O serviço segue a arquitetura hexagonal (ports & adapters) com separação clara entre:
 
-### Hibernate ORM
-
-Create your first JPA entity
-
-[Related guide section...](https://quarkus.io/guides/hibernate-orm)
-
-
-
-### Messaging codestart
-
-Use Quarkus Messaging
-
-[Related Apache Kafka guide section...](https://quarkus.io/guides/kafka-reactive-getting-started)
-
-
-### REST
-
-Easily start your REST Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
-
-
-# Account Service
-
-Serviço responsável pela gestão de contas bancárias, cobrindo abertura e encerramento de contas, controle de saldo e reservas, limites operacionais, extratos, hierarquia PJ, cheque especial e emissão de documentos core.
-
-## Funcionalidades
-
-- Gestão de contas PF e PJ
-- Suporte a conta poupança, investimento e conta conjunta
-- Controle de saldo disponível em tempo real
-- Gestão de hold para reserva de valores
-- Abertura, bloqueio, suspensão e encerramento de contas
-- Configuração de limites operacionais por canal
-- Geração de extratos por período
-- Hierarquia empresarial para contas PJ
-- Controle de cheque especial
-- Emissão de documentos como informe de rendimentos, declaração de titularidade e comprovantes de conta
-
-## Estrutura do Projeto
-
-```text
-com.bank.account
-│
-├── domain
-│   ├── model
-│   │   ├── Account.java
-│   │   ├── AccountHolder.java
-│   │   ├── JointAccountHolder.java
-│   │   ├── AccountStatus.java
-│   │   ├── AccountType.java
-│   │   ├── Balance.java
-│   │   ├── HoldBalance.java
-│   │   ├── OverdraftLimit.java
-│   │   ├── AccountLimit.java
-│   │   └── CorporateHierarchy.java
-│   │
-│   ├── service
-│   │   ├── AccountLifecycleService.java
-│   │   ├── BalanceManagementService.java
-│   │   ├── HoldManagementService.java
-│   │   ├── LimitValidationService.java
-│   │   ├── OverdraftManagementService.java
-│   │   └── CorporateHierarchyService.java
-│   │
-│   ├── event
-│   │   ├── AccountCreatedEvent.java
-│   │   ├── AccountClosedEvent.java
-│   │   ├── AccountBlockedEvent.java
-│   │   ├── BalanceReservedEvent.java
-│   │   ├── HoldReleasedEvent.java
-│   │   └── OverdraftUsedEvent.java
-│   │
-│   └── repository
-│       ├── AccountRepository.java
-│       ├── BalanceRepository.java
-│       ├── HoldRepository.java
-│       ├── AccountLimitRepository.java
-│       └── CorporateHierarchyRepository.java
-│
-├── application
-│   ├── service
-│   │   ├── AccountApplicationService.java
-│   │   ├── AccountOpeningService.java
-│   │   ├── AccountClosureService.java
-│   │   ├── BalanceQueryService.java
-│   │   ├── StatementService.java
-│   │   └── DocumentGenerationService.java
-│   │
-│   ├── command
-│   │   ├── OpenAccountCommand.java
-│   │   ├── CloseAccountCommand.java
-│   │   ├── BlockAccountCommand.java
-│   │   ├── ReserveBalanceCommand.java
-│   │   ├── ReleaseHoldCommand.java
-│   │   └── ConfigureLimitCommand.java
-│   │
-│   └── dto
-│       ├── AccountRequestDTO.java
-│       ├── AccountResponseDTO.java
-│       ├── BalanceResponseDTO.java
-│       ├── StatementResponseDTO.java
-│       └── LimitConfigurationDTO.java
-│
-├── infrastructure
-│   ├── persistence
-│   │   ├── entity
-│   │   │   ├── AccountEntity.java
-│   │   │   ├── BalanceEntity.java
-│   │   │   ├── HoldEntity.java
-│   │   │   ├── AccountLimitEntity.java
-│   │   │   └── CorporateHierarchyEntity.java
-│   │   │
-│   │   └── repository
-│   │       ├── JpaAccountRepository.java
-│   │       ├── JpaBalanceRepository.java
-│   │       ├── JpaHoldRepository.java
-│   │       ├── JpaAccountLimitRepository.java
-│   │       └── JpaCorporateHierarchyRepository.java
-│   │
-│   ├── messaging
-│   │   ├── KafkaAccountEventPublisher.java
-│   │   └── LedgerEventConsumer.java
-│   │
-│   ├── document
-│   │   ├── StatementGenerator.java
-│   │   ├── OwnershipCertificateGenerator.java
-│   │   └── IncomeReportGenerator.java
-│   │
-│   └── audit
-│       └── AccountAuditLogger.java
-│
-└── interfaces
-    └── rest
-        ├── AccountController.java
-        ├── BalanceController.java
-        ├── StatementController.java
-        └── LimitController.java
-```
-
-## Organização em Camadas
-
-- `domain`: regras de negócio, modelos, eventos e contratos de repositório
-- `application`: casos de uso, comandos e DTOs
-- `infrastructure`: persistência, mensageria, documentos e auditoria
-- `interfaces`: exposição dos endpoints REST
-
-## Integrações
-
-- Kafka para publicação de eventos de conta
-- Consumo de eventos do Ledger
-- API REST para operações de conta, saldo, extrato e limites
+- **Domain Layer**: Regras de negócio puras, entidades, value objects, domain services e eventos.
+- **Application Layer**: Casos de uso, comandos, queries, DTOs e orquestração de fluxos.
+- **Infrastructure Layer**: Persistência (JPA), mensageria (Kafka), cache (Redis), clients externos.
+- **Interfaces Layer**: Controladores REST, requests/responses e exception handlers.
