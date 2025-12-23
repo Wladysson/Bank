@@ -205,6 +205,7 @@ A plataforma utiliza o padrão **Saga Coreografada** para determinados fluxos di
 Nesse modelo, não existe um componente central responsável por controlar toda a execução da Saga. Cada serviço participante é responsável por executar sua própria operação, publicar um evento ao concluir sua etapa e reagir aos eventos produzidos pelos demais participantes.
 
 Essa abordagem mantém os serviços desacoplados e permite que cada domínio permaneça responsável pelas próprias regras de negócio.
+
 ![Platform Execution](docs/architecture/images/saga.jpeg)
 
 ---
@@ -353,6 +354,9 @@ A plataforma adota o padrão **CQRS** para separar as responsabilidades de leitu
 
 ![consumo](docs/architecture/images/macdow/bancocqrs-architecture-diagram.ddb9e663.png)
 
+![consumo](docs/architecture/images/macdow/diagrama%20banco%20inicio.png)
+
+![consumo](docs/architecture/images/macdow/ordens%20bd.png)
 
 #### Exemplo do Banco de dados do Serviço de Transaçoes
 Estruturado para suportar operações financeiras, idempotência, histórico transacional, transferências, eventos e rastreabilidade.
@@ -368,6 +372,21 @@ Diagrama da modelagem de tabelas do PostgreSQL que suporta o microsserviço de P
 ---
 ## Infraestrutura Cloud
 ![infra](docs/architecture/images/terra.jpeg)
+
+Diagrama 
+![consumo](docs/architecture/images/macdow/jfrog-platform-diagram.png)
+
+Arquitetura Hibrida multi-site com JFrog Artifactory, permitindo replicação de artefatos entre diferentes regiões e provedores de nuvem, garantindo alta disponibilidade e resiliência.
+![consumo](docs/architecture/images/macdow/multi-site-hybrid-jfrog-bridge.png)
+
+AWS
+![consumo](docs/architecture/images/macdow/jfrog-platform-aws.svg)
+
+Google Cloud
+![consumo](docs/architecture/images/macdow/jfrog-platform-gcp.svg)
+
+
+
 
 ## 📊 Observabilidade
 
