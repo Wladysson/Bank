@@ -1,4 +1,4 @@
-# Plataforma Financeira Core - Microservices Architecture
+# Plataforma Financeira - Microservices Architecture
 
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Java](https://img.shields.io/badge/Java-17%2B-orange)
@@ -9,7 +9,7 @@
 
 Esta plataforma é uma solução robusta de serviços financeiros baseada em microsserviços. O sistema foi projetado para alta disponibilidade, consistência eventual via padrão **SAGA** e imutabilidade de dados para conformidade regulatória.
 
-## 🏗️ Arquitetura e Tecnologias
+## Arquitetura e Tecnologias
 
 A solução utiliza uma abordagem **Event-Driven** e **Cloud Native**, garantindo que cada transação seja rastreável, auditável e resiliente a falhas.
 
