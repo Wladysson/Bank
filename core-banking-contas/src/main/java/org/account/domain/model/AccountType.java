@@ -13,5 +13,5 @@ public enum AccountType {
     DIGITAL,         // Conta digital (sem agência física)
 
     ESCROW,          // Conta de garantia (dinheiro bloqueado até condição)
-    PREPAID          // Conta pré-paga (saldo carregado antecipadamente)
+    PREPAID          // Conta pré-paga (saldo carregado antecipadamente
 }
