@@ -1,5 +1,5 @@
 package com.bank.account.domain.event;
-
+//ESSE ARQUIVO DE CLASSE ESTA ENTRE PARTES (ATENÇAO)
 import java.time.Instant;
 import java.util.UUID;
 
