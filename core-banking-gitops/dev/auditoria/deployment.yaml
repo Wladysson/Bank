@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: core-banking-auditoria
+  labels:
+    app: core-banking-auditoria
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: core-banking-auditoria
+  template:
+    metadata:
+      labels:
+        app: core-banking-auditoria
+    spec:
+      containers:
+        - name: core-banking-auditoria
+          image: core-banking-auditoria:1.0.0
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
