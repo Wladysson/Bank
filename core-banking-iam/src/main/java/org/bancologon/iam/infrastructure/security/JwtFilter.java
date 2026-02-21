@@ -25,8 +25,7 @@ public class JwtFilter implements ContainerRequestFilter {
         String token = authHeader.substring("Bearer ".length());
 
         try {
-            // Aqui o Quarkus valida automaticamente o JWT
-            // Se for inválido, lança exceção
+
         } catch (Exception e) {
             abort(requestContext);
         }

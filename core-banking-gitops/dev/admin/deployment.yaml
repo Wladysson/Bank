@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: core-banking-admin
+  labels:
+    app: core-banking-admin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: core-banking-admin
+  template:
+    metadata:
+      labels:
+        app: core-banking-admin
+    spec:
+      containers:
+        - name: core-banking-admin
+          image: core-banking-admin:1.0.0
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
