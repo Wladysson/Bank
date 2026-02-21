@@ -1,14 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: core-banking-auditoria-service
-  labels:
-    app: core-banking-auditoria-v2
+  name: core-banking-auditoria
 spec:
   selector:
-    app: core-banking-auditoria-v2
+    app: core-banking-auditoria
   ports:
-    - protocol: TCP
-      port: 8090
-      targetPort: 8090
+    - port: 80
+      targetPort: 8080
   type: ClusterIP
