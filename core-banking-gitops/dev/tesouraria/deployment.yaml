@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: core-banking-tesouraria
+  labels:
+    app: core-banking-tesouraria
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: core-banking-tesouraria
+  template:
+    metadata:
+      labels:
+        app: core-banking-tesouraria
+    spec:
+      containers:
+        - name: core-banking-tesouraria
+          image: core-banking-tesouraria:1.0.0
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
