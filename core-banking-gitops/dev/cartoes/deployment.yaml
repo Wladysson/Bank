@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: core-banking-canais
+  name: core-banking-cartoes
   labels:
-    app: core-banking-canais
+    app: core-banking-cartoes
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: core-banking-canais
+      app: core-banking-cartoes
   template:
     metadata:
       labels:
-        app: core-banking-canais
+        app: core-banking-cartoes
     spec:
       containers:
-        - name: core-banking-canais
-          image: core-banking-canais:1.0.0
+        - name: core-banking-cartoes
+          image: core-banking-cartoes:1.0.0
           imagePullPolicy: Never
           ports:
             - containerPort: 8080

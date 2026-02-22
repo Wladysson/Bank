@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: core-banking-canais
+  name: core-banking-cartoes
 spec:
   selector:
-    app: core-banking-canais
+    app: core-banking-cartoes
   ports:
     - port: 80
       targetPort: 8080
