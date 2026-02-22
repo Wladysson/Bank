@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: core-banking-payments
+  labels:
+    app: core-banking-payments
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: core-banking-payments
+  template:
+    metadata:
+      labels:
+        app: core-banking-payments
+    spec:
+      containers:
+        - name: core-banking-payments
+          image: core-banking-payments:1.0.0
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
