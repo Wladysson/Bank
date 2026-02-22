@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: core-banking-batch
+  labels:
+    app: core-banking-batch
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: core-banking-batch
+  template:
+    metadata:
+      labels:
+        app: core-banking-batch
+    spec:
+      containers:
+        - name: core-banking-batch
+          image: core-banking-batch:1.0.0
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
