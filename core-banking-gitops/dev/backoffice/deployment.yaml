@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: core-banking-backoffice
+  labels:
+    app: core-banking-backoffice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: core-banking-backoffice
+  template:
+    metadata:
+      labels:
+        app: core-banking-backoffice
+    spec:
+      containers:
+        - name: core-banking-backoffice
+          image: core-banking-backoffice:1.0.0
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
