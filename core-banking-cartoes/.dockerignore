@@ -1,5 +1,9 @@
+# ignora tudo
 *
-!target/*-runner
-!target/*-runner.jar
-!target/lib/*
-!target/quarkus-app/*
+
+# libera a pasta target
+!target/
+!target/**
+
+# libera o Dockerfile
+!Dockerfile
