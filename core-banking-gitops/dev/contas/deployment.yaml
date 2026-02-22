@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: core-banking-contas
+  labels:
+    app: core-banking-contas
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: core-banking-contas
+  template:
+    metadata:
+      labels:
+        app: core-banking-contas
+    spec:
+      containers:
+        - name: core-banking-contas
+          image: core-banking-contas:1.0.0
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080

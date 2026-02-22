@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: core-banking-ledger
+  labels:
+    app: core-banking-ledger
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: core-banking-ledger
+  template:
+    metadata:
+      labels:
+        app: core-banking-ledger
+    spec:
+      containers:
+        - name: core-banking-ledger
+          image: core-banking-ledger:1.0.0
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
