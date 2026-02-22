@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: core-banking-reconciliation
+  labels:
+    app: core-banking-reconciliation
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: core-banking-reconciliation
+  template:
+    metadata:
+      labels:
+        app: core-banking-reconciliation
+    spec:
+      containers:
+        - name: core-banking-reconciliation
+          image: core-banking-reconciliation:1.0.0
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
