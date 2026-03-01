@@ -30,12 +30,39 @@ public class PaymentLedgerSaga {
         }
     }
 
+    private final JournalPostingService journalPostingService;
+    private final DomainEventPublisher eventPublisher;
+
     private void compensate(PaymentLedgerSagaState state) {
 
-        // - Publicar evento PaymentFailed
-        // - Criar lançamento reverso
-        // - Notificar outro serviço
+        if (state.isCompensated()) {
+            return;
+        }
 
-        state.markFailed();
+        try {
+            // 1️criar lançamento reverso (estorno)
+            PostJournalCommand reversalCommand = buildReversalCommand(state);
+
+            journalPostingService.post(reversalCommand);
+
+            // 2 publica evento de falha
+            PaymentPostingFailedEvent failedEvent =
+                    new PaymentPostingFailedEvent(
+                            state.getPaymentId(),
+                            "Ledger posting failed. Compensation executed."
+                    );
+
+            eventPublisher.publish(failedEvent);
+
+            state.markCompensated();
+
+        } catch (Exception ex) {
+
+            // Aqui você pode enviar para Dead Letter,
+            // ou logar para intervenção manual
+            state.markFailed();
+
+            throw new IllegalStateException("Falha na compensaçao", ex);
+        }
     }
 }

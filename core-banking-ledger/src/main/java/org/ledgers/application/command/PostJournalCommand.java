@@ -40,7 +40,7 @@ public class PostJournalCommand {
         return entries;
     }
 
-    // Classe interna representando cada linha do lançamento do serviço
+    // Classe interna e linha do lançamento do serviço
     public static class EntryCommand {
 
         private final String accountNumber;
