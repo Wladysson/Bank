@@ -16,16 +16,15 @@ public class PaymentLedgerSaga {
     public void start(PaymentLedgerSagaState state, PostJournalCommand command) {
 
         try {
-            // Etapa 1: Postar no Ledger
+            //Postar no Ledger
             UUID journalId = journalPostingService.post(command);
 
             state.markJournalPosted();
-
-            // Etapa 2: Finalizar Saga
+            // Finalizar Saga
             state.markCompleted();
 
         } catch (Exception ex) {
-            // Se falhar → compensação
+            // Se falhar vai na compensação
             compensate(state);
         }
     }
