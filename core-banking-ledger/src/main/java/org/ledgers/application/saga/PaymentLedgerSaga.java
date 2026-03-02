@@ -16,15 +16,12 @@ public class PaymentLedgerSaga {
     public void start(PaymentLedgerSagaState state, PostJournalCommand command) {
 
         try {
-            //Postar no Ledger
             UUID journalId = journalPostingService.post(command);
 
             state.markJournalPosted();
-            // Finalizar Saga
             state.markCompleted();
 
         } catch (Exception ex) {
-            // Se falhar vai na compensação
             compensate(state);
         }
     }
@@ -39,7 +36,6 @@ public class PaymentLedgerSaga {
         }
 
         try {
-            // 1️criar lançamento reverso (estorno)
             PostJournalCommand reversalCommand = buildReversalCommand(state);
 
             journalPostingService.post(reversalCommand);
