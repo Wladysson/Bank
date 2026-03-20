@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 @ApplicationScoped
-public class LimitValidationService {
+public class ValidationService {
 
     @Inject
     AccountLimitRepository limitRepository;

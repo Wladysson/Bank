@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 @ApplicationScoped
-public class OverdraftManagementService {
+public class OverdraftService {
 
     @Inject
     AccountRepository accountRepository;

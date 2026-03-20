@@ -5,7 +5,6 @@ import com.bank.account.domain.model.Account;
 import com.bank.account.domain.repository.AccountRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import kafka;
 
 import java.util.Optional;
 
@@ -25,8 +24,8 @@ public class AccountClosureService {
 
         Account account = accountOpt.get();
 
-        account.close(command.getReason());
+        account.close();
 
-        accountRepository.update(account);
+        accountRepository.save(account);
     }
 }

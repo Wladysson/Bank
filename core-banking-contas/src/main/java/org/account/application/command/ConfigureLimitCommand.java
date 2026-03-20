@@ -42,16 +42,3 @@ public class ConfigureLimitCommand {
         return tedDailyLimit;
     }
 }
-
-public class ConfigureLimit {
-
-    private UUID accountId;
-    private BigDecimal pixDailyLimit;
-    private BigDecimal withdrawDailyLimit;
-
-    public ConfigureLimit(UUID accountId, BigDecimal pixDailyLimit) {
-        this.accountId = accountId;
-        this.pixDailyLimit = pixDailyLimit;
-        this.withdrawDailyLimit = BigDecimal.ZERO;
-    }
-}

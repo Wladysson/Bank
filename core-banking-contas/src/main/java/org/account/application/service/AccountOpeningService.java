@@ -22,6 +22,6 @@ public class AccountOpeningService {
 
         accountRepository.save(account);
 
-        // depósito inicial pode virar evento pro ledger
+        // depósito inicial pode virar evento pro para o livro de referencia
     }
 }
