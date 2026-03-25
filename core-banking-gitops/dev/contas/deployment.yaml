@@ -2,8 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: core-banking-contas
+  namespace: bank
   labels:
     app: core-banking-contas
+  annotations:
+    argocd.argoproj.io/tracking-id: contas:apps/Deployment:/core-banking-contas
 spec:
   replicas: 1
   selector:

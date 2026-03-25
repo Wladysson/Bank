@@ -2,10 +2,13 @@ apiVersion: v1
 kind: Service
 metadata:
   name: core-banking-contas
+  namespace: bank
+  annotations:
+    argocd.argoproj.io/tracking-id: contas:/Service:/core-banking-contas
 spec:
-  selector:
-    app: core-banking-contas
   ports:
     - port: 80
       targetPort: 8080
+  selector:
+    app: core-banking-contas
   type: ClusterIP
