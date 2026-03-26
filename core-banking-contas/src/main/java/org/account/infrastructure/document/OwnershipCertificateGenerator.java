@@ -26,7 +26,7 @@ public class OwnershipCertificateGenerator {
             sb.append("\n");
         }
 
-        sb.append("\nEste documento certifica a titularidade da conta.\n");
+        sb.append("\nEste documento certifica a titularidade da conta do cliente.\n");
 
         return sb.toString();
     }
