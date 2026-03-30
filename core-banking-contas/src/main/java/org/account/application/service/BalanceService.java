@@ -1,5 +1,6 @@
 package com.bank.account.application.service;
 
+import com.bank.account.domain.model.Balance;
 import com.bank.account.application.dto.BalanceResponseDTO;
 import com.bank.account.domain.repository.BalanceRepository;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -15,7 +16,8 @@ public class BalanceService {
 
     public BalanceResponseDTO getBalance(UUID accountId) {
 
-        var balance = balanceRepository.findByAccountId(accountId);
+        var balance = balanceRepository.findByAccountId(accountId)
+                .orElseThrow(() -> new RuntimeException("Balance não encontrado para accountId: " + accountId));
 
         BalanceResponseDTO dto = new BalanceResponseDTO();
         dto.setAccountId(accountId);

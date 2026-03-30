@@ -22,6 +22,10 @@ public class Account {
         this.accountNumber = accountNumber;
         this.type = type;
         this.status = AccountStatus.ACTIVE;
+
+        this.holders = new ArrayList<>();
+        this.holds = new ArrayList<>();
+        this.balance = new Balance(BigDecimal.ZERO);
     }
 
     public static Account open(UUID id, String accountNumber, String type) {
@@ -78,4 +82,5 @@ public class Account {
     public AccountStatus getStatus() { return status; }
     public AccountType getType() { return type; }
     public Balance getBalance() { return balance; }
+    public OverdraftLimit getOverdraftLimit() { return overdraftLimit; }
 }

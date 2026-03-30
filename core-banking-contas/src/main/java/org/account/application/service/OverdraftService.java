@@ -21,7 +21,8 @@ public class OverdraftService {
 
         OverdraftLimit overdraft = account.getOverdraftLimit();
 
-        if (overdraft == null || !overdraft.isEnabled()) {
+        if (overdraft == null || overdraft.getLimit() == null
+                || overdraft.getLimit().compareTo(BigDecimal.ZERO) <= 0) {
             return false;
         }
 

@@ -11,6 +11,7 @@ public class AccountLimit {
     public AccountLimit(BigDecimal dailyTransferLimit,
                         BigDecimal dailyWithdrawLimit,
                         BigDecimal monthlyTransferLimit) {
+
         this.dailyTransferLimit = dailyTransferLimit;
         this.dailyWithdrawLimit = dailyWithdrawLimit;
         this.monthlyTransferLimit = monthlyTransferLimit;
