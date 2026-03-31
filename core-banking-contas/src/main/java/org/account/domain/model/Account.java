@@ -28,6 +28,12 @@ public class Account {
         this.balance = new Balance(BigDecimal.ZERO);
     }
 
+    // método principal
+    public static Account open(UUID id, String accountNumber, AccountType type) {
+        return new Account(id, accountNumber, type);
+    }
+
+    //método compatível com código antigo
     public static Account open(UUID id, String accountNumber, String type) {
         return new Account(
                 id,
@@ -40,10 +46,8 @@ public class Account {
         if (status == AccountStatus.CLOSED) {
             throw new IllegalStateException("Conta já encerrada");
         }
-        this.status = AccountStatus.CLOSED;
+        this.status = AccountStatus.BLOCKED;
     }
-
-    //Domain in futuro pachta
 
     public void close() {
         if (status == AccountStatus.CLOSED) {

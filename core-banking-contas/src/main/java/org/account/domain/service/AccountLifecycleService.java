@@ -24,13 +24,15 @@ public class AccountLifecycleService {
             throw new IllegalStateException("Conta já existe");
         }
 
-        Account account = new Account(
+        Account account = Account.open(
                 accountId,
                 accountNumber,
-                type,
-                primaryHolderId,
-                initialBalance
+                type
         );
+
+        if (initialBalance != null && initialBalance.compareTo(BigDecimal.ZERO) > 0) {
+            account.deposit(initialBalance);
+        }
 
         return accountRepository.save(account);
     }
