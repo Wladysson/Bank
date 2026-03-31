@@ -68,12 +68,13 @@ public class JpaAccountRepository implements AccountRepository {
     }
 
     private Account mapToDomain(AccountEntity entity) {
-        return new Account(
+        return Account.open(
                 entity.getId(),
                 entity.getAccountNumber(),
-                Enum.valueOf(com.bank.account.domain.model.AccountType.class, entity.getAccountType()),
-                entity.getPrimaryHolderId(),
-                java.math.BigDecimal.ZERO
+                Enum.valueOf(
+                        com.bank.account.domain.model.AccountType.class,
+                        entity.getAccountType()
+                )
         );
     }
 }

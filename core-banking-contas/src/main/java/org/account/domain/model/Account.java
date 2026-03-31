@@ -86,5 +86,8 @@ public class Account {
     public AccountStatus getStatus() { return status; }
     public AccountType getType() { return type; }
     public Balance getBalance() { return balance; }
+    public AccountLimit getAccountLimit() { return accountLimit; }
     public OverdraftLimit getOverdraftLimit() { return overdraftLimit; }
+    public List<AccountHolder> getHolders() { return holders; }
+
 }
