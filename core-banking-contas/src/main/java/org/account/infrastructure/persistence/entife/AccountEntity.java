@@ -22,14 +22,14 @@ public class AccountEntity {
     private Instant createdAt;
     private Instant updatedAt;
 
-    // GETTERS
+    // GETTERS para a aplicaçao
     public UUID getId() { return id; }
     public String getAccountNumber() { return accountNumber; }
     public String getAccountType() { return accountType; }
     public String getStatus() { return status; }
     public UUID getPrimaryHolderId() { return primaryHolderId; }
 
-    // SETTERS
+    // SETTERS para a aplicaçao
     public void setId(UUID id) { this.id = id; }
     public void setAccountNumber(String accountNumber) { this.accountNumber = accountNumber; }
     public void setAccountType(String accountType) { this.accountType = accountType; }
