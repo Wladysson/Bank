@@ -17,7 +17,7 @@ public class ValidationService {
     public void validatePixLimit(UUID accountId, BigDecimal amount) {
         AccountLimit limit = getLimit(accountId);
 
-        if (amount.compareTo(limit.getPixDailyLimit()) > 0) {
+        if (amount.compareTo(limit.getDailyWithdrawalLimit()) > 0) {
             throw new RuntimeException("Pix limit exceeded");
         }
     }
@@ -25,7 +25,7 @@ public class ValidationService {
     public void validateWithdrawLimit(UUID accountId, BigDecimal amount) {
         AccountLimit limit = getLimit(accountId);
 
-        if (amount.compareTo(limit.getWithdrawDailyLimit()) > 0) {
+        if (amount.compareTo(limit.getDailyWithdrawLimit()) > 0) {
             throw new RuntimeException("Withdraw limit exceeded");
         }
     }

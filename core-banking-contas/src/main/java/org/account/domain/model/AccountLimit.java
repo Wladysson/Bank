@@ -7,6 +7,8 @@ public class AccountLimit {
     private BigDecimal dailyTransferLimit;
     private BigDecimal dailyWithdrawLimit;
     private BigDecimal monthlyTransferLimit;
+    private BigDecimal dailyWithdrawalLimit;
+    private BigDecimal tedDailyLimit;
 
     public AccountLimit(BigDecimal dailyTransferLimit,
                         BigDecimal dailyWithdrawLimit,
@@ -27,5 +29,17 @@ public class AccountLimit {
         if (amount.compareTo(dailyWithdrawLimit) > 0) {
             throw new IllegalStateException("Limite diário de saque excedido");
         }
+    }
+
+    public BigDecimal getDailyWithdrawLimit() {
+        return dailyWithdrawLimit;
+    }
+
+    public BigDecimal getDailyWithdrawalLimit() {
+        return dailyWithdrawalLimit;
+    }
+
+    public BigDecimal getTedDailyLimit() {
+        return tedDailyLimit;
     }
 }
