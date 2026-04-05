@@ -2,8 +2,8 @@ package com.bank.ledger.domain.service;
 
 import com.bank.ledger.domain.model.JournalEntry;
 import com.bank.ledger.domain.model.LedgerEntry;
+import com.bank.ledger.domain.model.EntryType;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public class DoubleEntryValidator {
@@ -16,25 +16,27 @@ public class DoubleEntryValidator {
             throw new IllegalArgumentException("O lançamento no diário deve conter pelo menos uma entrada!");
         }
 
-        BigDecimal totalDebits = BigDecimal.ZERO;
-        BigDecimal totalCredits = BigDecimal.ZERO;
+        long totalDebits = 0L;
+        long totalCredits = 0L;
 
         for (LedgerEntry entry : entries) {
 
-            if (entry.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
+            if (entry.getAmount() <= 0) {
                 throw new IllegalArgumentException("O valor da entrada deve ser positivo!!!");
             }
 
-            if (entry.isDebit()) {
-                totalDebits = totalDebits.add(entry.getAmount());
+            if (entry.getType() == EntryType.DEBIT) {
+                totalDebits += entry.getAmount();
+            } else if (entry.getType() == EntryType.CREDIT) {
+                totalCredits += entry.getAmount();
             } else {
-                totalCredits = totalCredits.add(entry.getAmount());
+                throw new IllegalArgumentException("Tipo de entrada inválido!");
             }
         }
 
-        if (totalDebits.compareTo(totalCredits) != 0) {
+        if (totalDebits != totalCredits) {
             throw new IllegalStateException(
-                    "A validaçao de dupla entrada falhou: os debitos e creditos nao sao iguais!!!"
+                    "A validação de dupla entrada falhou: os débitos e créditos não são iguais!!!"
             );
         }
     }
