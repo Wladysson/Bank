@@ -1,31 +1,36 @@
 package com.bank.ledger.domain.model;
 
-import java.time.Instant;
 import java.util.UUID;
+import java.time.Instant;
 
 public class LedgerEntry {
+
     private final UUID id;
-    private final AccountReference account;
-    private final Money amount;
+    private final UUID accountId;
+    private final long amount;
     private final Instant createdAt;
 
-    public LedgerEntry(AccountReference account, Money amount) {
-        this.id = UUID.randomUUID();
-        this.account = account;
+    public LedgerEntry(UUID id, UUID accountId, long amount, Instant createdAt) {
+        this.id = id;
+        this.accountId = accountId;
         this.amount = amount;
-        this.createdAt = Instant.now();
+        this.createdAt = createdAt;
     }
 
     public UUID getId() {
         return id;
     }
 
-    public AccountReference getAccount() {
-        return account;
+    public UUID getAccountId() {
+        return accountId;
     }
 
-    public Money getAmount() {
+    public long getAmount() {
         return amount;
+    }
+
+    public EntryType getType() {
+        return type;
     }
 
     public Instant getCreatedAt() {

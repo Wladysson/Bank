@@ -1,8 +1,8 @@
-package org.bank.ledger.infrastructure.persistence.repository;
+package com.bank.ledger.infrastructure.persistence.repository;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import org.bank.ledger.domain.model.JournalEntry;
-import org.bank.ledger.domain.repository.JournalEntryRepository;
+import com.bank.ledger.domain.model.JournalEntry;
+import com.bank.ledger.domain.repository.JournalEntryRepository;
 
 import java.util.*;
 

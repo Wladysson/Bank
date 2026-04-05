@@ -1,6 +1,6 @@
-package org.bank.ledger.domain.repository;
+package com.bank.ledger.domain.repository;
 
-import org.bank.ledger.domain.model.JournalEntry;
+import com.bank.ledger.domain.model.JournalEntry;
 import java.util.Optional;
 import java.util.UUID;
 

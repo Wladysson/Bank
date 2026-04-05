@@ -1,8 +1,12 @@
 package com.bank.ledger.application.saga;
 
+import java.util.List;
 import com.bank.ledger.application.command.PostJournalCommand;
 import com.bank.ledger.application.service.JournalPostingService;
 import com.bank.ledger.domain.event.DomainEventPublisher;
+import com.bank.ledger.domain.model.LedgerEntry;
+import com.bank.ledger.domain.model.EntryType;
+import com.bank.ledger.domain.event.PaymentPostingFailedEvent;
 
 import java.util.UUID;
 
@@ -20,7 +24,7 @@ public class PaymentLedgerSaga {
     public void start(PaymentLedgerSagaState state, PostJournalCommand command) {
 
         try {
-            UUID journalId = journalPostingService.post(command);
+            journalPostingService.post(command);
 
             state.markJournalPosted();
             state.markCompleted();
@@ -57,5 +61,29 @@ public class PaymentLedgerSaga {
 
             throw new IllegalStateException("Falha na compensação", ex);
         }
+    }
+
+    private PostJournalCommand buildReversalCommand(PaymentLedgerSagaState state) {
+
+        var reversedEntries = state.getEntries().stream()
+                .map(entry -> new PostJournalCommand.EntryCommand(
+                        entry.getAccountId().toString(),
+                        java.math.BigDecimal.valueOf(entry.getAmount()),
+                        entry.getType().reverse() == EntryType.DEBIT
+                ))
+                .toList();
+
+        return new PostJournalCommand(
+                state.getPaymentId(),
+                java.time.LocalDateTime.now(),
+                "REVERSAL",
+                reversedEntries
+        );
+    }
+
+    private EntryType reverseType(EntryType type) {
+        return type == EntryType.DEBIT
+                ? EntryType.CREDIT
+                : EntryType.DEBIT;
     }
 }

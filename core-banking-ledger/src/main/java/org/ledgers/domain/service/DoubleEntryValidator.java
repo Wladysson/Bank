@@ -1,6 +1,6 @@
 package com.bank.ledger.domain.service;
 
-import org.bank.ledger.domain.model.JournalEntry;
+import com.bank.ledger.domain.model.JournalEntry;
 import com.bank.ledger.domain.model.LedgerEntry;
 
 import java.math.BigDecimal;

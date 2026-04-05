@@ -1,35 +1,41 @@
-package org.bank.ledger.domain.model;
+package com.bank.ledger.domain.model;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
-import java.time.Instant;
 
 public class JournalEntry {
 
     private final UUID id;
-    private final UUID ledgerAccountId;
-    private final long amount;
-    private final Instant createdAt;
+    private final LocalDateTime transactionDate;
+    private final String description;
+    private final List<LedgerEntry> entries;
 
-    public JournalEntry(UUID id, UUID ledgerAccountId, long amount, Instant createdAt) {
+    public JournalEntry(
+            UUID id,
+            LocalDateTime transactionDate,
+            String description,
+            List<LedgerEntry> entries
+    ) {
         this.id = id;
-        this.ledgerAccountId = ledgerAccountId;
-        this.amount = amount;
-        this.createdAt = createdAt;
+        this.transactionDate = transactionDate;
+        this.description = description;
+        this.entries = entries;
     }
 
     public UUID getId() {
         return id;
     }
 
-    public UUID getLedgerAccountId() {
-        return ledgerAccountId;
+    public LocalDateTime getTransactionDate() {
+        return transactionDate;
     }
 
-    public long getAmount() {
-        return amount;
+    public String getDescription() {
+        return description;
     }
 
-    public Instant getCreatedAt() {
-        return createdAt;
+    public List<LedgerEntry> getEntries() {
+        return entries;
     }
 }

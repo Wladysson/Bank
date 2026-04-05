@@ -1,49 +1,51 @@
 package com.bank.ledger.application.saga;
 
+import com.bank.ledger.domain.model.LedgerEntry;
 import java.util.UUID;
+import java.util.List;
 
 public class PaymentLedgerSagaState {
 
-    private UUID sagaId;
-    private UUID paymentId;
-    private boolean journalPosted;
-    private boolean completed;
-    private boolean failed;
+    private final UUID paymentId;
+    private SagaStatus status;
 
-    public PaymentLedgerSagaState(UUID sagaId, UUID paymentId) {
-        this.sagaId = sagaId;
-        this.paymentId = paymentId;
+    private List<LedgerEntry> entries;
+
+    public List<LedgerEntry> getEntries() {
+        return entries;
     }
 
-    public UUID getSagaId() {
-        return sagaId;
+    public PaymentLedgerSagaState(UUID paymentId, List<LedgerEntry> entries) {
+        this.paymentId = paymentId;
+        this.entries = entries;
+        this.status = SagaStatus.STARTED;
     }
 
     public UUID getPaymentId() {
         return paymentId;
     }
 
-    public boolean isJournalPosted() {
-        return journalPosted;
+    public SagaStatus getStatus() {
+        return status;
     }
 
     public void markJournalPosted() {
-        this.journalPosted = true;
-    }
-
-    public boolean isCompleted() {
-        return completed;
+        this.status = SagaStatus.JOURNAL_POSTED;
     }
 
     public void markCompleted() {
-        this.completed = true;
+        this.status = SagaStatus.COMPLETED;
     }
 
-    public boolean isFailed() {
-        return failed;
+    public void markCompensated() {
+        this.status = SagaStatus.COMPENSATED;
     }
 
     public void markFailed() {
-        this.failed = true;
+        this.status = SagaStatus.FAILED;
+    }
+
+    public boolean isCompensated() {
+        return this.status == SagaStatus.COMPENSATED;
     }
 }

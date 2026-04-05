@@ -1,7 +1,7 @@
 package com.bank.ledger.application.service;
 
 import com.bank.ledger.domain.model.LedgerEntry;
-import org.bank.ledger.domain.repository.LedgerEntryRepository;
+import com.bank.ledger.domain.repository.LedgerEntryRepository;
 import com.bank.ledger.domain.service.BalanceReconstructionService;
 
 import java.math.BigDecimal;

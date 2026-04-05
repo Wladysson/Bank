@@ -1,10 +1,12 @@
 package com.bank.ledger.application.service;
 
 import com.bank.ledger.application.command.PostJournalCommand;
-import org.bank.ledger.domain.model.JournalEntry;
+import com.bank.ledger.domain.model.JournalEntry;
 import com.bank.ledger.domain.model.LedgerEntry;
 import com.bank.ledger.domain.service.DoubleEntryValidator;
-import org.bank.ledger.domain.repository.JournalEntryRepository;
+import com.bank.ledger.domain.repository.JournalEntryRepository;
+import com.bank.ledger.domain.model.EntryType;
+import java.util.List;
 
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -24,15 +26,19 @@ public class JournalPostingService {
 
     public UUID post(PostJournalCommand command) {
 
+        List<PostJournalCommand.EntryCommand> entries = command.getEntries();
+
         JournalEntry journalEntry = new JournalEntry(
                 command.getJournalId(),
                 command.getTransactionDate(),
                 command.getDescription(),
                 command.getEntries().stream()
-                        .map(e -> new LedgerEntry(
-                                e.getAccountNumber(),
-                                e.getAmount(),
-                                e.isDebit()
+                        .map((PostJournalCommand.EntryCommand e) -> new LedgerEntry(
+                                UUID.randomUUID(),
+                                UUID.fromString(e.getAccountNumber()),
+                                e.getAmount().longValue(),
+                                e.isDebit() ? EntryType.DEBIT : EntryType.CREDIT,
+                                java.time.Instant.now()
                         ))
                         .collect(Collectors.toList())
         );
