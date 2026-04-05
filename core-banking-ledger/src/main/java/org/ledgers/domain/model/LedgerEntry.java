@@ -8,13 +8,15 @@ public class LedgerEntry {
     private final UUID id;
     private final UUID accountId;
     private final long amount;
-    private final Instant createdAt;
+    private final EntryType type;
+    private final Instant timestamp;
 
-    public LedgerEntry(UUID id, UUID accountId, long amount, Instant createdAt) {
+    public LedgerEntry(UUID id, UUID accountId, long amount, EntryType type, Instant timestamp) {
         this.id = id;
         this.accountId = accountId;
         this.amount = amount;
-        this.createdAt = createdAt;
+        this.type = type;
+        this.timestamp = timestamp;
     }
 
     public UUID getId() {
@@ -33,7 +35,7 @@ public class LedgerEntry {
         return type;
     }
 
-    public Instant getCreatedAt() {
-        return createdAt;
+    public Instant getTimestamp() {
+        return timestamp;
     }
 }

@@ -7,6 +7,7 @@ import com.bank.ledger.domain.service.DoubleEntryValidator;
 import com.bank.ledger.domain.repository.JournalEntryRepository;
 import com.bank.ledger.domain.model.EntryType;
 import java.util.List;
+import java.time.Instant;
 
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -26,21 +27,21 @@ public class JournalPostingService {
 
     public UUID post(PostJournalCommand command) {
 
-        List<PostJournalCommand.EntryCommand> entries = command.getEntries();
+        List<LedgerEntry> ledgerEntries = command.getEntries().stream()
+                .map(e -> new LedgerEntry(
+                        UUID.randomUUID(),
+                        UUID.fromString(e.getAccountNumber()),
+                        e.getAmount().longValue(),
+                        e.isDebit() ? EntryType.DEBIT : EntryType.CREDIT,
+                        Instant.now()
+                ))
+                .collect(Collectors.toList());
 
         JournalEntry journalEntry = new JournalEntry(
                 command.getJournalId(),
                 command.getTransactionDate(),
                 command.getDescription(),
-                command.getEntries().stream()
-                        .map((PostJournalCommand.EntryCommand e) -> new LedgerEntry(
-                                UUID.randomUUID(),
-                                UUID.fromString(e.getAccountNumber()),
-                                e.getAmount().longValue(),
-                                e.isDebit() ? EntryType.DEBIT : EntryType.CREDIT,
-                                java.time.Instant.now()
-                        ))
-                        .collect(Collectors.toList())
+                ledgerEntries
         );
 
         // valida regra contábil
