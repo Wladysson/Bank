@@ -1,10 +1,10 @@
 package com.bank.ledger.application.service;
 
 import com.bank.ledger.application.command.PostJournalCommand;
-import com.bank.ledger.domain.model.JournalEntry;
+import org.bank.ledger.domain.model.JournalEntry;
 import com.bank.ledger.domain.model.LedgerEntry;
-import com.bank.ledger.domain.repository.JournalEntryRepository;
 import com.bank.ledger.domain.service.DoubleEntryValidator;
+import org.bank.ledger.domain.repository.JournalEntryRepository;
 
 import java.util.UUID;
 import java.util.stream.Collectors;

@@ -2,15 +2,19 @@ package com.bank.ledger.application.saga;
 
 import com.bank.ledger.application.command.PostJournalCommand;
 import com.bank.ledger.application.service.JournalPostingService;
+import com.bank.ledger.domain.event.DomainEventPublisher;
 
 import java.util.UUID;
 
 public class PaymentLedgerSaga {
 
     private final JournalPostingService journalPostingService;
+    private final DomainEventPublisher eventPublisher;
 
-    public PaymentLedgerSaga(JournalPostingService journalPostingService) {
+    public PaymentLedgerSaga(JournalPostingService journalPostingService,
+                             DomainEventPublisher eventPublisher) {
         this.journalPostingService = journalPostingService;
+        this.eventPublisher = eventPublisher;
     }
 
     public void start(PaymentLedgerSagaState state, PostJournalCommand command) {
@@ -26,9 +30,6 @@ public class PaymentLedgerSaga {
         }
     }
 
-    private final JournalPostingService journalPostingService;
-    private final DomainEventPublisher eventPublisher;
-
     private void compensate(PaymentLedgerSagaState state) {
 
         if (state.isCompensated()) {
@@ -40,7 +41,6 @@ public class PaymentLedgerSaga {
 
             journalPostingService.post(reversalCommand);
 
-            // 2 publica evento de falha
             PaymentPostingFailedEvent failedEvent =
                     new PaymentPostingFailedEvent(
                             state.getPaymentId(),
@@ -53,11 +53,9 @@ public class PaymentLedgerSaga {
 
         } catch (Exception ex) {
 
-            // Aqui você pode enviar para Dead Letter,
-            // ou logar para intervenção manual
             state.markFailed();
 
-            throw new IllegalStateException("Falha na compensaçao", ex);
+            throw new IllegalStateException("Falha na compensação", ex);
         }
     }
 }
