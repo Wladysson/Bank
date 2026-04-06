@@ -1,10 +1,12 @@
 package com.bank.ledger.domain.service;
 
 import com.bank.ledger.domain.model.LedgerEntry;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.math.BigDecimal;
 import java.util.List;
 
+@ApplicationScoped
 public class BalanceReconstructionService {
 
     public BigDecimal reconstructBalance(List<LedgerEntry> entries) {

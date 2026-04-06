@@ -6,12 +6,14 @@ import com.bank.ledger.domain.model.LedgerEntry;
 import com.bank.ledger.domain.service.DoubleEntryValidator;
 import com.bank.ledger.domain.repository.JournalEntryRepository;
 import com.bank.ledger.domain.model.EntryType;
+import jakarta.enterprise.context.ApplicationScoped;
 import java.util.List;
 import java.time.Instant;
 
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@ApplicationScoped
 public class JournalPostingService {
 
     private final JournalEntryRepository journalRepository;
@@ -51,5 +53,12 @@ public class JournalPostingService {
         journalRepository.save(journalEntry);
 
         return journalEntry.getId();
+    }
+
+    public void postEntry(PostJournalCommand command) {
+        // aqui você implementa a lógica
+        // por enquanto pode deixar simples só pra subir
+
+        System.out.println("Journal recebido: " + command);
     }
 }

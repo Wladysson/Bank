@@ -3,9 +3,11 @@ package com.bank.ledger.domain.service;
 import com.bank.ledger.domain.model.JournalEntry;
 import com.bank.ledger.domain.model.LedgerEntry;
 import com.bank.ledger.domain.model.EntryType;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.List;
 
+@ApplicationScoped
 public class DoubleEntryValidator {
 
     public void validate(JournalEntry journalEntry) {

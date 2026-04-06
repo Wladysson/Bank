@@ -3,11 +3,13 @@ package com.bank.ledger.application.service;
 import com.bank.ledger.domain.model.LedgerEntry;
 import com.bank.ledger.domain.repository.LedgerEntryRepository;
 import com.bank.ledger.domain.service.BalanceReconstructionService;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+@ApplicationScoped
 public class HistoricalBalanceQueryService {
 
     private final LedgerEntryRepository ledgerRepository;
