@@ -10,6 +10,7 @@ public class LedgerEntry {
     private final long amount;
     private final EntryType type;
     private final Instant timestamp;
+    private final Instant createdAt;
 
     public LedgerEntry(UUID id, UUID accountId, long amount, EntryType type, Instant timestamp) {
         this.id = id;
@@ -17,6 +18,7 @@ public class LedgerEntry {
         this.amount = amount;
         this.type = type;
         this.timestamp = timestamp;
+        this.createdAt = timestamp; // aqui estamos inicializando createdAt
     }
 
     public UUID getId() {
@@ -40,4 +42,8 @@ public class LedgerEntry {
     public boolean isDebit() { return this.type == EntryType.DEBIT; }
 
     public boolean isCredit() { return this.type == EntryType.CREDIT; }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
 }
