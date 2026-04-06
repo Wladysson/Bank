@@ -35,7 +35,9 @@ public class LedgerEntry {
         return type;
     }
 
-    public Instant getTimestamp() {
-        return timestamp;
-    }
+    public Instant getTimestamp() { return timestamp; }
+
+    public boolean isDebit() { return this.type == EntryType.DEBIT; }
+
+    public boolean isCredit() { return this.type == EntryType.CREDIT; }
 }

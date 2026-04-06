@@ -9,17 +9,18 @@ public class BalanceReconstructionService {
 
     public BigDecimal reconstructBalance(List<LedgerEntry> entries) {
 
-        BigDecimal balance = BigDecimal.ZERO;
+        BigDecimal totalDebits = BigDecimal.ZERO;
+        BigDecimal totalCredits = BigDecimal.ZERO;
 
         for (LedgerEntry entry : entries) {
 
             if (entry.isDebit()) {
-                balance = balance.add(entry.getAmount());
+                totalDebits = totalDebits.add(BigDecimal.valueOf(entry.getAmount()));
             } else {
-                balance = balance.subtract(entry.getAmount());
+                totalCredits = totalCredits.add(BigDecimal.valueOf(entry.getAmount()));
             }
         }
-
-        return balance;
+        // O saldo é débito - crédito (ou o que sua regra contábil definir)
+        return totalDebits.subtract(totalCredits);
     }
 }
