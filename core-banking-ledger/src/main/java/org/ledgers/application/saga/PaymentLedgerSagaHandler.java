@@ -73,7 +73,7 @@ public class PaymentLedgerSagaHandler {
 
     private PostJournalCommand buildReversalCommand(PaymentLedgerSagaState state) {
 
-        BigDecimal amount = state.getAmount(); //state variavel correta do tratamento que vai fazer reverso
+        BigDecimal amount = state.getAmount(); //state  da variavel correta do tratamento que vai fazer reverso
         UUID debitAccountId = state.getOriginalCreditAccount();
         UUID creditAccountId = state.getOriginalDebitAccount();
 
