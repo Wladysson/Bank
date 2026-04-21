@@ -4,7 +4,7 @@ import com.bank.payments.domain.model.Payment;
 
 import java.math.BigDecimal;
 
-public class FeeCalculationService {
+public class FreeCalculationService {
 
     private static final BigDecimal DEFAULT_FEE = new BigDecimal("0.02"); // 2%
 

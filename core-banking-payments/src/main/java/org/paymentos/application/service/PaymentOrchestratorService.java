@@ -76,7 +76,10 @@ public class PaymentOrchestratorService {
 
     // Refund
     public PaymentResponse refundPayment(RefundRequest request) {
-        Payment payment = paymentRepository.findById(request.getPaymentId());
+        Payment payment = paymentRepository.findById(request.getPaymentId())
+                .orElseThrow(() -> new RuntimeException(
+                        "Payment não encontrado: " + request.getPaymentId()
+                ));
 
         payment.markAsRefunded();
 
@@ -89,7 +92,10 @@ public class PaymentOrchestratorService {
 
     // Chargeback
     public void processChargeback(String paymentId, String reason) {
-        Payment payment = paymentRepository.findById(paymentId);
+        Payment payment = paymentRepository.findById(paymentId)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Payment não encontrado: " + paymentId
+                ));
 
         payment.markAsChargeback();
 
@@ -100,7 +106,11 @@ public class PaymentOrchestratorService {
 
     // Status
     public PaymentStatusResponse getPaymentStatus(String paymentId) {
-        Payment payment = paymentRepository.findById(paymentId);
+        Payment payment = paymentRepository.findById(paymentId)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Payment não encontrado: " + paymentId
+                ));
+
         return new PaymentStatusResponse(payment.getId(), payment.getStatus());
     }
 
