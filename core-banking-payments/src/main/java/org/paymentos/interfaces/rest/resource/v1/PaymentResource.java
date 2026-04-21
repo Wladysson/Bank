@@ -4,6 +4,8 @@ import com.bank.payments.application.dto.request.PaymentRequest;
 import com.bank.payments.application.dto.response.PaymentResponse;
 import com.bank.payments.application.usecase.payment.ProcessPaymentUseCase;
 import com.bank.payments.application.usecase.payment.GetPaymentStatusUseCase;
+import com.bank.payments.application.dto.response.PaymentStatusResponse;
+import com.bank.payments.application.usecase.payment.ProcessPaymentCommand;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -22,12 +24,24 @@ public class PaymentResource {
 
     @POST
     public PaymentResponse process(PaymentRequest request) {
-        return processUseCase.execute(request);
+
+        ProcessPaymentCommand command = new ProcessPaymentCommand(
+                null,
+                request.getPayerId(),
+                request.getAmount(),
+                request.getDescription(),
+                request.getMethod(),
+                request.getType(),
+                request.getPayerId(),
+                request.getPayeeId()
+        );
+
+        return processUseCase.execute(command);
     }
 
     @GET
     @Path("/{id}")
-    public PaymentResponse getStatus(@PathParam("id") String id) {
+    public PaymentStatusResponse getStatus(@PathParam("id") String id) {
         return statusUseCase.execute(id);
     }
 }

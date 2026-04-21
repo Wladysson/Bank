@@ -2,7 +2,9 @@ package com.bank.payments.application.usecase.qrcode;
 
 import java.math.BigDecimal;
 import java.util.UUID;
+import jakarta.enterprise.context.ApplicationScoped;
 
+@ApplicationScoped
 public class ProcessQRCodePaymentUseCase {
 
     public PaymentResult execute(String paymentId, BigDecimal amount) {

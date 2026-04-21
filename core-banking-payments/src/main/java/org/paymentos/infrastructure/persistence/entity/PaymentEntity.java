@@ -18,13 +18,10 @@ public class PaymentEntity {
     private BigDecimal amount;
     private String currency;
 
-    @Enumerated(EnumType.STRING)
     private String status;
 
-    @Enumerated(EnumType.STRING)
     private String method;
 
-    @Enumerated(EnumType.STRING)
     private String type;
 
     private String description;

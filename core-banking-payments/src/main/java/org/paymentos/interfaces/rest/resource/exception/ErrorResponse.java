@@ -1,11 +1,14 @@
 package com.bank.payments.interfaces.rest.exception;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
 
 public class ErrorResponse {
 
     private String code;
     private String message;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime timestamp;
 
     public ErrorResponse() {}
