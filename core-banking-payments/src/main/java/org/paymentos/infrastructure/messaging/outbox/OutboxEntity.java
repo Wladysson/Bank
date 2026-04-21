@@ -33,4 +33,47 @@ public class OutboxEntity {
     }
 
     // getters e setters
+    public Long getId() {
+        return id;
+    }
+
+    public String getAggregateId() {
+        return aggregateId;
+    }
+
+    public void setAggregateId(String aggregateId) {
+        this.aggregateId = aggregateId;
+    }
+
+    public String getEventType() {
+        return eventType;
+    }
+
+    public void setEventType(String eventType) {
+        this.eventType = eventType;
+    }
+
+    public String getPayload() {
+        return payload;
+    }
+
+    public void setPayload(String payload) {
+        this.payload = payload;
+    }
+
+    public boolean isProcessed() {
+        return processed;
+    }
+
+    public void setProcessed(boolean processed) {
+        this.processed = processed;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 }

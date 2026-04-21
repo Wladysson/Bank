@@ -1,7 +1,8 @@
 package com.bank.payments.infrastructure.messaging.outbox;
 
+import com.bank.payments.domain.event.PaymentEvent;
 import com.bank.payments.infrastructure.messaging.producer.PaymentEventProducer;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -17,6 +18,8 @@ public class OutboxProcessor {
     @Inject
     PaymentEventProducer producer;
 
+    private final ObjectMapper mapper = new ObjectMapper();
+
     @Transactional
     public void process() {
 
@@ -24,11 +27,17 @@ public class OutboxProcessor {
 
         for (OutboxEntity event : events) {
             try {
-                producer.send(event.getPayload());
+
+                PaymentEvent paymentEvent =
+                        mapper.readValue(event.getPayload(), PaymentEvent.class);
+
+                producer.send(paymentEvent);
+
                 repository.markAsProcessed(event.getId());
+
             } catch (Exception e) {
-                // aqui pode mandar pra DLQ depois
-                System.err.println("Erro ao processar outbox: " + e.getMessage());
+                System.err.println("Erro ao processar outbox id="
+                        + event.getId() + ": " + e.getMessage());
             }
         }
     }
