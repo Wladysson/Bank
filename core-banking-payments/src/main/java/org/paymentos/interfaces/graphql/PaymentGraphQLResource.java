@@ -6,7 +6,9 @@ import com.bank.payments.application.usecase.payment.GetPaymentStatusUseCase;
 import jakarta.inject.Inject;
 import org.eclipse.microprofile.graphql.Query;
 import org.eclipse.microprofile.graphql.Name;
+import org.eclipse.microprofile.graphql.GraphQLApi;
 
+@GraphQLApi
 public class PaymentGraphQLResource {
 
     @Inject

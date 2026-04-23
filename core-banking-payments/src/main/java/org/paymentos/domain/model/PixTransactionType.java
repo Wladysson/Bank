@@ -1,1 +1,1 @@
-//STATIC / DINAMIC
+//STATIC / DINAMIC //domenicidade
