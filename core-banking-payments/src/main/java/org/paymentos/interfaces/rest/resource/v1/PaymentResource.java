@@ -7,6 +7,12 @@ import com.bank.payments.application.usecase.payment.GetPaymentStatusUseCase;
 import com.bank.payments.application.dto.response.PaymentStatusResponse;
 import com.bank.payments.application.usecase.payment.ProcessPaymentCommand;
 import com.bank.payments.application.usecase.payment.FindPaymentsUseCase;
+import com.bank.payments.application.usecase.payment.CancelPaymentUseCase;
+import com.bank.payments.application.usecase.payment.RetryPaymentUseCase;
+import com.bank.payments.application.usecase.payment.ConfirmPaymentUseCase;
+import com.bank.payments.application.mapper.PaymentMapper;
+import com.bank.payments.domain.model.Payment;
+
 import java.util.List;
 import java.time.LocalDateTime;
 
@@ -20,6 +26,9 @@ import jakarta.ws.rs.core.MediaType;
 public class PaymentResource {
 
     @Inject
+    PaymentMapper mapper;
+
+    @Inject
     ProcessPaymentUseCase processUseCase;
 
     @Inject
@@ -27,6 +36,15 @@ public class PaymentResource {
 
     @Inject
     FindPaymentsUseCase findPaymentsUseCase;
+
+    @Inject
+    CancelPaymentUseCase cancelPaymentUseCase;
+
+    @Inject
+    RetryPaymentUseCase retryPaymentUseCase;
+
+    @Inject
+    ConfirmPaymentUseCase confirmPaymentUseCase;
 
     @POST
     public PaymentResponse process(PaymentRequest request) {
@@ -43,6 +61,27 @@ public class PaymentResource {
         );
 
         return processUseCase.execute(command);
+    }
+
+    @POST
+    @Path("/{id}/cancel")
+    public PaymentResponse cancel(@PathParam("id") String id) {
+        Payment payment = cancelPaymentUseCase.execute(id);
+        return mapper.toResponse(payment);
+    }
+
+    @POST
+    @Path("/{id}/retry")
+    public PaymentResponse retry(@PathParam("id") String id) {
+        Payment payment = retryPaymentUseCase.execute(id);
+        return mapper.toResponse(payment);
+    }
+
+    @POST
+    @Path("/{id}/confirm")
+    public PaymentResponse confirm(@PathParam("id") String id) {
+        Payment payment = confirmPaymentUseCase.execute(id);
+        return mapper.toResponse(payment);
     }
 
     @GET

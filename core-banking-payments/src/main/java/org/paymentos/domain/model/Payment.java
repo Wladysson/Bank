@@ -70,6 +70,10 @@ public class Payment {
         this.failureReason = reason;
     }
 
+    public void setStatus(PaymentStatus status) {
+        this.status = status;
+    }
+
     public void markAsChargeback() {
         this.status = PaymentStatus.CHARGEBACK;
     }
