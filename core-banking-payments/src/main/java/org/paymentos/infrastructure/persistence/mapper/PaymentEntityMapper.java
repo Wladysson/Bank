@@ -12,7 +12,7 @@ public class PaymentEntityMapper {
         entity.setPayeeId(payment.getPayeeId());
         entity.setAmount(payment.getAmount());
         entity.setCurrency(payment.getCurrency());
-        entity.setStatus(payment.getStatus().name());
+        entity.setStatus(payment.getStatus());
         entity.setDescription(payment.getDescription());
         return entity;
     }

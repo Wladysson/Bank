@@ -4,5 +4,6 @@ public enum PaymentType {
     TRANSFER,
     BILL_PAYMENT,
     POS,
-    RECURRING
+    RECURRING,
+    ONE_TIME
 }

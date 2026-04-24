@@ -1,5 +1,6 @@
 package com.bank.payments.infrastructure.persistence.entity;
 
+import com.bank.payments.domain.model.PaymentStatus;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -18,7 +19,8 @@ public class PaymentEntity {
     private BigDecimal amount;
     private String currency;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus status;
 
     private String method;
 
@@ -46,8 +48,13 @@ public class PaymentEntity {
     public String getCurrency() { return currency; }
     public void setCurrency(String currency) { this.currency = currency; }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public PaymentStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(PaymentStatus status) {
+        this.status = status;
+    }
 
     public String getMethod() { return method; }
     public void setMethod(String method) { this.method = method; }

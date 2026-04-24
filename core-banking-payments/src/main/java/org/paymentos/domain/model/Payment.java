@@ -16,6 +16,7 @@ public class Payment {
     private String description;
     private String externalReference;
     private LocalDateTime createdAt;
+    private String failureReason;
 
     private Payment() {}
 
@@ -34,11 +35,15 @@ public class Payment {
         return payment;
     }
 
-    // 🔥 regras de transição
+    // regras de transição
 
     public void markAsProcessed() {
         validateState(PaymentStatus.CREATED, PaymentStatus.PROCESSING);
         this.status = PaymentStatus.PROCESSING;
+    }
+
+    public void markAsProcessing() {
+        this.status = PaymentStatus.PROCESSING; //chama la do batchprocessingjob
     }
 
     public void markAsAuthorized() {
@@ -58,6 +63,11 @@ public class Payment {
     public void markAsRefunded() {
         validateState(PaymentStatus.CAPTURED, PaymentStatus.REFUNDED);
         this.status = PaymentStatus.REFUNDED;
+    }
+
+    public void markAsFailed(String reason) {
+        this.status = PaymentStatus.FAILED;
+        this.failureReason = reason;
     }
 
     public void markAsChargeback() {
@@ -81,4 +91,5 @@ public class Payment {
     public String getDescription() { return description; }
     public String getCurrency() { return amount.getCurrency(); }
     public java.math.BigDecimal getAmount() { return amount.getAmount(); }
+    public String getFailureReason() { return failureReason; }
 }

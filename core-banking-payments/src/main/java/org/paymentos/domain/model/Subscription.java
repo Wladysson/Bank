@@ -16,17 +16,28 @@ public class Subscription {
     private int failureCount;
 
     public void updateNextExecutionDate() {
-        this.nextExecutionDate = this.nextExecutionDate.plusDays(30); // simplificado
+        if (this.nextExecutionDate != null) {
+            this.nextExecutionDate = this.nextExecutionDate.plusDays(30);
+        }
     }
 
     public void incrementFailureCount() {
         this.failureCount++;
-        if (failureCount >= 3) {
+
+        if (this.failureCount >= 3) {
             this.active = false;
         }
     }
 
-    // getters e setters
+    public void resetFailureCount() {
+        this.failureCount = 0;
+    }
+
+    public void suspend() {
+        this.active = false;
+    }
+
+    // getters
 
     public String getId() { return id; }
     public String getUserId() { return userId; }
@@ -36,6 +47,9 @@ public class Subscription {
     public String getFrequency() { return frequency; }
     public LocalDate getNextExecutionDate() { return nextExecutionDate; }
     public boolean isActive() { return active; }
+    public int getFailureCount() { return failureCount; }
+
+    // setters
 
     public void setId(String id) { this.id = id; }
     public void setUserId(String userId) { this.userId = userId; }
