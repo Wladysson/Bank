@@ -18,6 +18,13 @@ public interface PaymentRepository {
 
     List<Payment> findProcessingOlderThan(LocalDateTime threshold);
 
+    List<Payment> findWithFilters(
+            String status,
+            String userId,
+            LocalDateTime from,
+            LocalDateTime to
+    );
+
     List<Payment> findAll();
 
     void update(Payment payment);

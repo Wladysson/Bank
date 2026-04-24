@@ -6,6 +6,9 @@ import com.bank.payments.application.usecase.payment.ProcessPaymentUseCase;
 import com.bank.payments.application.usecase.payment.GetPaymentStatusUseCase;
 import com.bank.payments.application.dto.response.PaymentStatusResponse;
 import com.bank.payments.application.usecase.payment.ProcessPaymentCommand;
+import com.bank.payments.application.usecase.payment.FindPaymentsUseCase;
+import java.util.List;
+import java.time.LocalDateTime;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -21,6 +24,9 @@ public class PaymentResource {
 
     @Inject
     GetPaymentStatusUseCase statusUseCase;
+
+    @Inject
+    FindPaymentsUseCase findPaymentsUseCase;
 
     @POST
     public PaymentResponse process(PaymentRequest request) {
@@ -44,4 +50,26 @@ public class PaymentResource {
     public PaymentStatusResponse getStatus(@PathParam("id") String id) {
         return statusUseCase.execute(id);
     }
+
+    @GET
+    public List<PaymentResponse> findPayments(
+            @QueryParam("status") String status,
+            @QueryParam("userId") String userId,
+            @QueryParam("from") String from,
+            @QueryParam("to") String to
+    ) {
+
+        return findPaymentsUseCase.execute(
+                status,
+                userId,
+                parseDate(from),
+                parseDate(to)
+        );
+    }
+
+    private LocalDateTime parseDate(String value) {
+        if (value == null) return null;
+        return LocalDateTime.parse(value);
+    }
+
 }

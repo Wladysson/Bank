@@ -38,7 +38,6 @@ public class Subscription {
     }
 
     // getters
-
     public String getId() { return id; }
     public String getUserId() { return userId; }
     public String getMerchantId() { return merchantId; }
@@ -50,7 +49,6 @@ public class Subscription {
     public int getFailureCount() { return failureCount; }
 
     // setters
-
     public void setId(String id) { this.id = id; }
     public void setUserId(String userId) { this.userId = userId; }
     public void setMerchantId(String merchantId) { this.merchantId = merchantId; }

@@ -83,6 +83,56 @@ public class PaymentRepositoryImpl implements PaymentRepository {
     }
 
     @Override
+    public List<Payment> findWithFilters(
+            String status,
+            String userId,
+            LocalDateTime from,
+            LocalDateTime to
+    ) {
+
+        StringBuilder jpql = new StringBuilder("SELECT p FROM PaymentEntity p WHERE 1=1 ");
+
+        if (status != null) {
+            jpql.append("AND p.status = :status ");
+        }
+
+        if (userId != null) {
+            jpql.append("AND (p.payerId = :userId OR p.payeeId = :userId) ");
+        }
+
+        if (from != null) {
+            jpql.append("AND p.createdAt >= :from ");
+        }
+
+        if (to != null) {
+            jpql.append("AND p.createdAt <= :to ");
+        }
+
+        var query = em.createQuery(jpql.toString(), PaymentEntity.class);
+
+        if (status != null) {
+            query.setParameter("status", PaymentStatus.valueOf(status));
+        }
+
+        if (userId != null) {
+            query.setParameter("userId", userId);
+        }
+
+        if (from != null) {
+            query.setParameter("from", from);
+        }
+
+        if (to != null) {
+            query.setParameter("to", to);
+        }
+
+        return query.getResultList()
+                .stream()
+                .map(PaymentEntityMapper::toDomain)
+                .toList();
+    }
+
+    @Override
     @Transactional
     public void update(Payment payment) {
         PaymentEntity entity = PaymentEntityMapper.toEntity(payment);
