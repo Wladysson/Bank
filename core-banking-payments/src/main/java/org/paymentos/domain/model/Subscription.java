@@ -57,4 +57,16 @@ public class Subscription {
     public void setFrequency(String frequency) { this.frequency = frequency; }
     public void setNextExecutionDate(LocalDate nextExecutionDate) { this.nextExecutionDate = nextExecutionDate; }
     public void setActive(boolean active) { this.active = active; }
+    public void cancel() {
+        this.active = false;
+    }
+
+    public void pause() {
+        this.active = false;
+    }
+
+    public void resume() {
+        this.active = true;
+        this.failureCount = 0;
+    }
 }

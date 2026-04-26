@@ -1,35 +1,59 @@
-package com.bank.payments.interfaces.rest.resource.v1;
+package com.bank.payments.interfaces.rest;
 
-import com.bank.payments.application.dto.request.SubscriptionRequest;
-import com.bank.payments.application.dto.response.SubscriptionResponse;
-import com.bank.payments.application.usecase.recurring.CreateSubscriptionUseCase;
-import com.bank.payments.application.usecase.recurring.ListSubscriptionsUseCase;
+import com.bank.payments.application.usecase.subscription.CancelSubscriptionUseCase;
+import com.bank.payments.application.usecase.subscription.PauseSubscriptionUseCase;
+import com.bank.payments.application.usecase.subscription.ResumeSubscriptionUseCase;
+import com.bank.payments.application.usecase.subscription.GetSubscriptionPaymentsUseCase;
+import com.bank.payments.domain.model.Subscription;
+import com.bank.payments.domain.model.SubscriptionPayment;
 
 import jakarta.inject.Inject;
-import jakarta.ws.rs.*;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
 import java.util.List;
 
-@Path("/api/v1/subscriptions")
-@Consumes(MediaType.APPLICATION_JSON)
+@Path("/subscriptions")
 @Produces(MediaType.APPLICATION_JSON)
 public class SubscriptionResource {
 
     @Inject
-    CreateSubscriptionUseCase createUseCase;
+    CancelSubscriptionUseCase cancelSubscriptionUseCase;
 
     @Inject
-    ListSubscriptionsUseCase listUseCase;
+    PauseSubscriptionUseCase pauseSubscriptionUseCase;
+
+    @Inject
+    ResumeSubscriptionUseCase resumeSubscriptionUseCase;
+
+    @Inject
+    GetSubscriptionPaymentsUseCase getSubscriptionPaymentsUseCase;
 
     @POST
-    public SubscriptionResponse create(SubscriptionRequest request) {
-        return createUseCase.execute(request);
+    @Path("/{id}/cancel")
+    public Subscription cancel(@PathParam("id") String id) {
+        return cancelSubscriptionUseCase.execute(id);
+    }
+
+    @POST
+    @Path("/{id}/pause")
+    public Subscription pause(@PathParam("id") String id) {
+        return pauseSubscriptionUseCase.execute(id);
+    }
+
+    @POST
+    @Path("/{id}/resume")
+    public Subscription resume(@PathParam("id") String id) {
+        return resumeSubscriptionUseCase.execute(id);
     }
 
     @GET
-    @Path("/{userId}")
-    public List<SubscriptionResponse> list(@PathParam("userId") String userId) {
-        return listUseCase.execute(userId);
+    @Path("/{id}/payments")
+    public List<SubscriptionPayment> getPayments(@PathParam("id") String id) {
+        return getSubscriptionPaymentsUseCase.execute(id);
     }
 }
