@@ -6,43 +6,42 @@ import com.bank.payments.application.dto.response.PixPaymentResponse;
 import com.bank.payments.application.dto.response.PixQRCodeResponse;
 import com.bank.payments.domain.model.PixKey;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 
 @ApplicationScoped
-public class PixAdapter {
+public class PixClientImpl implements PixClient {
 
-    private final PixClient pixClient;
-
-    @Inject
-    public PixAdapter(PixClient pixClient) {
-        this.pixClient = pixClient;
-    }
-
+    @Override
     public PixPaymentResponse createPayment(PixPaymentRequest request) {
-        return pixClient.createPayment(request);
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
+    @Override
     public PixPaymentResponse confirmPayment(String transactionId) {
-        return pixClient.confirmPayment(transactionId);
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
+    @Override
     public PixPaymentResponse refundPayment(PixRefundRequest request) {
-        return pixClient.refundPayment(request);
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
+    @Override
     public PixPaymentResponse getPaymentStatus(String transactionId) {
-        return pixClient.getPaymentStatus(transactionId);
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
+    @Override
     public PixQRCodeResponse generateQrCode(String transactionId) {
-        return pixClient.generateQrCode(transactionId);
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
+    @Override
     public PixKey resolvePixKey(String key) {
-        return pixClient.resolvePixKey(key);
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
+    @Override
     public boolean validatePixKey(String key) {
-        return pixClient.validatePixKey(key);
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 }

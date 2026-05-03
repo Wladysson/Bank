@@ -18,7 +18,7 @@ public class HoldManagementService {
 
     public HoldBalance reserve(UUID accountId, BigDecimal amount) {
         Account account = getAccount(accountId);
-        HoldBalance hold = account.reserveAmount(amount);
+        HoldBalance hold = account.reserveAmount(amount);//BLOQUEIO
         accountRepository.save(account);
         return hold;
     }
