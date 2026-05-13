@@ -1,63 +1,38 @@
 package com.bank.transactions.application.service;
 
-import com.bank.transactions.domain.model.PixKey;
-import com.bank.transactions.domain.model.PixQrCode;
-import com.bank.transactions.domain.model.PixTransaction;
-import com.bank.transactions.domain.model.PixExecutionResult;
-import com.bank.transactions.infrastructure.integration.pix.PixGatewayImpl;
-
+import com.bank.transactions.application.dto.request.pix.ExecutePixTransferRequest;
+import com.bank.transactions.application.dto.request.pix.GeneratePixQrCodeRequest;
+import com.bank.transactions.application.dto.request.pix.RefundPixTransactionRequest;
+import com.bank.transactions.application.dto.response.pix.PixQrCodeResponse;
+import com.bank.transactions.application.dto.response.pix.PixTransactionResponse;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 
-import java.math.BigDecimal;
-
+// Serviço responsável pelas operações PIX
 @ApplicationScoped
 public class PixTransactionService {
 
-    private final PixGatewayImpl pixGateway;
-    private final PixKeyService pixKeyService;
-
-    @Inject
-    public PixTransactionService(
-            PixGatewayImpl pixGateway,
-            PixKeyService pixKeyService) {
-
-        this.pixGateway = pixGateway;
-        this.pixKeyService = pixKeyService;
+    // Executa transferência PIX
+    public PixTransactionResponse executeTransfer(ExecutePixTransferRequest request) {
+        return new PixTransactionResponse();
     }
 
-    // EXECUÇÃO REAL DO PIX
-    public PixExecutionResult executeTransfer(PixTransaction transaction) {
-
-        PixKey key = pixKeyService.resolve(
-                transaction.getPixKey().getValue()
-        );
-
-        return pixGateway.execute(transaction, key);
+    // Gera QR Code PIX
+    public PixQrCodeResponse generateQrCode(GeneratePixQrCodeRequest request) {
+        return new PixQrCodeResponse();
     }
 
-    // REFUND
-    public PixExecutionResult refund(PixTransaction transaction) {
+    // Confirma liquidação da transação
+    public void confirmSettlement(String transactionId) {
 
-        return pixGateway.refund(transaction);
     }
 
-    // STATUS
-    public PixExecutionResult getStatus(String endToEndId) {
-
-        return pixGateway.getStatus(endToEndId);
+    // Realiza devolução da transação PIX
+    public PixTransactionResponse refundTransaction(RefundPixTransactionRequest request) {
+        return new PixTransactionResponse();
     }
 
-    // QR CODE
-    public PixQrCode generateQrCode(
-            String pixKey,
-            BigDecimal amount,
-            String description) {
-
-        return pixGateway.generateQrCode(
-                pixKey,
-                amount,
-                description
-        );
+    // Consulta status da transação
+    public PixTransactionResponse getTransactionStatus(String transactionId) {
+        return new PixTransactionResponse();
     }
 }

@@ -1,4 +1,4 @@
-package com.banco.transactions.application.usecase.bank;
+package com.bank.transactions.application.usecase.bank;
 
 import com.seubanco.transactions.application.dto.request.bank.ExecuteDocTransferRequest;
 import com.seubanco.transactions.application.dto.response.bank.DocTransferResponse;
