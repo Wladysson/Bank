@@ -89,4 +89,101 @@ Easily start your REST Web Services
 
 [Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
 
+# Ledger Service
+
+Serviço responsável pelo registro contábil imutável das transações financeiras da plataforma, garantindo partidas dobradas, reconstrução histórica de saldos, journaling, selagem de blocos, rastreabilidade operacional, auditoria detalhada e suporte à Tesouraria.
+
+## Funcionalidades
+
+- Registro imutável de lançamentos contábeis
+- Contabilidade de partidas dobradas
+- Reconstrução de saldo histórico por data e hora
+- Journaling cronológico de eventos financeiros
+- Selagem de blocos de transação para fechamento diário
+- Rastreabilidade de origem, destino e referências regulatórias
+- Audit log detalhado das entradas geradas
+- Fornecimento de dados brutos e consolidados para Tesouraria
+
+## Estrutura do Projeto
+
+```text
+com.bank.ledger
+│
+├── domain
+│   ├── model
+│   │   ├── LedgerEntry.java
+│   │   ├── JournalEntry.java
+│   │   ├── AccountReference.java
+│   │   ├── Money.java
+│   │   ├── Debit.java
+│   │   ├── Credit.java
+│   │   ├── Block.java
+│   │   └── LedgerAccountType.java
+│   │
+│   ├── service
+│   │   ├── DoubleEntryValidator.java
+│   │   ├── BalanceReconstructionService.java
+│   │   └── BlockSealingService.java
+│   │
+│   ├── event
+│   │   ├── LedgerEntryCreatedEvent.java
+│   │   ├── BlockSealedEvent.java
+│   │   └── JournalEntryPostedEvent.java
+│   │
+│   └── repository
+│       ├── LedgerEntryRepository.java
+│       ├── JournalEntryRepository.java
+│       └── BlockRepository.java
+│
+├── application
+│   ├── service
+│   │   ├── LedgerApplicationService.java
+│   │   ├── JournalPostingService.java
+│   │   └── HistoricalBalanceQueryService.java
+│   │
+│   ├── command
+│   │   ├── PostJournalCommand.java
+│   │   └── SealBlockCommand.java
+│   │
+│   └── dto
+│       ├── JournalRequestDTO.java
+│       └── BalanceResponseDTO.java
+│
+├── infrastructure
+│   ├── persistence
+│   │   ├── entity
+│   │   │   ├── LedgerEntryEntity.java
+│   │   │   ├── JournalEntryEntity.java
+│   │   │   └── BlockEntity.java
+│   │   │
+│   │   └── repository
+│   │       ├── JpaLedgerEntryRepository.java
+│   │       ├── JpaJournalEntryRepository.java
+│   │       └── JpaBlockRepository.java
+│   │
+│   ├── messaging
+│   │   └── KafkaLedgerPublisher.java
+│   │
+│   └── audit
+│       └── AuditTrailLogger.java
+│
+└── interfaces
+    └── rest
+        ├── LedgerController.java
+        └── JournalController.java
+```
+
+## Organização em Camadas
+
+- `domain`: modelos contábeis, regras de validação, eventos e contratos de repositório
+- `application`: casos de uso, comandos e DTOs
+- `infrastructure`: persistência, mensageria e auditoria
+- `interfaces`: exposição dos endpoints REST
+
+## Integrações
+
+- Kafka para publicação de eventos do ledger
+- API REST para lançamento contábil e consultas históricas
+- Suporte a auditoria e consumo por Tesouraria
+
 

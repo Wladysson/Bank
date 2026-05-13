@@ -84,3 +84,135 @@ Use Quarkus Messaging
 Easily start your REST Web Services
 
 [Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+
+
+# Account Service
+
+Serviço responsável pela gestão de contas bancárias, cobrindo abertura e encerramento de contas, controle de saldo e reservas, limites operacionais, extratos, hierarquia PJ, cheque especial e emissão de documentos core.
+
+## Funcionalidades
+
+- Gestão de contas PF e PJ
+- Suporte a conta poupança, investimento e conta conjunta
+- Controle de saldo disponível em tempo real
+- Gestão de hold para reserva de valores
+- Abertura, bloqueio, suspensão e encerramento de contas
+- Configuração de limites operacionais por canal
+- Geração de extratos por período
+- Hierarquia empresarial para contas PJ
+- Controle de cheque especial
+- Emissão de documentos como informe de rendimentos, declaração de titularidade e comprovantes de conta
+
+## Estrutura do Projeto
+
+```text
+com.bank.account
+│
+├── domain
+│   ├── model
+│   │   ├── Account.java
+│   │   ├── AccountHolder.java
+│   │   ├── JointAccountHolder.java
+│   │   ├── AccountStatus.java
+│   │   ├── AccountType.java
+│   │   ├── Balance.java
+│   │   ├── HoldBalance.java
+│   │   ├── OverdraftLimit.java
+│   │   ├── AccountLimit.java
+│   │   └── CorporateHierarchy.java
+│   │
+│   ├── service
+│   │   ├── AccountLifecycleService.java
+│   │   ├── BalanceManagementService.java
+│   │   ├── HoldManagementService.java
+│   │   ├── LimitValidationService.java
+│   │   ├── OverdraftManagementService.java
+│   │   └── CorporateHierarchyService.java
+│   │
+│   ├── event
+│   │   ├── AccountCreatedEvent.java
+│   │   ├── AccountClosedEvent.java
+│   │   ├── AccountBlockedEvent.java
+│   │   ├── BalanceReservedEvent.java
+│   │   ├── HoldReleasedEvent.java
+│   │   └── OverdraftUsedEvent.java
+│   │
+│   └── repository
+│       ├── AccountRepository.java
+│       ├── BalanceRepository.java
+│       ├── HoldRepository.java
+│       ├── AccountLimitRepository.java
+│       └── CorporateHierarchyRepository.java
+│
+├── application
+│   ├── service
+│   │   ├── AccountApplicationService.java
+│   │   ├── AccountOpeningService.java
+│   │   ├── AccountClosureService.java
+│   │   ├── BalanceQueryService.java
+│   │   ├── StatementService.java
+│   │   └── DocumentGenerationService.java
+│   │
+│   ├── command
+│   │   ├── OpenAccountCommand.java
+│   │   ├── CloseAccountCommand.java
+│   │   ├── BlockAccountCommand.java
+│   │   ├── ReserveBalanceCommand.java
+│   │   ├── ReleaseHoldCommand.java
+│   │   └── ConfigureLimitCommand.java
+│   │
+│   └── dto
+│       ├── AccountRequestDTO.java
+│       ├── AccountResponseDTO.java
+│       ├── BalanceResponseDTO.java
+│       ├── StatementResponseDTO.java
+│       └── LimitConfigurationDTO.java
+│
+├── infrastructure
+│   ├── persistence
+│   │   ├── entity
+│   │   │   ├── AccountEntity.java
+│   │   │   ├── BalanceEntity.java
+│   │   │   ├── HoldEntity.java
+│   │   │   ├── AccountLimitEntity.java
+│   │   │   └── CorporateHierarchyEntity.java
+│   │   │
+│   │   └── repository
+│   │       ├── JpaAccountRepository.java
+│   │       ├── JpaBalanceRepository.java
+│   │       ├── JpaHoldRepository.java
+│   │       ├── JpaAccountLimitRepository.java
+│   │       └── JpaCorporateHierarchyRepository.java
+│   │
+│   ├── messaging
+│   │   ├── KafkaAccountEventPublisher.java
+│   │   └── LedgerEventConsumer.java
+│   │
+│   ├── document
+│   │   ├── StatementGenerator.java
+│   │   ├── OwnershipCertificateGenerator.java
+│   │   └── IncomeReportGenerator.java
+│   │
+│   └── audit
+│       └── AccountAuditLogger.java
+│
+└── interfaces
+    └── rest
+        ├── AccountController.java
+        ├── BalanceController.java
+        ├── StatementController.java
+        └── LimitController.java
+```
+
+## Organização em Camadas
+
+- `domain`: regras de negócio, modelos, eventos e contratos de repositório
+- `application`: casos de uso, comandos e DTOs
+- `infrastructure`: persistência, mensageria, documentos e auditoria
+- `interfaces`: exposição dos endpoints REST
+
+## Integrações
+
+- Kafka para publicação de eventos de conta
+- Consumo de eventos do Ledger
+- API REST para operações de conta, saldo, extrato e limites

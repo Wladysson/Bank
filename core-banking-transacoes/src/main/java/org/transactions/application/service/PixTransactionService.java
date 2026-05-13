@@ -1,45 +1,63 @@
 package com.bank.transactions.application.service;
 
+import com.bank.transactions.domain.model.PixKey;
+import com.bank.transactions.domain.model.PixQrCode;
+import com.bank.transactions.domain.model.PixTransaction;
+import com.bank.transactions.domain.model.PixExecutionResult;
+import com.bank.transactions.infrastructure.integration.pix.PixGatewayImpl;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+
+import java.math.BigDecimal;
 
 @ApplicationScoped
 public class PixTransactionService {
 
-    private final PixGateway pixGateway;
+    private final PixGatewayImpl pixGateway;
     private final PixKeyService pixKeyService;
 
     @Inject
     public PixTransactionService(
-            PixGateway pixGateway,
+            PixGatewayImpl pixGateway,
             PixKeyService pixKeyService) {
+
         this.pixGateway = pixGateway;
         this.pixKeyService = pixKeyService;
     }
 
-    // EXECUÇÃO REAL DO PIX (integração externa)
+    // EXECUÇÃO REAL DO PIX
     public PixExecutionResult executeTransfer(PixTransaction transaction) {
 
-        // valida/enriquece chave antes de enviar
-        PixKey key = pixKeyService.validate(transaction.getPixKey().getValue());
+        PixKey key = pixKeyService.resolve(
+                transaction.getPixKey().getValue()
+        );
 
-        // chama o banco / SPI do PIX
         return pixGateway.execute(transaction, key);
     }
 
-    // REFUND EXTERNO (quando aplicável)
+    // REFUND
     public PixExecutionResult refund(PixTransaction transaction) {
 
         return pixGateway.refund(transaction);
     }
 
-    // CONSULTA STATUS EXTERNO (opcional)
+    // STATUS
     public PixExecutionResult getStatus(String endToEndId) {
+
         return pixGateway.getStatus(endToEndId);
     }
 
-    // GERAÇÃO DE QR CODE (delegado)
-    public PixQrCode generateQrCode(String pixKey, BigDecimal amount, String description) {
-        return pixGateway.generateQrCode(pixKey, amount, description);
+    // QR CODE
+    public PixQrCode generateQrCode(
+            String pixKey,
+            BigDecimal amount,
+            String description) {
+
+        return pixGateway.generateQrCode(
+                pixKey,
+                amount,
+                description
+        );
     }
 }
