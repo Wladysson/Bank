@@ -1,8 +1,16 @@
-package com.bank.transactions.domain.gateway;
+package com.bank.transactions.domain.gateway.pix;
 
-import com.bank.transactions.domain.model.PixKey;
+import com.seubanco.transactions.domain.model.pix.PixKey;
 
+// Gateway responsável pela validação de chaves PIX
 public interface PixKeyGateway {
 
-    PixKey resolve(String keyValue);
+    // Verifica existência da chave PIX
+    boolean exists(PixKey pixKey);
+
+    // Valida chave PIX informada
+    boolean validate(PixKey pixKey);
+
+    // Consulta informações da chave PIX
+    PixKey findByValue(String value);
 }
