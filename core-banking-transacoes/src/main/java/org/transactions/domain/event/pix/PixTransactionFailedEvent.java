@@ -1,22 +1,37 @@
-package com.bank.transactions.domain.event;
+package com.bank.transactions.domain.event.pix;
 
-import java.time.OffsetDateTime;
-import java.util.UUID;
+import java.time.LocalDateTime;
 
-public record PixTransactionFailedEvent(
-        UUID transactionId,
-        String reason,
-        OffsetDateTime occurredAt
-) {
+// Evento responsável por falhas em transações PIX
+public class PixTransactionFailedEvent {
 
-    public static PixTransactionFailedEvent from(
-            PixTransaction transaction,
-            String reason
+    // Identificador da transação
+    private final String transactionId;
+
+    // Motivo da falha
+    private final String failureReason;
+
+    // Data do evento
+    private final LocalDateTime occurredAt;
+
+    public PixTransactionFailedEvent(
+            String transactionId,
+            String failureReason
     ) {
-        return new PixTransactionFailedEvent(
-                transaction.getId(),
-                reason,
-                OffsetDateTime.now()
-        );
+        this.transactionId = transactionId;
+        this.failureReason = failureReason;
+        this.occurredAt = LocalDateTime.now();
+    }
+
+    public String getTransactionId() {
+        return transactionId;
+    }
+
+    public String getFailureReason() {
+        return failureReason;
+    }
+
+    public LocalDateTime getOccurredAt() {
+        return occurredAt;
     }
 }

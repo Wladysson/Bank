@@ -1,20 +1,38 @@
-package com.bank.transactions.domain.event;
+package com.bank.transactions.domain.event.pix;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
-import java.util.UUID;
+import java.time.LocalDateTime;
 
-public record PixTransactionCreatedEvent(
-        UUID transactionId,
-        BigDecimal amount,
-        OffsetDateTime occurredAt
-) {
+// Evento responsável pela criação de transações PIX
+public class PixTransactionCreatedEvent {
 
-    public static PixTransactionCreatedEvent from(PixTransaction transaction) {
-        return new PixTransactionCreatedEvent(
-                transaction.getId(),
-                transaction.getAmount(),
-                OffsetDateTime.now()
-        );
+    // Identificador da transação
+    private final String transactionId;
+
+    // Valor da transação
+    private final BigDecimal amount;
+
+    // Data de criação do evento
+    private final LocalDateTime occurredAt;
+
+    public PixTransactionCreatedEvent(
+            String transactionId,
+            BigDecimal amount
+    ) {
+        this.transactionId = transactionId;
+        this.amount = amount;
+        this.occurredAt = LocalDateTime.now();
+    }
+
+    public String getTransactionId() {
+        return transactionId;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public LocalDateTime getOccurredAt() {
+        return occurredAt;
     }
 }

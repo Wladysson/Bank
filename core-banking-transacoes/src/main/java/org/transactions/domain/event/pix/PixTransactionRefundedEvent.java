@@ -1,25 +1,37 @@
-package com.bank.transactions.domain.event;
+package com.bank.transactions.domain.event.pix;
 
-import java.math.BigDecimal;
-import java.time.OffsetDateTime;
-import java.util.UUID;
+import java.time.LocalDateTime;
 
-public record PixTransactionRefundedEvent(
-        UUID refundTransactionId,
-        UUID originalTransactionId,
-        BigDecimal amount,
-        OffsetDateTime occurredAt
-) {
+// Evento responsável pelo estorno de transações PIX
+public class PixTransactionRefundedEvent {
 
-    public static PixTransactionRefundedEvent from(
-            PixTransaction refundTransaction,
-            PixTransaction originalTransaction
+    // Identificador da transação original
+    private final String originalTransactionId;
+
+    // Identificador da devolução
+    private final String refundTransactionId;
+
+    // Momento do estorno
+    private final LocalDateTime occurredAt;
+
+    public PixTransactionRefundedEvent(
+            String originalTransactionId,
+            String refundTransactionId
     ) {
-        return new PixTransactionRefundedEvent(
-                refundTransaction.getId(),
-                originalTransaction.getId(),
-                refundTransaction.getAmount(),
-                OffsetDateTime.now()
-        );
+        this.originalTransactionId = originalTransactionId;
+        this.refundTransactionId = refundTransactionId;
+        this.occurredAt = LocalDateTime.now();
+    }
+
+    public String getOriginalTransactionId() {
+        return originalTransactionId;
+    }
+
+    public String getRefundTransactionId() {
+        return refundTransactionId;
+    }
+
+    public LocalDateTime getOccurredAt() {
+        return occurredAt;
     }
 }
