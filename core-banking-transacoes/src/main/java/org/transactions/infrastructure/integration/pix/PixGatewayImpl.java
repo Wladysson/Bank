@@ -1,33 +1,57 @@
 package com.bank.transactions.infrastructure.integration.pix;
 
+import com.bank.transactions.domain.gateway.pix.PixGateway;
+import com.bank.transactions.domain.model.pix.PixTransaction;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
+import java.util.HashMap;
+import java.util.Map;
+
+// Implementação do gateway PIX
 @ApplicationScoped
 public class PixGatewayImpl implements PixGateway {
 
-    private final PixApiClient pixApiClient;
+    @RestClient
+    PixApiClient pixApiClient;
 
-    @Inject
-    public PixGatewayImpl(PixApiClient pixApiClient) {
-        this.pixApiClient = pixApiClient;
+    // Executa transação PIX
+    @Override
+    public PixTransaction execute(
+            PixTransaction pixTransaction
+    ) {
+
+        Map<String, Object> payload = new HashMap<>();
+
+        payload.put(
+                "transactionId",
+                pixTransaction.getTransactionId().getValue()
+        );
+
+        payload.put(
+                "amount",
+                pixTransaction.getAmount().getAmount()
+        );
+
+        pixApiClient.executeTransfer(payload);
+
+        return pixTransaction;
     }
 
+    // Busca transação PIX
     @Override
-    public PixExecutionResult execute(PixTransaction transaction) {
+    public PixTransaction findByTransactionId(
+            String transactionId
+    ) {
 
-        return pixApiClient.execute(transaction);
+        pixApiClient.getTransaction(transactionId);
+
+        return new PixTransaction();
     }
 
+    // Solicita estorno PIX
     @Override
-    public PixExecutionResult refund(PixTransaction transaction) {
-
-        return pixApiClient.refund(transaction);
-    }
-
-    @Override
-    public PixExecutionResult getStatus(String endToEndId) {
-
-        return pixApiClient.getStatus(endToEndId);
+    public void refund(String transactionId) {
+        pixApiClient.refund(transactionId);
     }
 }

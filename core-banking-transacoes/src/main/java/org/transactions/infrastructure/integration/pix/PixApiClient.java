@@ -1,67 +1,38 @@
 package com.bank.transactions.infrastructure.integration.pix;
 
-import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
+import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-import java.math.BigDecimal;
-import java.time.OffsetDateTime;
-import java.util.UUID;
+import java.util.Map;
 
-@ApplicationScoped
-public class PixAPIClient {
+// Cliente REST responsável pela integração PIX
+@Path("/pix")
+@RegisterRestClient(configKey = "pix-api")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+public interface PixApiClient {
 
-    public PixExecutionResult execute(PixTransaction transaction) {
+    // Executa transferência PIX
+    @POST
+    @Path("/transfer")
+    Map<String, Object> executeTransfer(
+            Map<String, Object> payload
+    );
 
-        /*
-         * Aqui entra:
-         * - REST Client
-         * - WebClient
-         * - chamada SPI/BACEN
-         * - integração banco parceiro
-         */
+    // Consulta transação PIX
+    @GET
+    @Path("/{transactionId}")
+    Map<String, Object> getTransaction(
+            @PathParam("transactionId")
+            String transactionId
+    );
 
-        return new PixExecutionResult(
-                "E2E-" + UUID.randomUUID(),
-                "COMPLETED",
-                "PIX transaction executed successfully"
-        );
-    }
-
-    public PixExecutionResult refund(PixTransaction transaction) {
-
-        return new PixExecutionResult(
-                "E2E-REFUND-" + UUID.randomUUID(),
-                "COMPLETED",
-                "PIX refund executed successfully"
-        );
-    }
-
-    public PixExecutionResult getStatus(String endToEndId) {
-
-        return new PixExecutionResult(
-                endToEndId,
-                "COMPLETED",
-                "PIX transaction status retrieved successfully"
-        );
-    }
-
-    public PixQrCode generateQrCode(
-            String pixKey,
-            BigDecimal amount,
-            String description
-    ) {
-
-        return new PixQrCode(
-                UUID.randomUUID().toString(),
-                "00020126580014BR.GOV.BCB.PIX0114+5585999999995204000053039865405100.005802BR5920BANKTRANSACTION6009FORTALEZA62070503***6304ABCD",
-                OffsetDateTime.now().plusMinutes(30)
-        );
-    }
-
-    public PixKey resolvePixKey(String key) {
-
-        return new PixKey(
-                key,
-                PixKeyType.RANDOM
-        );
-    }
+    // Solicita devolução PIX
+    @POST
+    @Path("/{transactionId}/refund")
+    void refund(
+            @PathParam("transactionId")
+            String transactionId
+    );
 }

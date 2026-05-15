@@ -1,59 +1,23 @@
 package com.bank.transactions.infrastructure.integration.pix;
 
-import com.bank.transactions.application.service.PixTransactionOrchestratorService;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.Response;
 
+import java.util.Map;
+
+// Endpoint responsável pelo recebimento de webhooks PIX
+@Path("/webhooks/pix")
 @ApplicationScoped
 public class PixWebhookReceiver {
 
-    private final PixTransactionOrchestratorService pixTransactionOrchestratorService;
-
-    @Inject
-    public PixWebhookReceiver(
-            PixTransactionOrchestratorService pixTransactionOrchestratorService
-    ) {
-        this.pixTransactionOrchestratorService =
-                pixTransactionOrchestratorService;
-    }
-
-    @Transactional
-    public void handleTransactionConfirmed(String endToEndId) {
-
-        pixTransactionOrchestratorService
-                .confirmSettlement(endToEndId);
-    }
-
-    @Transactional
-    public void handleTransactionRefunded(
-            String endToEndId,
-            String reason
+    // Recebe notificações de liquidação PIX
+    @POST
+    public Response receive(
+            Map<String, Object> payload
     ) {
 
-        pixTransactionOrchestratorService
-                .processRefund(
-                        endToEndId,
-                        reason
-                );
-    }
-
-    @Transactional
-    public void handleTransactionFailed(
-            String endToEndId,
-            String reason
-    ) {
-
-        pixTransactionOrchestratorService
-                .processFailure(
-                        endToEndId,
-                        reason
-                );
-    }
-
-    public PixTransactionStatus syncStatus(String endToEndId) {
-
-        return pixTransactionOrchestratorService
-                .syncStatus(endToEndId);
+        return Response.accepted().build();
     }
 }
