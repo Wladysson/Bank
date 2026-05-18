@@ -26,10 +26,10 @@ public class AccountController {
     public Response openAccount(AccountRequestDTO request) {
 
         OpenAccountCommand command = new OpenAccountCommand(
-                UUID.randomUUID(),         // ID gerado
-                "TEMP_NAME",               // depois você troca
-                "TEMP_DOC",                // depois você troca
-                BigDecimal.ZERO            // saldo inicial
+                request.getCustomerId(),
+                "TEMP_NAME",
+                request.getAccountType(),
+                request.getInitialDeposit()
         );
 
         service.openAccount(command);

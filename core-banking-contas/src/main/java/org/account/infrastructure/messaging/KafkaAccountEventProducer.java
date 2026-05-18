@@ -1,5 +1,7 @@
 package com.bank.account.infrastructure.messaging;
 
+import com.bank.account.domain.event.AccountCreatedEvent;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
@@ -11,9 +13,11 @@ public class KafkaAccountEventProducer {
 
     @Inject
     @Channel("account-events-out")
-    Emitter<String> emitter;
+    Emitter<AccountCreatedEvent> emitter;
 
-    public void publish(String event) {
+    public void publish(AccountCreatedEvent event) {
+
         emitter.send(event);
+
     }
 }

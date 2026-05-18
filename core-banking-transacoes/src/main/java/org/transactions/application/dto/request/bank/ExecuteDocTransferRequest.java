@@ -115,3 +115,5 @@ public class ExecuteDocTransferRequest {
         this.transactionPassword = transactionPassword;
     }
 }
+
+
