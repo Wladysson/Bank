@@ -1,6 +1,6 @@
 package com.bank.transactions.infrastructure.scheduler;
 
-import com.bank.transactions.application.service.RecurringPaymentService;
+import com.bank.transactions.application.usecase.recurring.ProcessRecurringPaymentUseCase;
 import io.quarkus.scheduler.Scheduled;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -10,13 +10,10 @@ import jakarta.inject.Inject;
 public class RecurringPaymentJob {
 
     @Inject
-    RecurringPaymentService recurringPaymentService;
+    ProcessRecurringPaymentUseCase processRecurringPaymentUseCase;
 
-    // Executa processamento recorrente
-    @Scheduled(every = "24h")
-    void processRecurringPayments() {
-
-        recurringPaymentService
-                .processRecurringPayments();
+    @Scheduled(every = "1m")
+    public void run() {
+        processRecurringPaymentUseCase.execute();
     }
 }

@@ -1,14 +1,17 @@
-package com.seubanco.transactions.domain.model.international;
+package com.bank.transactions.domain.model.international;
 
 import java.math.BigDecimal;
 
 // Value Object responsável pela taxa cambial
 public class ExchangeRate {
 
-    // Valor da taxa de câmbio
-    private final BigDecimal value;
+    private String sourceCurrency;
+    private String targetCurrency;
+    private BigDecimal value;
 
-    public ExchangeRate(BigDecimal value) {
+    public ExchangeRate(String sourceCurrency, String targetCurrency, BigDecimal value) {
+        this.sourceCurrency = sourceCurrency;
+        this.targetCurrency = targetCurrency;
         this.value = value;
     }
 

@@ -1,23 +1,24 @@
 package com.bank.transactions.infrastructure.integration.pix;
 
+import com.bank.transactions.domain.gateway.pix.PixKeyGateway;
+import com.bank.transactions.domain.model.pix.PixKey;
+import com.bank.transactions.domain.model.pix.PixKeyType;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.Response;
 
-import java.util.Map;
+import java.util.Optional;
 
-// Endpoint responsável pelo recebimento de webhooks PIX
-@Path("/webhooks/pix")
 @ApplicationScoped
-public class PixWebhookReceiver {
+public class PixKeyGatewayImpl implements PixKeyGateway {
 
-    // Recebe notificações de liquidação PIX
-    @POST
-    public Response receive(
-            Map<String, Object> payload
-    ) {
+    @Override
+    public Optional<PixKey> findByValue(String value) {
+        // TODO: implementar integração real de Pix Key API
+        return Optional.empty();
+    }
 
-        return Response.accepted().build();
+    @Override
+    public boolean validateKey(String key, PixKeyType type) {
+        // TODO: implementar validação real
+        return true;
     }
 }

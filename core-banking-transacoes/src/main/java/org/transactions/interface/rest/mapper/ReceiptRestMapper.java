@@ -1,7 +1,7 @@
-package com.seubanco.transactions.interfaces.rest.mapper;
+package com.bank.transactions.interfaces.rest.mapper;
 
-import com.seubanco.transactions.application.dto.response.receipt.TransactionReceiptResponse;
-import com.seubanco.transactions.domain.model.common.Receipt;
+import com.bank.transactions.application.dto.response.receipt.TransactionReceiptResponse;
+import com.bank.transactions.domain.model.common.Receipt;
 
 // Mapper responsável pelos comprovantes REST
 public class ReceiptRestMapper {

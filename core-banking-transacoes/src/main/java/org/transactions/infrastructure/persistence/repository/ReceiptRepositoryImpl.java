@@ -1,8 +1,8 @@
-package com.seubanco.transactions.infrastructure.persistence.repository;
+package com.bank.transactions.infrastructure.persistence.repository;
 
-import com.seubanco.transactions.domain.gateway.repository.ReceiptRepository;
-import com.seubanco.transactions.domain.model.common.Receipt;
-import com.seubanco.transactions.infrastructure.persistence.entity.ReceiptEntity;
+import com.bank.transactions.domain.gateway.repository.ReceiptRepository;
+import com.bank.transactions.domain.model.common.Receipt;
+import com.bank.transactions.infrastructure.persistence.entity.ReceiptEntity;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 

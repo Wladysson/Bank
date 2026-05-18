@@ -1,8 +1,8 @@
 package com.bank.transactions.application.usecase.pix;
 
-import com.seubanco.transactions.application.dto.request.pix.RefundPixTransactionRequest;
-import com.seubanco.transactions.application.dto.response.pix.PixTransactionResponse;
-import com.seubanco.transactions.application.service.PixTransactionService;
+import com.bank.transactions.application.dto.request.pix.RefundPixTransactionRequest;
+import com.bank.transactions.application.dto.response.pix.PixTransactionResponse;
+import com.bank.transactions.application.service.PixTransactionService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 

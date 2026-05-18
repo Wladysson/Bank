@@ -1,4 +1,4 @@
-package com.seubanco.transactions.domain.model.internal;
+package com.bank.transactions.domain.model.internal;
 
 import com.bank.transactions.domain.model.common.Money;
 import com.bank.transactions.domain.model.common.Transaction;

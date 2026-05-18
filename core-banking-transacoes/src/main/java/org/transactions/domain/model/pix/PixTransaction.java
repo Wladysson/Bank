@@ -2,10 +2,10 @@ package com.bank.transactions.domain.model.pix;
 
 import com.bank.transactions.domain.model.common.Money;
 import com.bank.transactions.domain.model.common.Transaction;
+import com.bank.transactions.domain.model.common.TransactionType;
 
 import java.time.LocalDateTime;
 
-// Entidade responsável pela transação PIX
 public class PixTransaction extends Transaction {
 
     // Chave PIX do pagador
@@ -14,25 +14,26 @@ public class PixTransaction extends Transaction {
     // Chave PIX do recebedor
     private PixKey receiverPixKey;
 
-    // Tipo da transação PIX
-    private PixTransactionType transactionType;
-
-    // Status específico do PIX
+    // Status espec�fico do PIX
     private PixTransactionStatus pixStatus;
 
-    // Descrição enviada na transação
+    // Descri��o enviada na transa��o
     private String description;
 
-    // Horário da liquidação
+    // Hor�rio da liquida��o
     private LocalDateTime settledAt;
 
-    // Valor da operação
+    //valor
     private Money amount;
 
-    // Marca transação como liquidada
     public void settle() {
         this.pixStatus = PixTransactionStatus.SETTLED;
         this.settledAt = LocalDateTime.now();
+    }
+
+    @Override
+    public TransactionType getTransactionType() {
+        return TransactionType.PIX;
     }
 
     public PixKey getSenderPixKey() {
@@ -49,14 +50,6 @@ public class PixTransaction extends Transaction {
 
     public void setReceiverPixKey(PixKey receiverPixKey) {
         this.receiverPixKey = receiverPixKey;
-    }
-
-    public PixTransactionType getTransactionType() {
-        return transactionType;
-    }
-
-    public void setTransactionType(PixTransactionType transactionType) {
-        this.transactionType = transactionType;
     }
 
     public PixTransactionStatus getPixStatus() {

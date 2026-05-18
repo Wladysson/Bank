@@ -22,6 +22,19 @@ public class ExchangeQuote {
         this.quotedAt = LocalDateTime.now();
     }
 
+    // CONSTRUTOR CORRETO
+    public ExchangeQuote(
+            String sourceCurrency,
+            String targetCurrency,
+            BigDecimal rate,
+            LocalDateTime quotedAt
+    ) {
+        this.sourceCurrency = sourceCurrency;
+        this.targetCurrency = targetCurrency;
+        this.rate = rate;
+        this.quotedAt = quotedAt;
+    }
+
     public String getSourceCurrency() {
         return sourceCurrency;
     }

@@ -1,8 +1,8 @@
 package com.bank.transactions.infrastructure.integration.exchange;
 
 import com.bank.transactions.domain.gateway.international.ExchangeGateway;
-import com.seubanco.transactions.domain.model.international.ExchangeQuote;
-import com.seubanco.transactions.domain.model.international.ExchangeRate;
+import com.bank.transactions.domain.model.international.ExchangeQuote;
+import com.bank.transactions.domain.model.international.ExchangeRate;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 

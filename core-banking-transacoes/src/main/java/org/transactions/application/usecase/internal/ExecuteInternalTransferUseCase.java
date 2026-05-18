@@ -1,8 +1,8 @@
 package com.bank.transactions.application.usecase.internal;
 
-import com.seubanco.transactions.application.dto.request.internal.ExecuteInternalTransferRequest;
-import com.seubanco.transactions.application.dto.response.internal.InternalTransferResponse;
-import com.seubanco.transactions.application.service.InternalTransferService;
+import com.bank.transactions.application.dto.request.internal.ExecuteInternalTransferRequest;
+import com.bank.transactions.application.dto.response.internal.InternalTransferResponse;
+import com.bank.transactions.application.service.InternalTransferService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 

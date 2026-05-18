@@ -1,7 +1,7 @@
 package com.bank.transactions.application.usecase.validation;
 
-import com.seubanco.transactions.application.service.TransactionIntentValidationService;
-import com.seubanco.transactions.domain.model.validation.TransactionIntent;
+import com.bank.transactions.application.service.TransactionIntentValidationService;
+import com.bank.transactions.domain.model.validation.TransactionIntent;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 

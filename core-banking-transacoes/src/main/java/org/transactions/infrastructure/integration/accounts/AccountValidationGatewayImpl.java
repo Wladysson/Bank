@@ -37,7 +37,8 @@ public class AccountValidationGatewayImpl
 
         return new BalanceValidationResult(
                 valid,
-                reason
+                new BigDecimal(response.get("availableBalance").toString()),
+                amount
         );
     }
 

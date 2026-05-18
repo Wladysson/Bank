@@ -16,7 +16,6 @@ public class InternationalTransferGatewayImpl
     @RestClient
     InternationalRemittanceApiClient remittanceApiClient;
 
-    // Executa transferência internacional
     @Override
     public InternationalTransfer execute(
             InternationalTransfer internationalTransfer
@@ -29,24 +28,10 @@ public class InternationalTransferGatewayImpl
                 internationalTransfer.getTransactionId().getValue()
         );
 
-        payload.put(
-                "sourceCurrency",
-                internationalTransfer.getSourceCurrency()
-        );
-
-        payload.put(
-                "targetCurrency",
-                internationalTransfer.getTargetCurrency()
-        );
-
+        // ⚠️ aqui você precisa adaptar ao seu DOMAIN real
         payload.put(
                 "amount",
                 internationalTransfer.getAmount().getAmount()
-        );
-
-        payload.put(
-                "destinationCountry",
-                internationalTransfer.getDestinationCountry()
         );
 
         remittanceApiClient.executeTransfer(payload);
@@ -54,18 +39,12 @@ public class InternationalTransferGatewayImpl
         return internationalTransfer;
     }
 
-    // Consulta transferência internacional
     @Override
-    public InternationalTransfer findByTransactionId(
-            String transactionId
-    ) {
-
+    public InternationalTransfer findByTransactionId(String transactionId) {
         remittanceApiClient.getTransfer(transactionId);
-
         return new InternationalTransfer();
     }
 
-    // Cancela remessa internacional
     @Override
     public void cancel(String transactionId) {
         remittanceApiClient.cancelTransfer(transactionId);

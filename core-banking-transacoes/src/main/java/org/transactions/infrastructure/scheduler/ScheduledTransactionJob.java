@@ -1,6 +1,6 @@
 package com.bank.transactions.infrastructure.scheduler;
 
-import com.banktransactions.application.service.ScheduledTransactionService;
+import com.bank.transactions.application.service.ScheduledTransactionService;
 import io.quarkus.scheduler.Scheduled;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

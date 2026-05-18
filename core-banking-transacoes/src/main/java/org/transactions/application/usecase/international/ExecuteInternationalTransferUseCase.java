@@ -1,8 +1,8 @@
 package com.bank.transactions.application.usecase.international;
 
-import com.seubanco.transactions.application.dto.request.international.ExecuteInternationalTransferRequest;
-import com.seubanco.transactions.application.dto.response.international.InternationalTransferResponse;
-import com.seubanco.transactions.application.service.InternationalTransferService;
+import com.bank.transactions.application.dto.request.international.ExecuteInternationalTransferRequest;
+import com.bank.transactions.application.dto.response.international.InternationalTransferResponse;
+import com.bank.transactions.application.service.InternationalTransferService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 

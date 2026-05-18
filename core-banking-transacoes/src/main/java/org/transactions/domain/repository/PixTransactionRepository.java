@@ -1,5 +1,8 @@
 package com.bank.transactions.domain.repository;
 
+import com.bank.transactions.domain.model.pix.PixTransaction;
+import com.bank.transactions.domain.model.pix.PixTransactionStatus;
+
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;

@@ -1,6 +1,6 @@
 package com.bank.transactions.infrastructure.integration.pix;
 
-import com.seubanco.transactions.domain.gateway.pix.PixQrCodeGateway;
+import com.bank.transactions.domain.gateway.pix.PixQrCodeGateway;
 import jakarta.enterprise.context.ApplicationScoped;
 
 // Implementação do gateway de QR Code PIX

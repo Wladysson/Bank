@@ -1,6 +1,6 @@
 package com.bank.transactions.application.usecase.schedule;
 
-import com.seubanco.transactions.application.service.ScheduledTransactionService;
+import com.bank.transactions.application.service.ScheduledTransactionService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 

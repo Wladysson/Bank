@@ -1,6 +1,6 @@
 package com.bank.transactions.application.usecase.recurring;
 
-import com.seubanco.transactions.application.service.RecurringPaymentService;
+import com.bank.transactions.application.service.RecurringPaymentService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
@@ -11,8 +11,8 @@ public class ProcessRecurringPaymentUseCase {
     @Inject
     RecurringPaymentService recurringPaymentService;
 
-    // Processa execução da cobrança recorrente
-    public void execute(String recurringPaymentId) {
-        recurringPaymentService.processRecurringPayment(recurringPaymentId);
+    // Processa todas as cobranças recorrentes pendentes
+    public void execute() {
+        recurringPaymentService.processRecurringPayments();
     }
 }

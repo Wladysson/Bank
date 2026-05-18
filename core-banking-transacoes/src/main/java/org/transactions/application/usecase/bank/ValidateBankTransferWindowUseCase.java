@@ -1,6 +1,6 @@
 package com.bank.transactions.application.usecase.bank;
 
-import com.seubanco.transactions.application.service.BankTransferService;
+import com.bank.transactions.application.service.BankTransferService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 

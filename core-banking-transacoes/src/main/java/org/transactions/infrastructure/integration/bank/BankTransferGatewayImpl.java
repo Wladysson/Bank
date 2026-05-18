@@ -36,7 +36,7 @@ public class BankTransferGatewayImpl
 
         payload.put(
                 "destinationBank",
-                bankTransfer.getDestinationBank()
+                bankTransfer.getDestinationBankCode()
         );
 
         tedDocApiClient.executeTransfer(payload);

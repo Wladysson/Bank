@@ -1,8 +1,8 @@
 package com.bank.transactions.application.usecase.bank;
 
-import com.seubanco.transactions.application.dto.request.bank.ExecuteTedTransferRequest;
-import com.seubanco.transactions.application.dto.response.bank.TedTransferResponse;
-import com.seubanco.transactions.application.service.BankTransferService;
+import com.bank.transactions.application.dto.request.bank.ExecuteTedTransferRequest;
+import com.bank.transactions.application.dto.response.bank.TedTransferResponse;
+import com.bank.transactions.application.service.BankTransferService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 

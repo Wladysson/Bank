@@ -1,6 +1,6 @@
 package com.bank.transactions.domain.gateway.internal;
 
-import com.seubanco.transactions.domain.model.internal.InternalTransfer;
+import com.bank.transactions.domain.model.internal.InternalTransfer;
 
 // Gateway responsável pelas transferências internas
 public interface InternalTransferGateway {

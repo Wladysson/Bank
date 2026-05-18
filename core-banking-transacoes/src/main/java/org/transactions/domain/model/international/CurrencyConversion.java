@@ -1,6 +1,6 @@
 package com.bank.transactions.domain.model.international;
 
-import com.seubanco.transactions.domain.model.common.Money;
+import com.bank.transactions.domain.model.common.Money;
 
 // Value Object responsável pela conversão monetária
 public class CurrencyConversion {

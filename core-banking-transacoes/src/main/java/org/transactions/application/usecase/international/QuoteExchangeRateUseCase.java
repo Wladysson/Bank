@@ -1,7 +1,7 @@
 package com.bank.transactions.application.usecase.international;
 
-import com.seubanco.transactions.domain.model.international.ExchangeQuote;
-import com.seubanco.transactions.application.service.InternationalTransferService;
+import com.bank.transactions.domain.model.international.ExchangeQuote;
+import com.bank.transactions.application.service.InternationalTransferService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 

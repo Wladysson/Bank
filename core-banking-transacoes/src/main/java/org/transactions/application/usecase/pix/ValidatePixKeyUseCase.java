@@ -1,6 +1,6 @@
 package com.bank.transactions.application.usecase.pix;
 
-import com.seubanco.transactions.application.service.PixKeyService;
+import com.bank.transactions.application.service.PixKeyService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 

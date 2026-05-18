@@ -2,6 +2,7 @@ package com.bank.transactions.domain.model.schedule;
 
 import com.bank.transactions.domain.model.common.Money;
 import com.bank.transactions.domain.model.common.Transaction;
+import com.bank.transactions.domain.model.common.TransactionStatus;
 
 import java.time.LocalDateTime;
 
@@ -20,9 +21,6 @@ public class ScheduledTransaction extends Transaction {
     // Data programada para execução
     private LocalDateTime scheduledAt;
 
-    // Status atual do agendamento
-    private ScheduleStatus status;
-
     // Política de retentativa
     private RetryPolicy retryPolicy;
 
@@ -31,7 +29,7 @@ public class ScheduledTransaction extends Transaction {
 
     // Marca execução como concluída
     public void markAsCompleted() {
-        this.status = ScheduleStatus.COMPLETED;
+        setStatus(TransactionStatus.COMPLETED);
     }
 
     // Incrementa contador de retentativas
@@ -69,14 +67,6 @@ public class ScheduledTransaction extends Transaction {
 
     public void setScheduledAt(LocalDateTime scheduledAt) {
         this.scheduledAt = scheduledAt;
-    }
-
-    public ScheduleStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(ScheduleStatus status) {
-        this.status = status;
     }
 
     public RetryPolicy getRetryPolicy() {

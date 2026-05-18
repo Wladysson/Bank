@@ -1,4 +1,6 @@
-package com.seubanco.transactions.domain.exception;
+package com.bank.transactions.domain.exception;
+
+import com.bank.transactions.domain.exception.TransactionException;
 
 // Exceção responsável por falhas em agendamentos
 public class ScheduleExecutionException extends TransactionException {

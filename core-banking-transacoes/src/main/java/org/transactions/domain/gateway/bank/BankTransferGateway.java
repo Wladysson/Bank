@@ -1,6 +1,6 @@
 package com.bank.transactions.domain.gateway.bank;
 
-import com.seubanco.transactions.domain.model.bank.BankTransfer;
+import com.bank.transactions.domain.model.bank.BankTransfer;
 
 // Gateway responsável pelas integrações bancárias externas
 public interface BankTransferGateway {

@@ -1,6 +1,6 @@
 package com.bank.transactions.domain.gateway.pix;
 
-import com.seubanco.transactions.domain.model.pix.PixTransaction;
+import com.bank.transactions.domain.model.pix.PixTransaction;
 
 // Gateway responsável pela integração de transações PIX
 public interface PixGateway {

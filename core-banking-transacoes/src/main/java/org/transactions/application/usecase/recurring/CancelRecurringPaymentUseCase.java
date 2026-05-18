@@ -1,7 +1,7 @@
 package com.bank.transactions.application.usecase.recurring;
 
-import com.seubanco.transactions.application.dto.request.recurring.CancelRecurringPaymentRequest;
-import com.seubanco.transactions.application.service.RecurringPaymentService;
+import com.bank.transactions.application.dto.request.recurring.CancelRecurringPaymentRequest;
+import com.bank.transactions.application.service.RecurringPaymentService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
