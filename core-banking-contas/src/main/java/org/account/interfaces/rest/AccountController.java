@@ -27,8 +27,8 @@ public class AccountController {
 
         OpenAccountCommand command = new OpenAccountCommand(
                 request.getCustomerId(),
-                "TEMP_NAME",
                 request.getAccountType(),
+                request.getCurrency(),
                 request.getInitialDeposit()
         );
 

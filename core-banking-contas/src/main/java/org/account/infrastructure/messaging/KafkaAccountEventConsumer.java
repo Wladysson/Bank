@@ -9,7 +9,10 @@ public class KafkaAccountEventConsumer {
     @Incoming("account-events")
     public void consume(String message) {
 
-        System.out.println("Evento recebido: " + message);
+        System.out.println("================================");
+        System.out.println("EVENTO RECEBIDO NO KAFKA");
+        System.out.println(message);
+        System.out.println("================================");
 
     }
 }
