@@ -44,7 +44,7 @@ public class PixRestMapper {
                 new PixQrCodeResponse();
 
         response.setQrCode(qrCode);
-        response.setTransactionId(transactionId);
+        response.setQrCodeId(transactionId);
 
         return response;
     }
