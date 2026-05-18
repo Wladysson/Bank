@@ -14,6 +14,11 @@ public class RecurringPaymentService {
         return new RecurringPaymentResponse();
     }
 
+    public void processRecurringPayments() {
+        // 1. buscar todos pendentes no banco
+        // 2. iterar e chamar processRecurringPayment
+    }
+
     // Executa cobrança recorrente
     public void processRecurringPayment(String recurringPaymentId) {
 

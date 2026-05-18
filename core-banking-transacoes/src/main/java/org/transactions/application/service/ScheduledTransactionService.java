@@ -14,6 +14,15 @@ public class ScheduledTransactionService {
         return new ScheduledTransactionResponse();
     }
 
+    public void processPendingTransactions() {
+        // 1. buscar transações pendentes
+        // 2. processar uma por uma
+    }
+
+    public void processTransaction(String transactionId) {
+        // execução individual
+    }
+
     // Processa transação agendada
     public void processScheduledTransaction(String scheduledTransactionId) {
 
