@@ -23,6 +23,6 @@ public class ReceiptResource {
             GetReceiptRequest request
     ) {
 
-        return getTransactionReceiptUseCase.execute(request);
+        return getTransactionReceiptUseCase.execute(request.getTransactionId());
     }
 }
