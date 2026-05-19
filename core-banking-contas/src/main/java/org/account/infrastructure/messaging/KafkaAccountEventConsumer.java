@@ -10,7 +10,7 @@ public class KafkaAccountEventConsumer {
     public void consume(String message) {
 
         System.out.println("================================");
-        System.out.println("EVENTO RECEBIDO NO KAFKA");
+        System.out.println("KAFKA RECEPTOR");
         System.out.println(message);
         System.out.println("================================");
 

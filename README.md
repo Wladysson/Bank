@@ -1,14 +1,10 @@
 # Plataforma Financeira 
 
-![Logo do projeto](docs/logo.png)
-
 ## Visão geral
 
 Este repositório representa uma arquitetura distribuída composta por serviços especializados, desenhados para escalabilidade, resiliência, rastreabilidade e evolução independente de cada domínio de negócio.
 
-A plataforma foi estruturada para suportar operações como gestão de contas, transações, tesouraria, cartões, pagamentos, conciliação, risco, auditoria, consentimento, integração e processamento em lote, com suporte a orquestração e observabilidade ponta a ponta.
-
-Onde não olhamos para o dinheiro apenas como um saldo que muda de mãos, mas como o combustível. Unimos tecnologia de ponta, segurança e inteligência de dados para criar um ecossistema financeiro completo e acessível.
+A plataforma foi estruturada para suportar operações como gestão de contas, transações, tesouraria, pagamentos, conciliação, risco, auditoria, consentimento, integração e processamento em lote, com suporte a orquestração e observabilidade ponta a ponta.
 
 ## Arquitetura
 
@@ -28,7 +24,6 @@ Onde não olhamos para o dinheiro apenas como um saldo que muda de mãos, mas co
 - **contas** — serviço responsável pela gestão de contas.
 - **transacoes** — processamento e controle de transações.
 - **tesouraria** — gestão de liquidez, posição financeira e operações de tesouraria.
-- **cartoes** — domínio de emissão, controle e processamento de cartões.
 - **canais** — integração com canais de atendimento e consumo.
 - **auditoria** — trilha de auditoria e rastreabilidade operacional.
 - **admin** — administração da plataforma e funções operacionais.
