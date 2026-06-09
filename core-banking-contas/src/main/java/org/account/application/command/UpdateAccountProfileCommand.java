@@ -1,8 +1,8 @@
 package com.bank.account.application.command;
 
-import com.bank.account.domain.model.AccountId;
-import com.bank.account.domain.model.AccountMetadata;
-import com.bank.account.domain.model.AccountSettings;
+import com.bank.account.account.domain.model.AccountId;
+import com.bank.account.account.domain.model.AccountMetadata;
+import com.bank.account.account.domain.model.AccountSettings;
 
 public class UpdateAccountProfileCommand {
 
