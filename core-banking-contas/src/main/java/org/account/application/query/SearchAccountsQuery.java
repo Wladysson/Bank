@@ -1,7 +1,7 @@
 package com.bank.account.account.application.query;
 
-import com.bank.account.account.domain.model.AccountStatus;
-import com.bank.account.account.domain.model.AccountType;
+import com.bank.account.domain.model.AccountStatus;
+import com.bank.account.domain.model.AccountType;
 import com.bank.account.account.domain.model.CustomerId;
 
 public class SearchAccountsQuery {
