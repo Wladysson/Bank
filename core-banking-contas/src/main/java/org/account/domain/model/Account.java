@@ -1,5 +1,8 @@
 package com.bank.account.domain.model;
 
+import com.bank.account.account.domain.model.AccountSettings;
+import com.bank.account.account.domain.model.AccountStatusReason;
+
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -9,6 +12,8 @@ public class Account {
     private final String accountNumber;
     private AccountStatus status;
     private final AccountType type;
+
+    private AccountSettings settings;
 
     private final List<AccountHolder> holders;
     private final Balance balance;
@@ -89,5 +94,30 @@ public class Account {
     public AccountLimit getAccountLimit() { return accountLimit; }
     public OverdraftLimit getOverdraftLimit() { return overdraftLimit; }
     public List<AccountHolder> getHolders() { return holders; }
+
+    // Atualiza configurações operacionais da conta
+    public void updateSettings(AccountSettings settings) {
+        if (settings == null) throw new IllegalArgumentException("AccountSettings cannot be null");
+        this.settings = settings;
+    }
+
+    // Suspende a conta (coloca em estado SUSPENDED)
+    public void suspend() {
+        if (status == AccountStatus.CLOSED) throw new IllegalStateException("Conta encerrada não pode ser suspensa");
+        this.status = AccountStatus.SUSPENDED;
+    }
+
+    // Reativa conta suspensa
+    public void reactivate() {
+        if (status != AccountStatus.SUSPENDED) throw new IllegalStateException("A conta não está suspensa");
+        this.status = AccountStatus.ACTIVE;
+    }
+
+    // Método para trocar status com motivo
+    public void changeStatus(AccountStatus newStatus, AccountStatusReason reason) {
+        if (newStatus == null) throw new IllegalArgumentException("newStatus cannot be null");
+        if (this.status == AccountStatus.CLOSED) throw new IllegalStateException("Conta já encerrada");
+        this.status = newStatus; // motivo pode ser utilizado para auditoria (omitted)
+    }
 
 }
