@@ -15,6 +15,6 @@ public class OpenRetailAccountUseCase {
 
     public Account execute(OpenAccountCommand command) {
 
-        return accountOpeningService.openRetailAccount(command); // executa abertura de conta PF
+        return accountOpeningService.open(command); // executa abertura de conta PF
     }
 }
