@@ -1,6 +1,12 @@
-FROM eclipse-temurin:17-jdk-alpine
+FROM eclipse-temurin:17-jre-alpine
+
 WORKDIR /work/
-# Copia apenas o uber-jar gerado
-COPY target/core-banking-contas-1.0.0-SNAPSHOT.jar app.jar
+
+COPY target/quarkus-app/lib/ /work/lib/
+COPY target/quarkus-app/*.jar /work/
+COPY target/quarkus-app/app/ /work/app/
+COPY target/quarkus-app/quarkus/ /work/quarkus/
+
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","app.jar"]
+
+ENTRYPOINT ["java","-jar","quarkus-run.jar"]

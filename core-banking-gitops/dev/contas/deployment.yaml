@@ -21,5 +21,16 @@ spec:
         - name: core-banking-contas
           image: core-banking-contas:1.0.0
           imagePullPolicy: Never
+
+          env:
+            - name: QUARKUS_DATASOURCE_JDBC_URL
+              value: "jdbc:postgresql://host.minikube.internal:5433/pg-financeiro"
+
+            - name: QUARKUS_DATASOURCE_USERNAME
+              value: "admin"
+
+            - name: QUARKUS_DATASOURCE_PASSWORD
+              value: "root"
+
           ports:
             - containerPort: 8080
