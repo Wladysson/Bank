@@ -1,6 +1,6 @@
 package com.bank.account.domain.exception;
 
-import com.bank.account.account.domain.model.CustomerId;
+import com.bank.account.domain.model.CustomerId;
 
 import java.util.Set;
 

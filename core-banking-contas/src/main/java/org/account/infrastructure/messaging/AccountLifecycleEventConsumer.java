@@ -1,8 +1,8 @@
-package com.bank.account.account.infrastructure.messaging;
+package com.bank.account.infrastructure.messaging;
 
-import com.bank.account.account.domain.event.AccountActivatedEvent;
-import com.bank.account.account.domain.event.AccountSuspendedEvent;
-import com.bank.account.account.domain.event.AccountUnblockedEvent;
+import com.bank.account.domain.event.AccountActivatedEvent;
+import com.bank.account.domain.event.AccountSuspendedEvent;
+import com.bank.account.domain.event.AccountUnblockedEvent;
 import com.bank.account.domain.event.AccountBlockedEvent;
 import com.bank.account.domain.event.AccountClosedEvent;
 import com.bank.account.domain.event.AccountCreatedEvent;

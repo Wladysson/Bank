@@ -1,7 +1,7 @@
 package com.bank.account.domain.model;
 
-import com.bank.account.account.domain.model.AccountSettings;
-import com.bank.account.account.domain.model.AccountStatusReason;
+import com.bank.account.domain.model.AccountSettings;
+import com.bank.account.domain.model.AccountStatusReason;
 
 import java.math.BigDecimal;
 import java.util.*;

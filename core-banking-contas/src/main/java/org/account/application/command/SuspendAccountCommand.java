@@ -1,7 +1,7 @@
 package com.bank.account.application.command;
 
-import com.bank.account.account.domain.model.AccountId;
-import com.bank.account.account.domain.model.AccountStatusReason;
+import com.bank.account.domain.model.AccountId;
+import com.bank.account.domain.model.AccountStatusReason;
 
 public class SuspendAccountCommand {
 

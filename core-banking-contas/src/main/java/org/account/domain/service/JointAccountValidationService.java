@@ -1,6 +1,6 @@
-package com.bank.account.account.domain.service;
+package com.bank.account.domain.service;
 
-import com.bank.account.account.domain.model.CustomerId;
+import com.bank.account.domain.model.CustomerId;
 
 import java.util.HashSet;
 import java.util.Set;

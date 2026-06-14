@@ -1,7 +1,7 @@
-package com.bank.account.account.application.mapper;
+package com.bank.account.application.mapper;
 
-import com.bank.account.account.application.dto.AccountDetailDTO;
-import com.bank.account.account.application.dto.AccountSummaryDTO;
+import com.bank.account.application.dto.AccountDetailDTO;
+import com.bank.account.application.dto.AccountSummaryDTO;
 import com.bank.account.domain.model.Account;
 
 import java.util.stream.Collectors;

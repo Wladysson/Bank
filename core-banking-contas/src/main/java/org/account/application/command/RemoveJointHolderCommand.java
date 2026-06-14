@@ -1,7 +1,7 @@
 package com.bank.account.application.command;
 
-import com.bank.account.account.domain.model.AccountId;
-import com.bank.account.account.domain.model.CustomerId;
+import com.bank.account.domain.model.AccountId;
+import com.bank.account.domain.model.CustomerId;
 
 public class RemoveJointHolderCommand {
 

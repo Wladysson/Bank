@@ -1,7 +1,7 @@
 package com.bank.account.application.service;
 
 import com.bank.account.domain.model.Account;
-import com.bank.account.account.domain.model.AccountSettings;
+import com.bank.account.domain.model.AccountSettings;
 
 public class AccountMaintenanceService {
 

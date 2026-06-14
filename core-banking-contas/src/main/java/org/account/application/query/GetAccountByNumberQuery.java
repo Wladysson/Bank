@@ -1,6 +1,6 @@
-package com.bank.account.account.application.query;
+package com.bank.account.application.query;
 
-import com.bank.account.account.domain.model.AccountNumber;
+import com.bank.account.domain.model.AccountNumber;
 
 public class GetAccountByNumberQuery {
 

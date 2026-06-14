@@ -1,6 +1,6 @@
 package com.bank.account.domain.repository;
 
-import com.bank.account.account.domain.model.AccountId;
+import com.bank.account.domain.model.AccountId;
 import com.bank.account.domain.model.AccountSnapshot;
 
 import java.util.List;

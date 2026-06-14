@@ -1,6 +1,6 @@
-package com.bank.account.account.infrastructure.persistence.repository;
+package com.bank.account.infrastructure.persistence.repository;
 
-import com.bank.account.account.infrastructure.persistence.entity.AccountSnapshotEntity;
+import com.bank.account.infrastructure.persistence.entity.AccountSnapshotEntity;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.inject.Inject;

@@ -1,7 +1,7 @@
-package com.bank.account.account.domain.service;
+package com.bank.account.domain.service;
 
 import com.bank.account.domain.model.AccountStatus;
-import com.bank.account.account.domain.model.AccountStatusReason;
+import com.bank.account.domain.model.AccountStatusReason;
 
 import java.util.EnumSet;
 

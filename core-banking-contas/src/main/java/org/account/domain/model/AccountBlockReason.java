@@ -1,4 +1,4 @@
-package com.bank.account.account.domain.model;
+package com.bank.account.domain.model;
 
 import java.util.Objects;
 

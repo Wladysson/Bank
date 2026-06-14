@@ -1,4 +1,4 @@
-package com.bank.account.account.application.dto;
+package com.bank.account.application.dto;
 
 import com.bank.account.domain.model.AccountStatus;
 import com.bank.account.domain.model.AccountType;

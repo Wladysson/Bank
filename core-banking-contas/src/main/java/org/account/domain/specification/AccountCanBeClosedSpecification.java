@@ -1,4 +1,4 @@
-package com.bank.account.account.domain.specification;
+package com.bank.account.domain.specification;
 
 import com.bank.account.domain.model.Account;
 import com.bank.account.domain.model.AccountStatus;

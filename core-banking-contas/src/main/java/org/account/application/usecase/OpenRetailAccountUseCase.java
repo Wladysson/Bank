@@ -1,4 +1,4 @@
-package com.bank.account.account.application.usecase;
+package com.bank.account.application.usecase;
 
 import com.bank.account.application.command.OpenAccountCommand;
 import com.bank.account.application.service.AccountOpeningService;

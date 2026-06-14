@@ -1,9 +1,9 @@
-package com.bank.account.account.application.service;
+package com.bank.account.application.service;
 
 import com.bank.account.domain.model.Account;
 import com.bank.account.domain.model.AccountStatus;
-import com.bank.account.account.domain.model.AccountStatusReason;
-import com.bank.account.account.domain.service.AccountStatusTransitionPolicy;
+import com.bank.account.domain.model.AccountStatusReason;
+import com.bank.account.domain.service.AccountStatusTransitionPolicy;
 
  //Serviço de aplicação responsável por operações de status da conta
  //Orquestra regras de domínio e policies sem conter lógica de negócio

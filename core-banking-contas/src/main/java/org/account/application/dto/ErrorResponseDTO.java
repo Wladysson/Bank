@@ -1,5 +1,5 @@
 
-package com.bank.account.account.application.dto;
+package com.bank.account.application.dto;
 
 import java.time.Instant;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.bank.account.account.domain.service;
+package com.bank.account.domain.service;
 
 import com.bank.account.domain.event.AccountCreatedEvent;
 import com.bank.account.domain.event.AccountClosedEvent;

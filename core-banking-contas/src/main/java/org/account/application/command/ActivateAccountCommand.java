@@ -1,6 +1,6 @@
 package com.bank.account.application.command;
 
-import com.bank.account.account.domain.model.AccountId;
+import com.bank.account.domain.model.AccountId;
  //Command responsável por ativar uma conta
  //Parte do fluxo CQRS (write side)
 public class ActivateAccountCommand {

@@ -1,6 +1,6 @@
-package com.bank.account.account.domain.event;
+package com.bank.account.domain.event;
 
-import com.bank.account.account.domain.model.AccountId;
+import com.bank.account.domain.model.AccountId;
 
 public final class AccountActivatedEvent {
 

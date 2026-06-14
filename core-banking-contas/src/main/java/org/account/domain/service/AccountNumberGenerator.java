@@ -1,4 +1,4 @@
-package com.bank.account.account.domain.service;
+package com.bank.account.domain.service;
 
 import java.util.Random;
 
