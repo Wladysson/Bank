@@ -1,8 +1,11 @@
-package com.bank.account.account.domain.model;
+package com.bank.account.domain.model;
 
+import com.bank.account.account.domain.model.AccountId;
+import com.bank.account.account.domain.model.AccountNumber;
 import java.time.Instant;
 import java.util.Objects;
 import java.util.Optional;
+import com.bank.account.domain.model.AccountStatus;
 
  //Snapshot da conta representando um estado congelado do agregado em um ponto no tempo
  //Usado para auditoria, histórico e reconstrução de estado
