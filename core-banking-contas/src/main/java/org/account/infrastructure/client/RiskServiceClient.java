@@ -2,6 +2,8 @@ package com.bank.account.infrastructure.client;
 
 import com.bank.account.domain.model.AccountType;
 import com.bank.account.domain.model.CustomerId;
+import com.bank.account.infrastructure.client.dto.RiskAnalysisResult;
+import com.bank.account.infrastructure.client.dto.RiskProfileResponse;
 
 public interface RiskServiceClient {
 
