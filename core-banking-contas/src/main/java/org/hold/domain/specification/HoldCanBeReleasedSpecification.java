@@ -1,7 +1,6 @@
 package com.bank.account.hold.domain.specification;
 
-import com.bank.account.hold.domain.model.HoldBalance;
-import com.bank.account.hold.domain.model.HoldStatus;
+import com.bank.account.domain.model.HoldBalance;
 
 public class HoldCanBeReleasedSpecification {
 
@@ -10,17 +9,18 @@ public class HoldCanBeReleasedSpecification {
     ) {
 
         if (hold == null) {
-            return false; // não existe hold para validar
+            return false;
         }
 
-        if (hold.getStatus() != HoldStatus.ACTIVE) {
-            return false; // somente holds ativos podem ser liberados
+        if (!hold.isActive()) {
+            return false;
         }
 
-        if (hold.getAmount() == null || hold.getAmount().doubleValue() <= 0) {
-            return false; // não permite liberação de valores inválidos
+        if (hold.getAmount() == null ||
+                hold.getAmount().doubleValue() <= 0) {
+            return false;
         }
 
-        return true; // hold está elegível para liberação
+        return true;
     }
 }
