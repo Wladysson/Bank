@@ -1,8 +1,8 @@
 package com.bank.account.balance.application.mapper;
 
 import com.bank.account.balance.application.dto.AvailableBalanceDTO;
-import com.bank.account.balance.application.dto.BalanceResponseDTO;
-import com.bank.account.balance.domain.model.Balance;
+import com.bank.account.application.dto.BalanceResponseDTO;
+import com.bank.account.domain.model.Balance;
 import com.bank.account.balance.domain.model.BalanceAvailability;
 
 import java.math.BigDecimal;
@@ -18,9 +18,24 @@ public final class BalanceMapper {
 
         BalanceResponseDTO dto = new BalanceResponseDTO();
 
-        dto.setAccountId(balance.getAccountId()); // identifica a conta consultada
-        dto.setCurrentBalance(balance.getCurrentBalance()); // saldo total da conta
-        dto.setReservedBalance(balance.getReservedBalance()); // saldo reservado
+        // Sua entidade Balance não possui accountId
+        // portanto não há como preencher esse campo
+
+        dto.setAvailableBalance(
+                balance.getAvailable()
+        );
+
+        dto.setReservedBalance(
+                balance.getReserved()
+        );
+
+        dto.setTotalBalance(
+                balance.getCurrent()
+        );
+
+        dto.setCurrency(
+                balance.getCurrency()
+        );
 
         return dto;
     }
@@ -34,14 +49,14 @@ public final class BalanceMapper {
                 availability.getCurrentBalance(),
                 availability.getReservedBalance(),
                 availability.getAvailableBalance()
-        ); // converte agregação de disponibilidade para DTO
+        );
     }
 
     public static BigDecimal calculateAvailableBalance(
             Balance balance
     ) {
 
-        return balance.getCurrentBalance()
-                .subtract(balance.getReservedBalance()); // calcula saldo disponível
+        return balance.getCurrent()
+                .subtract(balance.getReserved());
     }
 }
