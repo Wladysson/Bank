@@ -1,10 +1,12 @@
 package com.bank.account.infrastructure.audit;
 
 import com.bank.account.application.dto.AccountAuditItemDTO;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@ApplicationScoped
 public class AccountAuditTrailService {
 
     private final AuditRepository auditRepository;
@@ -12,7 +14,7 @@ public class AccountAuditTrailService {
     public AccountAuditTrailService(
             AuditRepository auditRepository
     ) {
-        this.auditRepository = auditRepository; // injeta repositório de auditoria
+        this.auditRepository = auditRepository;
     }
 
     public List<AccountAuditItemDTO> getAuditTrail(
@@ -22,7 +24,7 @@ public class AccountAuditTrailService {
         return auditRepository.findByAggregateId(accountId)
                 .stream()
                 .map(this::toDto)
-                .collect(Collectors.toList()); // converte registros para DTO
+                .collect(Collectors.toList());
     }
 
     private AccountAuditItemDTO toDto(
@@ -32,9 +34,9 @@ public class AccountAuditTrailService {
         AccountAuditItemDTO dto =
                 new AccountAuditItemDTO();
 
-        dto.setAction(record.getEventType()); // ação executada
-        dto.setPerformedBy(record.getActorId()); // executor
-        dto.setPerformedAt(record.getTimestamp()); // data da ação
+        dto.setAction(record.getEventType());
+        dto.setPerformedBy(record.getActorId());
+        dto.setPerformedAt(record.getTimestamp());
 
         return dto;
     }
