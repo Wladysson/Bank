@@ -2,12 +2,14 @@ package com.bank.account.domain.service;
 
 import com.bank.account.domain.model.AccountStatus;
 import com.bank.account.domain.model.AccountStatusReason;
+import jakarta.enterprise.context.ApplicationScoped;
+
 
 import java.util.EnumSet;
 
 //Policy que define as regras de transição de status da conta
 //Centraliza o controle de estados permitidos no ciclo de vida da conta
-
+@ApplicationScoped
 public final class AccountStatusTransitionPolicy {
 
      //Mapa conceitual de transições permitidas entre status
