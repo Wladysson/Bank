@@ -1,6 +1,6 @@
 package com.bank.account.balance.domain.specification;
 
-import com.bank.account.balance.domain.model.Balance;
+import com.bank.account.domain.model.Balance;
 
 import java.math.BigDecimal;
 
@@ -24,8 +24,8 @@ public class BalanceCanBeReservedSpecification {
         }
 
         BigDecimal availableBalance =
-                balance.getCurrentBalance()
-                        .subtract(balance.getReservedBalance()); // calcula saldo disponível
+                balance.getCurrent()
+                        .subtract(balance.getReserved()); // calcula saldo disponível
 
         return availableBalance.compareTo(amount) >= 0; // valida disponibilidade para reserva
     }

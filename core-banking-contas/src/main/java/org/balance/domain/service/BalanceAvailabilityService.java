@@ -1,7 +1,7 @@
 package com.bank.account.balance.domain.service;
 
 import com.bank.account.balance.domain.exception.InsufficientAvailableBalanceException;
-import com.bank.account.balance.domain.model.Balance;
+import com.bank.account.domain.model.Balance;
 import com.bank.account.balance.domain.model.BalanceAvailability;
 
 import java.math.BigDecimal;
@@ -13,10 +13,10 @@ public class BalanceAvailabilityService {
     ) {
 
         return new BalanceAvailability(
-                balance.getAccountId(),
-                balance.getCurrentBalance(),
-                balance.getReservedBalance()
-        ); // calcula visão consolidada do saldo disponível
+                "UNKNOWN",               // TODO obter accountId real
+                balance.getCurrent(),
+                balance.getReserved()
+        );
     }
 
     public void validateAvailableBalance(
@@ -25,15 +25,15 @@ public class BalanceAvailabilityService {
     ) {
 
         BalanceAvailability availability =
-                calculateAvailability(balance); // obtém disponibilidade atual
+                calculateAvailability(balance);
 
         if (!availability.hasAvailableBalance(amount)) {
 
             throw new InsufficientAvailableBalanceException(
-                    balance.getAccountId(),
+                    "UNKNOWN",            // TODO obter accountId real
                     amount,
                     availability.getAvailableBalance()
-            ); // impede consumo acima do saldo disponível
+            );
         }
     }
 
@@ -43,7 +43,7 @@ public class BalanceAvailabilityService {
     ) {
 
         return calculateAvailability(balance)
-                .hasAvailableBalance(amount); // verifica possibilidade de reserva
+                .hasAvailableBalance(amount);
     }
 
     public BigDecimal getAvailableBalance(
@@ -51,6 +51,6 @@ public class BalanceAvailabilityService {
     ) {
 
         return calculateAvailability(balance)
-                .getAvailableBalance(); // retorna saldo disponível calculado
+                .getAvailableBalance();
     }
 }
