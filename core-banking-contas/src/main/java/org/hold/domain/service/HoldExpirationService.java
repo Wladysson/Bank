@@ -1,9 +1,6 @@
 package com.bank.account.hold.domain.service;
 
-import com.bank.account.hold.domain.model.HoldBalance;
-import com.bank.account.hold.domain.model.HoldStatus;
-
-import java.time.LocalDateTime;
+import com.bank.account.domain.model.HoldBalance;
 
 public class HoldExpirationService {
 
@@ -15,12 +12,8 @@ public class HoldExpirationService {
             return false;
         }
 
-        if (hold.getExpirationDate() == null) {
-            return false; // reservas sem expiração permanecem válidas
-        }
-
-        return LocalDateTime.now()
-                .isAfter(hold.getExpirationDate()); // verifica se a reserva expirou
+        // modelo atual não possui data de expiração
+        return false;
     }
 
     public boolean canExpire(
@@ -28,8 +21,7 @@ public class HoldExpirationService {
     ) {
 
         return hold != null
-                && hold.getStatus() == HoldStatus.ACTIVE
-                && isExpired(hold); // somente reservas ativas podem expirar
+                && hold.isActive();
     }
 
     public void expire(
@@ -40,20 +32,14 @@ public class HoldExpirationService {
             return;
         }
 
-        hold.setStatus(HoldStatus.EXPIRED); // marca a reserva como expirada
+        hold.release(); // libera o hold
     }
 
     public long getRemainingMinutes(
             HoldBalance hold
     ) {
 
-        if (hold == null || hold.getExpirationDate() == null) {
-            return 0L;
-        }
-
-        return java.time.Duration.between(
-                LocalDateTime.now(),
-                hold.getExpirationDate()
-        ).toMinutes(); // calcula minutos restantes para expiração
+        // modelo atual não possui expiração
+        return 0L;
     }
 }
