@@ -2,7 +2,7 @@ package com.bank.account.hold.application.mapper;
 
 import com.bank.account.hold.application.dto.HoldDetailDTO;
 import com.bank.account.hold.application.dto.HoldResponseDTO;
-import com.bank.account.hold.domain.model.HoldBalance;
+import com.bank.account.domain.model.HoldBalance;
 
 public final class HoldMapper {
 
