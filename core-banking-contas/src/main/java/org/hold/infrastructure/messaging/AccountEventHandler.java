@@ -3,7 +3,7 @@ package com.bank.account.hold.infrastructure.messaging;
 import com.bank.account.domain.event.AccountBlockedEvent;
 import com.bank.account.domain.event.AccountClosedEvent;
 import com.bank.account.domain.event.AccountCreatedEvent;
-import com.bank.account.hold.domain.service.HoldManagementService;
+import com.bank.account.domain.service.HoldManagementService;
 
 public class AccountEventHandler {
 

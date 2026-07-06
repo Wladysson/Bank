@@ -1,34 +1,36 @@
 package com.bank.account.hold.interfaces.rest.controller;
 
+import com.bank.account.application.command.ReleaseHoldCommand;
 import com.bank.account.hold.application.command.CancelHoldCommand;
 import com.bank.account.hold.application.command.CreateHoldCommand;
 import com.bank.account.hold.application.command.ExtendHoldCommand;
-import com.bank.account.hold.application.command.ReleaseHoldCommand;
 import com.bank.account.hold.application.dto.HoldResponseDTO;
 import com.bank.account.hold.application.query.GetHoldsByAccountQuery;
 import com.bank.account.hold.application.service.HoldApplicationService;
 import com.bank.account.hold.interfaces.rest.request.ExtendHoldRequest;
 import com.bank.account.hold.interfaces.rest.request.HoldRequest;
 import com.bank.account.hold.interfaces.rest.response.HoldListResponse;
+import jakarta.inject.Inject;
 import jakarta.validation.Valid;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
-@RestController
-@RequestMapping("/api/v1/holds")
+@Path("/api/v1/holds")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class HoldController {
 
-    private final HoldApplicationService holdApplicationService;
+    @Inject
+    HoldApplicationService holdApplicationService;
 
-    public HoldController(
-            HoldApplicationService holdApplicationService
-    ) {
-        this.holdApplicationService = holdApplicationService;
-    }
-
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public HoldResponseDTO createHold(
-            @Valid @RequestBody HoldRequest request
-    ) {
+    @POST
+    public Response createHold(@Valid HoldRequest request) {
 
         CreateHoldCommand command = new CreateHoldCommand(
                 request.getAccountId(),
@@ -36,15 +38,20 @@ public class HoldController {
                 request.getReason(),
                 request.getExpirationDate(),
                 request.getOperationId()
-        ); // cria comando para reservar saldo
+        );
 
-        return holdApplicationService.createHold(command);
+        HoldResponseDTO response = holdApplicationService.createHold(command);
+
+        return Response.status(Response.Status.CREATED)
+                .entity(response)
+                .build();
     }
 
-    @PostMapping("/{holdId}/release")
-    public HoldResponseDTO releaseHold(
-            @PathVariable String holdId,
-            @RequestBody ReleaseHoldCommand command
+    @POST
+    @Path("/{holdId}/release")
+    public Response releaseHold(
+            @PathParam("holdId") String holdId,
+            ReleaseHoldCommand command
     ) {
 
         ReleaseHoldCommand releaseCommand = new ReleaseHoldCommand(
@@ -52,15 +59,19 @@ public class HoldController {
                 command.getReason(),
                 command.getReleasedBy(),
                 command.getOperationId()
-        ); // cria comando de liberação
+        );
 
-        return holdApplicationService.releaseHold(releaseCommand);
+        HoldResponseDTO response =
+                holdApplicationService.releaseHold(releaseCommand);
+
+        return Response.ok(response).build();
     }
 
-    @PostMapping("/{holdId}/extend")
-    public HoldResponseDTO extendHold(
-            @PathVariable String holdId,
-            @Valid @RequestBody ExtendHoldRequest request
+    @POST
+    @Path("/{holdId}/extend")
+    public Response extendHold(
+            @PathParam("holdId") String holdId,
+            @Valid ExtendHoldRequest request
     ) {
 
         ExtendHoldCommand command = new ExtendHoldCommand(
@@ -68,34 +79,45 @@ public class HoldController {
                 request.getNewExpirationDate(),
                 request.getReason(),
                 request.getRequestedBy()
-        ); // cria comando de extensão
+        );
 
-        return holdApplicationService.extendHold(command);
+        HoldResponseDTO response =
+                holdApplicationService.extendHold(command);
+
+        return Response.ok(response).build();
     }
 
-    @PostMapping("/{holdId}/cancel")
-    public HoldResponseDTO cancelHold(
-            @PathVariable String holdId,
-            @RequestBody CancelHoldCommand command
+    @POST
+    @Path("/{holdId}/cancel")
+    public Response cancelHold(
+            @PathParam("holdId") String holdId,
+            CancelHoldCommand command
     ) {
 
         CancelHoldCommand cancelCommand = new CancelHoldCommand(
                 holdId,
                 command.getReason(),
                 command.getCancelledBy()
-        ); // cria comando de cancelamento
+        );
 
-        return holdApplicationService.cancelHold(cancelCommand);
+        HoldResponseDTO response =
+                holdApplicationService.cancelHold(cancelCommand);
+
+        return Response.ok(response).build();
     }
 
-    @GetMapping("/account/{accountId}")
-    public HoldListResponse getHoldsByAccount(
-            @PathVariable String accountId
+    @GET
+    @Path("/account/{accountId}")
+    public Response getHoldsByAccount(
+            @PathParam("accountId") String accountId
     ) {
 
         GetHoldsByAccountQuery query =
-                new GetHoldsByAccountQuery(accountId); // cria consulta por conta
+                new GetHoldsByAccountQuery(accountId);
 
-        return holdApplicationService.getHolds(query);
+        HoldListResponse response =
+                holdApplicationService.getHolds(query);
+
+        return Response.ok(response).build();
     }
 }
