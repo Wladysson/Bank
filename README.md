@@ -47,7 +47,7 @@
 
 ## 📖 Visão Geral
 
-O Laboratorio consiste na construção de uma Plataforma baseada em arquitetura de microservicos responsável por todo um ecossistema financeiro onde teremos gestão de contas, transações financeiras, pix, pagamentos, tesouraria, ledger contábil, auditoria, reconciliação, risco, scoring, canais digitais, notificações, identidade e segurança, integração com sistemas externos, processamento em lote, backoffice operacional, comunicação com app mobile, entre outros.
+O Laboratorio consiste na construção de uma Plataforma baseada em arquitetura de microservicos Java responsável por todo um ecossistema financeiro onde teremos gestão de contas, transações financeiras, pix, pagamentos, tesouraria, ledger contábil, auditoria, reconciliação, risco, scoring, canais digitais, notificações, identidade e segurança, integração com sistemas externos, processamento em lote, backoffice operacional, comunicação com app mobile, entre outros.
 
 Ao todo serão desenvolvidos 25 serviços, onde estou trabalhando fortemente esta plataforma em ambientes cloud native, outra observação importante é que nao estao sendo utilizadas nenhuma API externa, afim de ter controle total da aplicação e suas transações.
 
@@ -184,21 +184,88 @@ Os diagramas têm como objetivo facilitar a compreensão das interações entre 
 > Os screenshots são intencionalmente apresentados como evidência de implementação em vez de estarem atrelados a uma categoria específica de documentação. No entanto, 
 cada serviço tem suas imagens e explicaçao em suas devidas configurações.
 
-## Backend e Desenvolvimento
-### Principal Logica da Arquitetura SAGA COREOGRAFADA
+> Nota: Os padrões apresentados nesta seção representam apenas os principais conceitos arquiteturais utilizados na plataforma. A documentação completa de cada domínio pode conter outros padrões e estratégias específicas. Para conhecer as demais implementações, consulte os links disponíveis nas respectivas seções e documentações dos serviços.
+## Backend e Desenvolvimento das Configurações
+
+#### Padrões de Comunicação e Processamento Distribuído
+
+A plataforma utiliza diferentes padrões arquiteturais para estruturar a comunicação entre microserviços, o processamento de comandos e a disponibilização de informações distribuídas.
+
+Os padrões apresentados abaixo complementam a arquitetura orientada a eventos que vai permitir escolher diferentes estratégias de acordo com a natureza de cada fluxo de negócio.
+
+![Distributed Patterns](docs/architecture/images/partenns.png)
+
+----
+
+#### Principal Logica da Arquitetura SAGA COREOGRAFADA
+
+
+A plataforma utiliza o padrão **Saga Coreografada** para determinados fluxos distribuídos que envolvem múltiplos microserviços e operações de negócio que precisam manter **consistência eventual**.
+
+Nesse modelo, não existe um componente central responsável por controlar toda a execução da Saga. Cada serviço participante é responsável por executar sua própria operação, publicar um evento ao concluir sua etapa e reagir aos eventos produzidos pelos demais participantes.
+
+Essa abordagem mantém os serviços desacoplados e permite que cada domínio permaneça responsável pelas próprias regras de negócio.
 ![Platform Execution](docs/architecture/images/saga.jpeg)
 
-![Platform Execution](docs/architecture/images/midlow.png)
-
-### Arquitetura orientada a eventos (EDA)
-![Platform Execution](docs/architecture/images/eventos.jpeg)
-
-A arquitetura esta sendo implementada na plataforma para eliminar o
-acoplamento temporal rígido entre a entrada da requisição
-e o processamento. O projeto é dividido em dois microsserviços
-core principais que operam de forma totalmente assíncrona.
 ---
-## 📦 Deploy e CI/CD
+
+#### Principal Logica da Arquitetura SAGA ORQUESTRADA
+
+Aqui na plataforma, tambem contaremos com SAGA Orchestrator, onde ele atua como coordenador central da Saga. Ele não executa diretamente as regras de negócio dos serviços participantes; sua responsabilidade é controlar a sequência de execução, acompanhar os resultados e determinar a próxima etapa do processo.
+
+Essa abordagem permite que cada serviço permaneça responsável pelo seu próprio domínio, enquanto o Orchestrator mantém o controle do fluxo distribuído.
+![Platform Execution](docs/architecture/images/midlow.png)
+O fluxo apresentado representa uma implementação do padrão **Saga Orchestrator**, utilizada para coordenar uma operação distribuída entre diferentes serviços sem depender de uma transação única e global.
+
+O processo é iniciado pelo **UserService**, que solicita ao **Orchestrator** o início da Saga. A partir desse momento, o Orchestrator assume a responsabilidade de coordenar as etapas do processo e controlar o estado da operação distribuída.
+
+O fluxo é composto pelas seguintes etapas:
+
+1. O **UserService** inicia a Saga e envia a solicitação ao **Orchestrator**.
+2. O **Orchestrator** coordena as etapas necessárias para execução do processo.
+3. O **AddressService** realiza o processamento relacionado ao endereço e pode interagir com o **DataService** para persistência ou consulta de dados.
+4. O **ValidatedService** executa as validações necessárias para continuidade do fluxo.
+5. O **UserRegistration** realiza a etapa de registro do usuário.
+6. Quando todas as etapas são concluídas com sucesso, os serviços retornam o resultado ao **Orchestrator**, que consolida o sucesso da Saga.
+7. Caso alguma etapa falhe, o **Orchestrator** identifica a falha e inicia o fluxo de tratamento correspondente, permitindo que o processo distribuído seja interrompido ou compensado conforme a estratégia definida.
+
+---
+
+#### Arquitetura orientada a eventos (EDA)
+
+A plataforma utiliza **Event-Driven Architecture (EDA)** para promover comunicação assíncrona e desacoplada entre seus serviços.
+
+No modelo **Fan-Out**, eventos publicados por diferentes produtores são encaminhados por um broker de eventos e disponibilizados para múltiplos consumidores independentes, permitindo processamento paralelo, escalabilidade e evolução desacoplada dos domínios.
+
+> **Fan-Out:** um único evento pode desencadear múltiplos fluxos de processamento independentes dentro da plataforma.
+
+![Platform Execution](docs/architecture/images/eventos.jpeg)
+Essa arquitetura ja esta sendo reutilizada de outro projeto como forma de reestruturaçao e reaproveitamento
+da tecnologia ja implementada que se constitui como um Gateway de Pagamentos Assincronos, onde a solução tambem
+foi construída com arquitetura orientada a eventos (EDA) e separada em dois 
+microserviços principais: um serviço responsável por receber requisições de pagamento e
+outro encarregado do processamento financeiro assíncrono. Já aqui na plataforma, ela tambem sera usada mais para seus respectivos problemas.
+
+#### No Final de sua Comunicação Funcionará desta Forma
+
+                    ENTERPRISE PLATFORM
+                           │
+                           ▼
+                Event-Driven Architecture
+                           │
+                ┌──────────┴──────────┐
+                ▼                     ▼
+          Fan-Out Events        Distributed Transactions
+                                      │
+                             ┌────────┴────────┐
+                             ▼                 ▼
+                       Saga Coreografada   Saga Orquestrada
+                             │                 │
+                             ▼                 ▼
+                       Event-driven       Orchestrator
+                       coordination       coordination
+---
+## 📦 Deploy e Esteiras CI/CD
 
 #### Principal Logica CI/CD Pipeline para proteção da imagens atualizadas
 
@@ -230,7 +297,7 @@ Imagens são injetadas com tags imutáveis, garantindo que cada deploy seja repr
 Estratégia de rollout configurada para zero downtime, com readinessProbe e livenessProbe para detectar falhas antes de substituir pods.
 
 ---
-### Deploy com Monitoramento do Cluster Kubernetes
+#### Deploy com Monitoramento do Cluster Kubernetes
 ![CI/CD Pipeline](docs/architecture/images/principaldeploy.png)
 
 Ja no ArgoCD ele vai detecta mudanças nos manifests e aplica sincronização automaticamente.
@@ -247,13 +314,17 @@ Benefícios imediatos:
 ## Arquitetura de Comunicação
 #### Diagrama de Mensageria com Apache Kafka dos primeiros serviços
 ![mensagem](docs/architecture/images/kafka.png)
+Arquitetura de mensageria baseada em Apache Kafka, responsável pela comunicação assíncrona entre os domínios da plataforma, com suporte a eventos, retry, Dead Letter Queue (DLQ), Schema Registry e Outbox Pattern.
 
-### Consumo da Comunicação das Informações
+---
+
+#### Consumo da Comunicação das Informações
 ![consumo](docs/architecture/images/mensagem.png)
 
 ---
 ## Malha de Serviço
-### Service Mesh com Istio
+
+#### Service Mesh com Istio
 No decorer do desenvolvimento ficou perceptivel que atingir a escalabilidade exige mais do que conteinerização; exige o desacoplamento total entre a Lógica de Negócio e a Inteligência de Rede.
 Com os primeiros domínios de Contas e Ledger operacionalizados e automatizados, o foco mudou para a resiliência da comunicação. Em um ambiente dinâmico com kubernetes, o acoplamento de rede via IPs ou lógicas de retry dentro do código Java gera débito técnico e risco de falhas em cascata.
 
@@ -270,12 +341,19 @@ Com os primeiros domínios de Contas e Ledger operacionalizados e automatizados,
 🔹 Estratégia de Persistência & Isolamento seguindo o pattern de Database-per-Service, cada domínio mantém seu estado isolado em instâncias distintas, garantindo que não haja acoplamento na camada de dados. A conectividade também passa pela governança da malha, onde pretendo implementar Egress Gateways para monitorar a performance e segurança das conexões externas com os bancos de dados na nuvem AWS RDS.
 
 ## Modelagem do Banco de Dados
-Transaçao
+
+#### Exemplo do Banco de dados do Serviço de Transaçoes
+Estruturado para suportar operações financeiras, idempotência, histórico transacional, transferências, eventos e rastreabilidade.
 ![consumo](docs/architecture/images/banco.png)
+Diagrama da modelagem de tabelas do PostgreSQL que suporta o microsserviço de transações. ele é responsavel por armazenar os dominios de transaçoes, registro de intenções de movimentação, rastreabilidade de orquestração, estado do ciclo de vida financeiro, canais e métodos de captura, agenda temporal de disparos, histórico de tentativas e resiliência, regras de periodicidade e ciclos, agenda de próximos faturamentos, metadados etc.
 
-Pagamento
+---
+#### Exemplo do Banco de dados do Serviço de Pagamento
+Estruturado para suportar o ciclo de vida dos pagamentos, tentativas, idempotência, reconciliação, ledger e processamento assíncrono.
 ![consumo](docs/architecture/images/paymentbanco.png)
+Diagrama da modelagem de tabelas do PostgreSQL que suporta o microsserviço de Pagamentos. Ele é responsável por armazenar as informaçoes dos boletos, pagamentos, gestao dos lotes, pagamentos recorrentes e assinaturas, NFC, fluxos das devoluçoes, identificação externa de atores, canais de liquidação, tarifas, taxas e custo de operação, registro de extorno e disputas etc.
 
+---
 ## Infraestrutura Cloud
 ![infra](docs/architecture/images/terra.jpeg)
 
