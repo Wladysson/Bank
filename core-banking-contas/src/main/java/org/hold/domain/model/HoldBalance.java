@@ -30,4 +30,8 @@ public class HoldBalance {
     public UUID getHoldId() { return holdId; }
     public BigDecimal getAmount() { return amount; }
     public boolean isActive() { return active; }
+
+    public Instant getCreatedAt() { return createdAt; }
+
+    public Instant getReleasedAt() { return releasedAt; }
 }

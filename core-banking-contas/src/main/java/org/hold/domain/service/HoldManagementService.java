@@ -29,6 +29,18 @@ public class HoldManagementService {
         accountRepository.save(account);
     }
 
+    public void initializeAccount(UUID accountId) {
+        // no-op for now: placeholder to initialize hold structures
+    }
+
+    public void disableNewHolds(UUID accountId) {
+        // no-op for now: placeholder to prevent new holds
+    }
+
+    public void releaseAll(UUID accountId) {
+        // no-op for now: placeholder to release all holds for account
+    }
+
     private Account getAccount(UUID accountId) {
         return accountRepository.findById(accountId)
                 .orElseThrow(() -> new IllegalArgumentException("Conta não encontrada"));
